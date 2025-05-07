@@ -1,4 +1,4 @@
-import {Spin} from 'antd';
+import {Skeleton} from 'antd';
 import {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom"
 
@@ -7,12 +7,13 @@ import {useAppDispatch} from '../../store/config/hooks';
 import {type TTask, loadTask} from '../../store/slices/task-slice';
 
 import styles from './task-page.module.scss';
+import Alert from 'antd/es/alert/Alert';
 
 export const TaskPage = () => {
   const dispatch = useAppDispatch();
   const {taskId} = useParams();
   const [task, setTask] = useState<TTask | undefined>();
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | undefined>();
 
   useEffect(() => {
@@ -22,40 +23,45 @@ export const TaskPage = () => {
       return;
     }
 
-    async function loadTaskAction() {
+    const loadTaskAction = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
+        // симулируем задержку
+        await new Promise(resolve => setTimeout(resolve, 2000));
+  
         const loadedTask = await dispatch(loadTask({id: Number(taskId)})).unwrap();
         setTask(loadedTask);
         setError(undefined);
-      } catch(e) {
+      } catch (e) {
         console.error('Во время загрузки задания произошла ошибка', e);
-        setError(e as string);
+        setError('Ошибка при загрузке задания');
       } finally {
         setLoading(false);
       }
-    }
+    };
     
     loadTaskAction();
   }, []);
 
   return (
-    <Spin
-      spinning={isLoading}
+    <Skeleton
+      className={styles.spinner}
+      active={isLoading}
+      loading={isLoading}
+      title
+      paragraph={{rows: 8}}
     >
-      <div className={styles.container}>
-        {(() => {
-          if (!task || error) {
-            return (
-              <div>
-                {error ?? 'Во время загрузки задания произошла непредвиденная ошибка'}
-              </div>
-            )
-          }
+      {(() => {
+        if (error) {
+          return <Alert type="error" description={error} />;
+        }
 
-          return <TaskContent task={task} />;
-        })()}
-      </div>
-    </Spin>
+        return task ? (
+          <TaskContent task={task} />
+        ) : (
+          <Alert type="error" description="Во время загрузки задания произошла непредвиденная ошибка" />
+        );
+      })()}
+    </Skeleton>
   )
 }

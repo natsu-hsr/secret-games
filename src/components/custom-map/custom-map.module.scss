@@ -1,4 +1,17 @@
+@use '../../shared/styles/common.scss' as *;
+
 .map {
   width: 100%;
   height: 100%;
+
+  border-radius: $border-radius;
+
+  :global {
+    ymaps {
+      border-radius: $border-radius !important;
+    }
+    .ymaps-2-1-79-map {
+      border-radius: $border-radius !important;
+    }
+  }
 }

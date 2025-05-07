@@ -1,5 +1,14 @@
 @use '../../shared/styles/common.scss' as *;
 
+.container {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .card {
   width: 100%;
   height: 100%;
@@ -15,5 +24,15 @@
 }
 
 .map-row {
-  min-height: 350px;
+  min-height: 450px;
+}
+
+.map-card {
+  border: none;
+
+  :global {
+    .ant-card-body {
+      padding: 0;
+    }
+  }
 }

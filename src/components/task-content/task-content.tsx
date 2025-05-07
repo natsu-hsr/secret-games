@@ -3,6 +3,7 @@ import Card from "antd/es/card/Card";
 import Paragraph from "antd/es/typography/Paragraph";
 import Title from "antd/es/typography/Title";
 import Col from "antd/es/grid/col";
+import cn from 'classnames';
 
 import {CustomMap} from "../custom-map/custom-map";
 import {LinearChart} from "../linear-chart/linear-chart";
@@ -11,7 +12,6 @@ import {CustomTiles} from "../custom-tiles/custom-tiles";
 import type {TTask} from "../../store/slices/task-slice"
 
 import styles from './task-content.module.scss';
-
 
 interface TaskContentProps {
   task: TTask;
@@ -30,7 +30,7 @@ export const TaskContent = ({task}: TaskContentProps) => {
   } = info;
 
   return (
-    <>
+    <div className={styles.container}>
       <Row>
         <Card className={styles.card}>
           <Title level={2}>{title}</Title>
@@ -39,13 +39,15 @@ export const TaskContent = ({task}: TaskContentProps) => {
       </Row>
       <Row
         className={styles['map-row']}
-        gutter={8}
+        gutter={12}
       >
         <Col
           md={24}
           lg={12}
         >
-          <Card className={styles.card}>
+          <Card
+            className={cn(styles.card, styles['map-card'])}
+          >
             <CustomMap data={mapData} />
           </Card>
         </Col>
@@ -63,7 +65,7 @@ export const TaskContent = ({task}: TaskContentProps) => {
           <CustomTable />
         </Card>
       </Row>
-      <Row gutter={8}>
+      <Row gutter={12}>
         <Col
           md={24}
           lg={12}
@@ -81,6 +83,6 @@ export const TaskContent = ({task}: TaskContentProps) => {
           </Card>
         </Col>
       </Row>
-    </>
+    </div>
   )
 }
