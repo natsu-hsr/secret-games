@@ -1,0 +1,39 @@
+@use '../../shared/styles/colors.scss' as *;
+@use '../../shared/styles/common.scss' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: $header-height;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #ffffff;
+  border-bottom: $header-border-width solid $border-color;
+  border-bottom-right-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+  padding: 0 $padding-base;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+  z-index: 999;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: bold;
+  color: $primary-color;
+
+  transform: rotate(35deg);
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.menu {
+  border: none !important;
+}

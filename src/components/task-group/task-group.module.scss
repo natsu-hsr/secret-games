@@ -1,0 +1,11 @@
+@use '../../shared/styles/colors.scss' as *;
+
+.group {
+  height: 100%;
+
+  transition: box-shadow .4s;
+
+  &:hover {
+    box-shadow: 0 4px 10px rgba($primary-color, .2);
+  }
+}

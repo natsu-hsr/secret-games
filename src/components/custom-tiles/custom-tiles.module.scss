@@ -1,0 +1,34 @@
+@use '../../shared/styles/common.scss' as *;
+@use '../../shared/styles/colors.scss' as *;
+
+.tileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: $gap-sm;
+  margin-top: $margin-lg;
+  padding: $padding-sm;
+  background-color: $light-gray;
+  border-radius: $border-radius;
+}
+
+.tile {
+  background-color: $white;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-sm;
+  padding: $padding-sm;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  // Цвет текста и фона могут варьироваться по статусу (например, выбран/не выбран)
+  &.active {
+    background-color: $primary-color;
+    color: $white;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba($primary-color, 0.25);
+  }
+}

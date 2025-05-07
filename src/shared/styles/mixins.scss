@@ -1,0 +1,7 @@
+@use './common.scss' as *;
+
+@mixin card-page() {
+  width: 100%;
+  height: 100%;
+  border-radius: $border-radius;
+}

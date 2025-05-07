@@ -1,0 +1,23 @@
+@use '../../shared/styles/colors.scss' as *;
+@use '../../shared/styles/common.scss' as *;
+@use '../../shared/styles/mixins.scss' as *;
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $bg-light;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: $text-dark;
+}
+
+.subtitle {
+  font-size: 16px;
+  margin-bottom: 16px;
+  color: $secondary-color;
+}
