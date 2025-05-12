@@ -3,8 +3,8 @@ import {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom"
 
 import {TaskContent} from '../../components/task-content/task-content';
-import {useAppDispatch} from '../../store/config/hooks';
-import {type TTask, loadTask} from '../../store/slices/task-slice';
+import {useAppDispatch, useAppSelector} from '../../store/config/hooks';
+import {loadTask, selectTask} from '../../store/slices/task-slice';
 
 import styles from './task-page.module.scss';
 import Alert from 'antd/es/alert/Alert';
@@ -12,7 +12,7 @@ import Alert from 'antd/es/alert/Alert';
 export const TaskPage = () => {
   const dispatch = useAppDispatch();
   const {taskId} = useParams();
-  const [task, setTask] = useState<TTask | undefined>();
+  const task = useAppSelector(selectTask)
   const [isLoading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | undefined>();
 
@@ -29,8 +29,7 @@ export const TaskPage = () => {
         // симулируем задержку
         await new Promise(resolve => setTimeout(resolve, 2000));
   
-        const loadedTask = await dispatch(loadTask({id: Number(taskId)})).unwrap();
-        setTask(loadedTask);
+        await dispatch(loadTask({id: Number(taskId)})).unwrap();
         setError(undefined);
       } catch (e) {
         console.error('Во время загрузки задания произошла ошибка', e);
@@ -56,11 +55,16 @@ export const TaskPage = () => {
           return <Alert type="error" description={error} />;
         }
 
-        return task ? (
-          <TaskContent task={task} />
-        ) : (
-          <Alert type="error" description="Во время загрузки задания произошла непредвиденная ошибка" />
-        );
+        if (!task) {
+          return (
+            <Alert
+              type="error"
+              description="Во время загрузки задания произошла непредвиденная ошибка"
+            />
+          )
+        }
+
+        return <TaskContent task={task} />;
       })()}
     </Skeleton>
   )

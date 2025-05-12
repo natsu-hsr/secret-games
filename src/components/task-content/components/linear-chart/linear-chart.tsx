@@ -6,9 +6,10 @@ import {
   YAxis,
   Tooltip,
   Line,
+  CartesianGrid,
 } from "recharts"
 
-import type {TTaskChartData} from "../../store/slices/task-slice";
+import type {TTaskChartData} from "../../../../store/slices/task-slice";
 
 import styles from './linear-chart.module.scss';
 
@@ -26,15 +27,17 @@ export const LinearChart = ({data}: LinearChartProps) => {
       <Title level={4} className={styles.title}>Спрос: Продукт / Узел</Title>
       <ResponsiveContainer className={styles['chart-container']}>
         <LineChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis dataKey="y" />
           <Tooltip />
           {lineDataKeys?.map(lineKey => (
             <Line
               key={lineKey}
-              type="monotone"
               dataKey={lineKey}
+              type="monotone"
               stroke="#8884d8"
+              strokeWidth={2}
             />
           ))}
         </LineChart>

@@ -1,5 +1,5 @@
-@use '../../shared/styles/common.scss' as *;
-@use '../../shared/styles/colors.scss' as *;
+@use '../../../../shared/styles/common.scss' as *;
+@use '../../../../shared/styles/colors.scss' as *;
 
 .tileGrid {
   display: grid;
@@ -21,14 +21,13 @@
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
-  // Цвет текста и фона могут варьироваться по статусу (например, выбран/не выбран)
-  &.active {
-    background-color: $primary-color;
-    color: $white;
-  }
-
   &:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba($primary-color, 0.25);
   }
+}
+
+.selected {
+  background-color: $primary-color;
+  color: $white;
 }

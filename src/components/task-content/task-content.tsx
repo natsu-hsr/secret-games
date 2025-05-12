@@ -5,10 +5,12 @@ import Title from "antd/es/typography/Title";
 import Col from "antd/es/grid/col";
 import cn from 'classnames';
 
-import {CustomMap} from "../custom-map/custom-map";
-import {LinearChart} from "../linear-chart/linear-chart";
-import {CustomTable} from "../custom-table/custom-table";
-import {CustomTiles} from "../custom-tiles/custom-tiles";
+import {
+  CustomMap,
+  CustomTable,
+  CustomTiles,
+  LinearChart,
+} from './components';
 import type {TTask} from "../../store/slices/task-slice"
 
 import styles from './task-content.module.scss';
@@ -22,12 +24,14 @@ export const TaskContent = ({task}: TaskContentProps) => {
     info,
     mapData,
     chartData,
-  } = task;
+    tableData,
+    tilesData,
+  } = task ?? {};
 
   const {
     title,
     description,
-  } = info;
+  } = info ?? {};
 
   return (
     <div className={styles.container}>
@@ -37,48 +41,31 @@ export const TaskContent = ({task}: TaskContentProps) => {
           <Paragraph>{description}</Paragraph>
         </Card>
       </Row>
-      <Row
-        className={styles['map-row']}
-        gutter={12}
-      >
-        <Col
-          md={24}
-          lg={12}
-        >
-          <Card
-            className={cn(styles.card, styles['map-card'])}
-          >
+      <Row gutter={[12, 12]}>
+        <Col flex={1} md={24} lg={12}>
+          <Card className={cn(styles.card, styles['min-h'], styles['map-row'])}>
             <CustomMap data={mapData} />
           </Card>
         </Col>
-        <Col
-          md={24}
-          lg={12}
-        >
-          <Card className={styles.card} >
+        <Col flex={1} md={24} lg={12}>
+          <Card className={cn(styles.card, styles['min-h'], styles['map-row'])} >
             <LinearChart data={chartData} />
           </Card>
         </Col>
       </Row>
       <Row>
         <Card className={styles.card}>
-          <CustomTable />
+          <CustomTable tableData={tableData} />
         </Card>
       </Row>
-      <Row gutter={12}>
-        <Col
-          md={24}
-          lg={12}
-        >
-          <Card className={styles.card}>
-            <CustomTiles />
+      <Row gutter={[12, 12]}>
+        <Col flex={1} xs={24} md={24} lg={12}>
+          <Card className={cn(styles.card, styles['min-h'])}>
+            <CustomTiles tilesData={tilesData} />
           </Card>
         </Col>
-        <Col
-          md={24}
-          lg={12}
-        >
-          <Card className={styles.card}>
+        <Col flex={1} xs={24} md={24} lg={12}>
+          <Card className={cn(styles.card, styles['min-h'])}>
             Форма плиток
           </Card>
         </Col>

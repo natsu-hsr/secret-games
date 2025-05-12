@@ -1,0 +1,14 @@
+.table {
+  :global {
+    .ant-table-row {
+      cursor: pointer;
+    }
+    // .ant-table-cell-row-hover {
+    //   background-color: $light-gray;
+    // }
+  }
+}
+
+.selected-row {
+  font-weight: bold;
+}

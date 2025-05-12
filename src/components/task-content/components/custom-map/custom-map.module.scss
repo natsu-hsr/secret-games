@@ -1,0 +1,22 @@
+@use '../../../../shared/styles/common.scss' as *;
+
+.map {
+  width: 100%;
+  height: 100%;
+
+  border-radius: $border-radius;
+
+  :global {
+    ymaps {
+      border-radius: $border-radius !important;
+    }
+  }
+}
+
+.empty {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

@@ -5,6 +5,9 @@ export type {
   TTaskChartData,
   TTaskInfo,
   TTaskMapData,
+  TTableData,
+  TTilesData,
+  TTileData,
   TTaskSliceState,
   TTask,
 } from './task-slice-types';
