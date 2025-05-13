@@ -1,5 +1,5 @@
 import ConfigProvider from "antd/es/config-provider";
-import {BrowserRouter, Routes, Route} from "react-router-dom"
+import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom"
 import {Provider} from "react-redux";
 
 import {Header} from "./components/header/header";
@@ -19,7 +19,7 @@ export const App = () => (
     }}
   >
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename="/secret-games">
         <Header />
         <div className="body-wrapper">
           <Routes>

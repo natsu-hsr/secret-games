@@ -1,15 +1,7 @@
 @use '../../../../shared/styles/mixins.scss' as *;
 
-.container {
-
-}
-
 .title {
   @include card-title();
-}
-
-.form {
-
 }
 
 .empty {

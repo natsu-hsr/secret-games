@@ -12,7 +12,7 @@ import styles from './tasks-page.module.scss';
 
 export const TasksPage = () => {
   return (
-    <PageLayout>
+    <PageLayout fullSize>
       <Title level={3} className={styles.title}>Список заданий</Title>
       <Row gutter={[16, 16]}>
         {mockTaskGroups.map(group => (

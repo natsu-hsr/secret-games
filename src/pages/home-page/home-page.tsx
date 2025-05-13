@@ -13,7 +13,7 @@ export const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <PageLayout>
+    <PageLayout fullSize>
       <Flex
         vertical
         align='center'

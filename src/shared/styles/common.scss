@@ -24,3 +24,8 @@ $gap-lg: 24px;
 $font-size-sm: 12px;
 $font-size-base: 14px;
 $font-size-lg: 18px;
+
+// page layout sizes
+$body-top-margin: calc(1.2 * $margin-base);
+$body-bottom-margin: calc(1.2 * $margin-base);
+$body-side-margin: calc(1.2 * $margin-base);
