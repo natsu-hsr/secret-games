@@ -35,5 +35,25 @@
 }
 
 .menu {
-  border: none !important;
+  gap: 12px;
+}
+
+.item {
+  cursor: pointer;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.active {
+  color: $primary-color;
+}
+
+.user-icon {
+  cursor: pointer;
+
+  &:hover {
+    color: $primary-color;
+  }
 }

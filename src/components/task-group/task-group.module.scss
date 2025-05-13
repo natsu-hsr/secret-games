@@ -1,11 +1,32 @@
 @use '../../shared/styles/colors.scss' as *;
+@use '../../shared/styles/common.scss' as *;
 
 .group {
   height: 100%;
+
+  border-color: rgba(#000, .1);
 
   transition: box-shadow .4s;
 
   &:hover {
     box-shadow: 0 4px 10px rgba($primary-color, .2);
   }
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-sm;
+  padding-left: $padding-base;
+}
+
+.subtask {
+  display: flex;
+  align-items: center;
+  column-gap: $gap-sm;
+}
+
+.disabled {
+  color: $text-dark;
+  opacity: .5;
 }

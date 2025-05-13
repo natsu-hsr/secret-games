@@ -8,6 +8,9 @@ export type {
   TTableData,
   TTilesData,
   TTileData,
+  TFieldType,
+  TFormField,
+  TFormConfig,
   TTaskSliceState,
   TTask,
 } from './task-slice-types';

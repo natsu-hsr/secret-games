@@ -1,12 +1,14 @@
 import Card from 'antd/es/card/Card'
-import Button from 'antd/es/button';
-import {useNavigate} from 'react-router-dom';
+import LockOutlined from '@ant-design/icons/lib/icons/LockOutlined';
+import cn from 'classnames';
+import {Link} from 'react-router-dom';
 
 import styles from './task-group.module.scss';
 
 type TTask = {
   id: number;
   title: string;
+  enabled: boolean;
 }
 
 type TTaskGroup = {
@@ -21,8 +23,6 @@ interface TaskGroupProps {
 }
 
 export const TaskGroup = ({group}: TaskGroupProps) => {
-  const navigate = useNavigate();
-
   return (
     <Card
       key={group.id}
@@ -33,14 +33,20 @@ export const TaskGroup = ({group}: TaskGroupProps) => {
 
       <ul className={styles.tasks}>
         {group.tasks.map(task => (
-          <li key={task.id} className={styles.subtask}>
-            <span>{task.title}</span>
-            <Button
-              type="link"
-              onClick={() => navigate(`/group/${group.id}/task/${task.id}`)}
-            >
-              Перейти к заданию
-            </Button>
+          <li key={task.id} className={cn(styles.subtask, !task.enabled && styles.disabled)}>
+            
+            {task.enabled ? (
+              <Link
+                to={`/group/${group.id}/task/${task.id}`}
+              >
+                {task.title}
+              </Link>
+            ) : (
+              <>
+                <span>{task.title}</span>
+                <LockOutlined />
+              </>
+            )}
           </li>
         ))}
       </ul>

@@ -123,6 +123,13 @@ export const mockTasks: TTask[] = [
           {id: 2, coordinates: [55.15, 37.30]},
           {id: 3, coordinates: [56.75, 35.57]},
         ],
+        formConfig: {
+          title: 'Параметры Shop 1',
+          fields: [
+            {name: 'name', label: 'Название', type: 'TEXT'},
+            {name: 'value', label: 'Значение', type: 'TEXT'},
+          ]
+        },
       },
       {
         id: 2,
@@ -131,6 +138,14 @@ export const mockTasks: TTask[] = [
           {id: 1, coordinates: [33.67, 24.57]},
           {id: 2, coordinates: [35.15, 26.30]},
         ],
+        formConfig: {
+          title: 'Свойства Center',
+          fields: [
+            {name: 'param1', label: 'Параметр 1', type: 'TEXT'},
+            {name: 'param2', label: 'Параметр 2', type: 'TEXT'},
+            {name: 'param3', label: 'Параметр 3', type: 'TEXT'},
+          ]
+        },
       },
       {
         id: 3,
@@ -141,6 +156,12 @@ export const mockTasks: TTask[] = [
           {id: 3, coordinates: [37.75, 42.57]},
           {id: 4, coordinates: [50.75, 49.57]},
         ],
+        formConfig: {
+          title: 'Supplier данные',
+          fields: [
+            {name: 'orderData', label: 'Данные заказа', type: 'TEXT'},
+          ]
+        },
       },
       {
         id: 4,
@@ -151,7 +172,17 @@ export const mockTasks: TTask[] = [
           {id: 3, coordinates: [20.75, 77.57]},
           {id: 4, coordinates: [15.75, 70.57]},
         ],
+        formConfig: {
+          title: 'Post office',
+          fields: [
+            {name: 'count', label: 'Количество', type: 'TEXT'},
+            {name: 'size', label: 'Размер', type: 'TEXT'},
+            {name: 'destination', label: 'Пункт назначения', type: 'TEXT'},
+            {name: 'date', label: 'Дата', type: 'TEXT'},
+          ]
+        },
       },
     ],
+    formConfig: undefined,
   },
 ];

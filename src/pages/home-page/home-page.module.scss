@@ -1,23 +1,33 @@
 @use '../../shared/styles/colors.scss' as *;
 @use '../../shared/styles/common.scss' as *;
-@use '../../shared/styles/mixins.scss' as *;
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: $bg-light;
-}
 
 .title {
+  text-align: center;
   font-size: 28px;
   font-weight: 700;
+  margin: 0;
   margin-bottom: 8px;
   color: $text-dark;
 }
 
+.name {
+  color: $primary-color;
+  font-weight: 700;
+}
+
 .subtitle {
+  text-align: center;
   font-size: 16px;
   margin-bottom: 16px;
   color: $secondary-color;
+}
+
+.banner {
+  width: 65%;
+  max-width: 676px;
+}
+
+.button {
+  padding: $padding-base;
+  margin-top: $margin-base; 
 }

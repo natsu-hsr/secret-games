@@ -8,14 +8,17 @@ export const mockTaskGroups = [
       {
         id: 1,
         title: 'Задача 1',
+        enabled: true,
       },
       {
         id: 2,
         title: 'Задача 2',
+        enabled: false,
       },
       {
         id: 3,
         title: 'Задача 3',
+        enabled: false,
       },
     ],
   },
@@ -27,10 +30,12 @@ export const mockTaskGroups = [
       {
         id: 1,
         title: 'Задача 1',
+        enabled: false,
       },
       {
         id: 2,
         title: 'Задача 2',
+        enabled: false,
       },
     ],
 

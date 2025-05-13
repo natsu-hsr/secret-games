@@ -1,0 +1,21 @@
+@use '../../../../shared/styles/mixins.scss' as *;
+
+.container {
+
+}
+
+.title {
+  @include card-title();
+}
+
+.form {
+
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

@@ -1,0 +1,9 @@
+@use '/src/shared/styles/colors.scss' as *;
+@use '/src/shared/styles/mixins.scss' as *;
+
+.title {
+  @include card-title();
+  font-size: 28px !important;
+  color: $primary-color !important;
+  margin-bottom: 25px !important;
+}

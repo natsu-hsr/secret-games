@@ -1,28 +1,39 @@
-import {Flex, Layout, Menu} from 'antd';
+import {Flex} from 'antd';
 import RocketOutlined from '@ant-design/icons/lib/icons/RocketOutlined';
-import {useLocation} from 'react-router-dom';
+import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
+import cn from 'classnames';
+import {useLocation, useNavigate} from 'react-router-dom';
 
 import styles from './header.module.scss';
 
 export const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
-    <Layout.Header className={styles.header}>
+    <nav className={styles.header}>
       <Flex align='center' gap={8}>
         <RocketOutlined className={styles.logo}/>
         <div className={styles.title}>
           ЛогистИгра
         </div>
       </Flex>
-      <Menu
-        mode="horizontal"
-        selectedKeys={[location.pathname]}
+      <Flex
+        className={styles.menu}
       >
-        <Menu.Item key="home">Домой</Menu.Item>
-        <Menu.Item key="tasks">Задания</Menu.Item>
-        <Menu.Item key="profile">Профиль</Menu.Item>
-      </Menu>
-    </Layout.Header>
+        {[
+          {title: 'Домой', path: '/'},
+          {title: 'Задачи', path: '/tasks'}
+        ].map(m => (
+          <div
+            key={m.path}
+            className={cn(styles.item, location.pathname === m.path && styles.active)}
+            onClick={() => navigate(m.path)}
+          >{m.title}
+          </div>
+        ))}
+        <UserOutlined className={styles['user-icon']} />
+      </Flex>
+    </nav>
   )
 }

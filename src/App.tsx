@@ -1,3 +1,4 @@
+import ConfigProvider from "antd/es/config-provider";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import {Provider} from "react-redux";
 
@@ -10,16 +11,25 @@ import {store} from "./store/config";
 import './App.scss'
 
 export const App = () => (
-  <Provider store={store}>
-    <BrowserRouter>
-      <Header />
-      <div className="body-wrapper">
-        <Routes>
-          <Route index element={<HomePage />} />
-          <Route path="/tasks" element={<TasksPage />} />
-          <Route path="/group/:groupId/task/:taskId" element={<TaskPage />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
-  </Provider>
+  <ConfigProvider
+    theme={{
+      token: {
+        colorPrimary: '#665df5',
+      },
+    }}
+  >
+    <Provider store={store}>
+      <BrowserRouter>
+        <Header />
+        <div className="body-wrapper">
+          <Routes>
+            <Route index element={<HomePage />} />
+            <Route path="/tasks" element={<TasksPage />} />
+            <Route path="/group/:groupId/task/:taskId" element={<TaskPage />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </Provider>
+  </ConfigProvider>
+  
 )

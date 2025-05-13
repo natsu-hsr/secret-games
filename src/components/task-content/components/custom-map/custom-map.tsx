@@ -1,5 +1,6 @@
 import {Empty} from "antd";
 import {YMaps, Map, Placemark} from "@pbe/react-yandex-maps"
+import {useEffect, useRef} from "react";
 
 import type {TTaskMapData} from "../../../../store/slices/task-slice";
 
@@ -10,6 +11,16 @@ interface CustomMapProps {
 }
 
 export const CustomMap = ({data}: CustomMapProps) => {
+  const mapRef = useRef<ymaps.Map | null>(null); // Ссылка на объект карты
+
+  // Обновление центра при изменении data
+  useEffect(() => {
+    if (mapRef.current && data?.length) {
+      const center = data[0].coordinates;
+      mapRef.current.setCenter(center, 5, {duration: 300});
+    }
+  }, [data]);
+
   return (
     data.length ? (
       <YMaps>
@@ -21,6 +32,7 @@ export const CustomMap = ({data}: CustomMapProps) => {
             controls: ["zoomControl"],
           }}
           modules={["control.ZoomControl"]}
+          instanceRef={(ref) => (mapRef.current = ref)} // присваиваем ref
         >
           {data?.map(a => (
             <Placemark

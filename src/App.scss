@@ -25,8 +25,15 @@ $body-bottom-margin: calc(1.2 * $margin-base);
 $body-side-margin: calc(1.2 * $margin-base);
 
 .body-wrapper {
+  // height: calc(
+  //   100vh
+  //   - $header-height 
+  //   - $header-border-width
+  //   - $body-top-margin 
+  //   - $body-bottom-margin
+  // );
   height: calc(
-    100vh
+     100%
     - $header-height 
     - $header-border-width
     - $body-top-margin 

@@ -14,6 +14,7 @@ import {
 import type {TTask} from "../../store/slices/task-slice"
 
 import styles from './task-content.module.scss';
+import { TaskForm } from "./components/task-form/task-form";
 
 interface TaskContentProps {
   task: TTask;
@@ -26,6 +27,7 @@ export const TaskContent = ({task}: TaskContentProps) => {
     chartData,
     tableData,
     tilesData,
+    formConfig,
   } = task ?? {};
 
   const {
@@ -42,12 +44,12 @@ export const TaskContent = ({task}: TaskContentProps) => {
         </Card>
       </Row>
       <Row gutter={[12, 12]}>
-        <Col flex={1} md={24} lg={12}>
+        <Col xs={24} lg={12}>
           <Card className={cn(styles.card, styles['min-h'], styles['map-row'])}>
             <CustomMap data={mapData} />
           </Card>
         </Col>
-        <Col flex={1} md={24} lg={12}>
+        <Col xs={24} lg={12}>
           <Card className={cn(styles.card, styles['min-h'], styles['map-row'])} >
             <LinearChart data={chartData} />
           </Card>
@@ -59,14 +61,14 @@ export const TaskContent = ({task}: TaskContentProps) => {
         </Card>
       </Row>
       <Row gutter={[12, 12]}>
-        <Col flex={1} xs={24} md={24} lg={12}>
+        <Col xs={24} lg={12}>
           <Card className={cn(styles.card, styles['min-h'])}>
             <CustomTiles tilesData={tilesData} />
           </Card>
         </Col>
-        <Col flex={1} xs={24} md={24} lg={12}>
+        <Col xs={24} lg={12}>
           <Card className={cn(styles.card, styles['min-h'])}>
-            Форма плиток
+            <TaskForm config={formConfig} />
           </Card>
         </Col>
       </Row>

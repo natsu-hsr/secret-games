@@ -1,4 +1,5 @@
 import {Skeleton} from 'antd';
+import Alert from 'antd/es/alert/Alert';
 import {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom"
 
@@ -7,7 +8,6 @@ import {useAppDispatch, useAppSelector} from '../../store/config/hooks';
 import {loadTask, selectTask} from '../../store/slices/task-slice';
 
 import styles from './task-page.module.scss';
-import Alert from 'antd/es/alert/Alert';
 
 export const TaskPage = () => {
   const dispatch = useAppDispatch();

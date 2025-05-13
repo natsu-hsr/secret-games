@@ -18,17 +18,23 @@ interface CustomTilesProps {
 
 export const CustomTiles = ({tilesData}: CustomTilesProps) => {
   const dispatch = useAppDispatch();
-  const [selectedId, setSelectedId] = useState<number | undefined>();
+  const [selectedId, setSelectedId] = useState<number | undefined>(tilesData?.[0].id ?? undefined);
 
   const handleClick = (tile: TTileData) => {
-    const {id, coordinates} = tile;
+    const {
+      id,
+      coordinates,
+      formConfig,
+    } = tile;
+
     setSelectedId(id);
     dispatch(taskSliceActions.updateMapData(coordinates));
+    dispatch(taskSliceActions.updateFormConfig(formConfig));
   };
 
   return (
-    <div>
-      <Title level={4}>Продукты</Title>
+    <div className={styles.container}>
+      <Title className={styles.title} level={4}>Продукты</Title>
       <div className={styles.tileGrid}>
         {tilesData.map(t => (
           <Card

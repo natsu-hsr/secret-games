@@ -31,8 +31,22 @@ export type TTileData = {
   id: number;
   title: string;
   coordinates: TMapMarker[];
+  formConfig: TFormConfig;
 }
 export type TTilesData = TTileData[];
+
+// ======= tiles =======
+export type TFieldType = 'TEXT';
+
+export type TFormField = {
+  name: string;
+  label: string;
+  type: TFieldType;
+}
+export type TFormConfig = {
+  title: string;
+  fields: TFormField[];
+}
 
 // ---------------------
 
@@ -41,8 +55,9 @@ export type TTask  = {
   info: TTaskInfo;
   mapData: TTaskMapData;
   chartData: TTaskChartData;
-  tilesData: TTilesData;
   tableData: TTableData;
+  tilesData: TTilesData;
+  formConfig: TFormConfig | undefined;
 }
 
 export type TTaskSliceState = {
