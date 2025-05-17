@@ -1,6 +1,7 @@
-import { useMemo } from "react";
+import {useMemo} from "react";
+
 import type {TTilesData} from "../../../../store/slices/task-slice";
-import { getUniqueColor } from "./custom-tiles-utils";
+import {calmColors, createColorGenerator} from "./custom-tiles-utils";
 
 interface UseCustomTilesArgs {
   tilesData: TTilesData;
@@ -8,6 +9,11 @@ interface UseCustomTilesArgs {
 
 export const useCustomTiles = ({tilesData}: UseCustomTilesArgs) => {
   const defaultGridSize = 3;
+
+  const getUniqueColor = useMemo(
+    () => createColorGenerator(calmColors),
+    [tilesData.length],
+  );
 
   const {gridSizeX, gridSizeY} = useMemo(() => {
     if (!tilesData || tilesData.length === 0) {
@@ -34,7 +40,7 @@ export const useCustomTiles = ({tilesData}: UseCustomTilesArgs) => {
   const tilesWithColors = useMemo(
     () => tilesData.map((tile, index) => ({
       ...tile,
-      color: getUniqueColor(index, tilesData.length),
+      color: getUniqueColor(index),
     })),
     [tilesData],
   );

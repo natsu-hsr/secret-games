@@ -1,4 +1,4 @@
-const calmColors = [
+export const calmColors = [
   "#F4A261", // Тёплый персиковый
   "#60A5FA", // Мягкий синий
   "#34D399", // Приглушённый изумрудный
@@ -21,21 +21,34 @@ const calmColors = [
   "#FFD700", // Золотой
 ];
 
-export const getUniqueColor = (index: number, totalTiles: number) => {
-  if (totalTiles <= calmColors.length) {
-    return calmColors[index % calmColors.length];
-  }
-  return calmColors[Math.floor((index * calmColors.length) / totalTiles)];
-};
-
 export const hasNeighbor = (coords: number[][], row: number, col: number, direction: "right" | "bottom") => {
   if (direction === "right") {
-    // Проверяем, есть ли клетка справа (x + 1)
     return coords.some(([x, y]) => y === row && x === col + 1);
   }
   if (direction === "bottom") {
-    // Проверяем, есть ли клетка снизу (y + 1)
     return coords.some(([x, y]) => y === row + 1 && x === col);
   }
   return false;
 };
+
+export const createColorGenerator = (colors: string[]) => {
+  // замыкаемся на availableColors
+  let availableColors = [...colors];
+
+  return (index: number): string => {
+    if (availableColors.length === 0) {
+      availableColors = [...colors];
+    }
+
+    const seed = index * 12345;
+    const randomIndex = Math.floor(
+      (seed % availableColors.length) + Math.random() * availableColors.length
+    ) % availableColors.length;
+
+    const selectedColor = availableColors[randomIndex];
+    availableColors.splice(randomIndex, 1); // Удаляем использованный цвет
+
+    return selectedColor;
+  };
+};
+
