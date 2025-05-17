@@ -3,6 +3,7 @@ import type {TTask} from './task-slice-types';
 // Массив с мок-данными для заданий
 export const mockTasks: TTask[] = [
   {
+    groupId: 1,
     id: 1,
     info: {
       title: 'Сценарий 1 - Задание',
@@ -192,6 +193,279 @@ export const mockTasks: TTask[] = [
             {name: 'destination', label: 'Пункт назначения', type: 'TEXT'},
             {name: 'date', label: 'Дата', type: 'TEXT'},
           ]
+        },
+      },
+    ],
+    formConfig: undefined,
+  },
+  {
+    groupId: 1,
+    id: 2,
+    info: {
+      title: 'Сценарий 2 - Оптимизация маршрутов',
+      description: 'Вам нужно оптимизировать маршруты доставки для 10 грузовиков, которые обслуживают 15 клиентов в 3 городах. '
+        + 'Каждый грузовик имеет ограничение по грузоподъёмности (5 тонн) и времени работы (8 часов). '
+        + 'Цель — минимизировать общее время доставки и количество использованных грузовиков.',
+    },
+    mapData: [],
+    chartData: [],
+    tableData: {
+      columns: [
+        {
+          title: 'Грузовик',
+          dataIndex: 'truck',
+          key: 'truck',
+        },
+        {
+          title: 'Грузоподъёмность (тонн)',
+          dataIndex: 'capacity',
+          key: 'capacity',
+        },
+        {
+          title: 'Город',
+          dataIndex: 'city',
+          key: 'city',
+        },
+        {
+          title: 'Время доставки (ч)',
+          dataIndex: 'deliveryTime',
+          key: 'deliveryTime',
+        },
+      ],
+      data: [
+        {
+          key: '1',
+          id: '1',
+          truck: 'Грузовик 1',
+          capacity: 4.8,
+          city: 'Москва',
+          deliveryTime: 6.5,
+          chartData: [
+            {name: '0', y: 0},
+            {name: '2', y: 13.5},
+            {name: '4', y: 3.0},
+            {name: '6', y: 4.5},
+            {name: '8', y: 6.5},
+          ],
+        },
+        {
+          key: '2',
+          id: '2',
+          truck: 'Грузовик 2',
+          capacity: 4.2,
+          city: 'Санкт-Петербург',
+          deliveryTime: 7.0,
+          chartData: [
+            {name: '0', y: 0},
+            {name: '3', y: 22.0},
+            {name: '5', y: 42.0},
+            {name: '7', y: 6.0},
+            {name: '8', y: 7.0},
+          ],
+        },
+        {
+          key: '3',
+          id: '3',
+          truck: 'Грузовик 3',
+          capacity: 4.9,
+          city: 'Екатеринбург',
+          deliveryTime: 5.5,
+          chartData: [
+            {name: '0', y: 0},
+            {name: '1', y: 1.0},
+            {name: '3', y: 22.5},
+            {name: '5', y: 4.0},
+            {name: '7', y: 53.5},
+          ],
+        },
+      ],
+    },
+    tilesData: [
+      {
+        id: 1,
+        title: 'R1',
+        coordinates: [
+          [1, 1], [2, 1], [2, 2],
+        ],
+        mapData: [
+          {id: 1, coordinates: [55.7558, 37.6173]},
+          {id: 2, coordinates: [59.9343, 30.3351]},
+        ],
+        formConfig: {
+          title: 'Маршрут 1',
+          fields: [
+            {name: 'startPoint', label: 'Точка отправления', type: 'TEXT'},
+            {name: 'endPoint', label: 'Точка назначения', type: 'TEXT'},
+            {name: 'distance', label: 'Расстояние (км)', type: 'TEXT'},
+          ],
+        },
+      },
+      {
+        id: 2,
+        title: 'R2',
+        coordinates: [
+          [3, 2], [3, 3], [4, 2],
+        ],
+        mapData: [
+          {id: 1, coordinates: [56.8519, 60.6122]},
+          {id: 2, coordinates: [55.0084, 82.9357]},
+        ],
+        formConfig: {
+          title: 'Маршрут 2',
+          fields: [
+            {name: 'truckId', label: 'ID грузовика', type: 'TEXT'},
+            {name: 'timeLimit', label: 'Лимит времени (ч)', type: 'TEXT'},
+          ],
+        },
+      },
+    ],
+    formConfig: undefined,
+  },
+  {
+    groupId: 2,
+    id: 1,
+    info: {
+      title: 'Сценарий 3 - Анализ производства',
+      description: 'На заводе работают 4 производственные линии, выпускающие 2 типа продукции: A и B. '
+        + 'Каждая линия имеет разную производительность и уровень брака. '
+        + 'Цель — определить оптимальное распределение производства между линиями, чтобы минимизировать брак и максимизировать выпуск продукции.',
+    },
+    mapData: [],
+    chartData: [],
+    tableData: {
+      columns: [
+        {
+          title: 'Линия',
+          dataIndex: 'line',
+          key: 'line',
+        },
+        {
+          title: 'Продукция',
+          dataIndex: 'product',
+          key: 'product',
+        },
+        {
+          title: 'Производительность (шт./ч)',
+          dataIndex: 'productivity',
+          key: 'productivity',
+        },
+        {
+          title: 'Уровень брака (%)',
+          dataIndex: 'defectRate',
+          key: 'defectRate',
+        },
+      ],
+      data: [
+        {
+          key: '1',
+          id: '1',
+          line: 'Линия 1',
+          product: 'A',
+          productivity: 500,
+          defectRate: 2.5,
+          chartData: [
+            {name: '0', y: 80},
+            {name: '5', y: 490},
+            {name: '10', y: 500},
+            {name: '15', y: 295},
+            {name: '20', y: 510},
+          ],
+        },
+        {
+          key: '2',
+          id: '2',
+          line: 'Линия 2',
+          product: 'B',
+          productivity: 450,
+          defectRate: 3.0,
+          chartData: [
+            {name: '0', y: 240},
+            {name: '5', y: 445},
+            {name: '10', y: 450},
+            {name: '15', y: 1455},
+            {name: '20', y: 460},
+          ],
+        },
+        {
+          key: '3',
+          id: '3',
+          line: 'Линия 3',
+          product: 'A',
+          productivity: 600,
+          defectRate: 1.8,
+          chartData: [
+            {name: '0', y: 590},
+            {name: '5', y: 295},
+            {name: '10', y: 100},
+            {name: '15', y: 1605},
+            {name: '20', y: 810},
+          ],
+        },
+        {
+          key: '4',
+          id: '4',
+          line: 'Линия 4',
+          product: 'B',
+          productivity: 400,
+          defectRate: 4.0,
+          chartData: [
+            {name: '0', y: 290},
+            {name: '5', y: 510},
+            {name: '20', y: 395},
+          ],
+        },
+      ],
+    },
+    tilesData: [
+      {
+        id: 1,
+        title: 'P1',
+        coordinates: [
+          [2, 3], [3, 2], [3, 3], [3, 4],
+        ],
+        mapData: [
+          {id: 1, coordinates: [35.42, 139.36]},
+          {id: 2, coordinates: [35.01, 135.45]},
+        ],
+        formConfig: {
+          title: 'Настройки линии 1',
+          fields: [
+            {name: 'productType', label: 'Тип продукции', type: 'TEXT'},
+            {name: 'shiftHours', label: 'Часы работы (ч)', type: 'TEXT'},
+          ],
+        },
+      },
+      {
+        id: 2,
+        title: 'P2',
+        coordinates: [
+          [3, 1], [4, 1], [4, 2], [4, 3], [4, 4],
+        ],
+        mapData: [
+          {id: 1, coordinates: [34.41, 135.30]},
+        ],
+        formConfig: {
+          title: 'Настройки линии 2',
+          fields: [
+            {name: 'maintenanceSchedule', label: 'График техобслуживания', type: 'TEXT'},
+            {name: 'operatorCount', label: 'Количество операторов', type: 'TEXT'},
+          ],
+        },
+      },
+      {
+        id: 3,
+        title: 'P3',
+        coordinates: [
+          [1, 1], [2, 1], [1, 2], [2, 2], [1, 3], [1, 4],
+        ],
+        mapData: [
+          {id: 1, coordinates: [35.07, 136.56]},
+        ],
+        formConfig: {
+          title: 'Настройки линии 3',
+          fields: [
+            {name: 'targetProductivity', label: 'Целевая производительность (шт./ч)', type: 'TEXT'},
+          ],
         },
       },
     ],

@@ -1,4 +1,3 @@
-// Массив с мок-данными для заданий
 export const mockTaskGroups = [
   {
     id: 1,
@@ -13,7 +12,7 @@ export const mockTaskGroups = [
       {
         id: 2,
         title: 'Задача 2',
-        enabled: false,
+        enabled: true,
       },
       {
         id: 3,
@@ -30,7 +29,7 @@ export const mockTaskGroups = [
       {
         id: 1,
         title: 'Задача 1',
-        enabled: false,
+        enabled: true,
       },
       {
         id: 2,
@@ -38,6 +37,5 @@ export const mockTaskGroups = [
         enabled: false,
       },
     ],
-
   },
 ];

@@ -54,6 +54,7 @@ export type TFormConfig = {
 // ---------------------
 
 export type TTask  = {
+  groupId: number;
   id: number;
   info: TTaskInfo;
   mapData: TTaskMapData;

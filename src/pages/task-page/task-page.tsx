@@ -11,7 +11,7 @@ import styles from './task-page.module.scss';
 
 export const TaskPage = () => {
   const dispatch = useAppDispatch();
-  const {taskId} = useParams();
+  const {groupId, taskId} = useParams();
   const task = useAppSelector(selectTask)
   const [isLoading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | undefined>();
@@ -22,6 +22,11 @@ export const TaskPage = () => {
       setError('Идентефикатор задачи (taskId) не найден');
       return;
     }
+    if (!groupId) {
+      console.error('Id группы не найден');
+      setError('Идентефикатор группы (groupId) не найден');
+      return;
+    }
 
     const loadTaskAction = async () => {
       setLoading(true);
@@ -29,7 +34,8 @@ export const TaskPage = () => {
         // симулируем задержку
         await new Promise(resolve => setTimeout(resolve, 2000));
   
-        await dispatch(loadTask({id: Number(taskId)})).unwrap();
+        await dispatch(loadTask({groupId: Number(groupId), id: Number(taskId)}))
+          .unwrap();
         setError(undefined);
       } catch (e) {
         console.error('Во время загрузки задания произошла ошибка', e);

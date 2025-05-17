@@ -1,7 +1,7 @@
 import {useMemo} from "react";
 
 import type {TTilesData} from "../../../../store/slices/task-slice";
-import {calmColors, createColorGenerator} from "./custom-tiles-utils";
+import {сolors, createColorGenerator} from "./custom-tiles-utils";
 
 interface UseCustomTilesArgs {
   tilesData: TTilesData;
@@ -11,7 +11,7 @@ export const useCustomTiles = ({tilesData}: UseCustomTilesArgs) => {
   const defaultGridSize = 3;
 
   const getUniqueColor = useMemo(
-    () => createColorGenerator(calmColors),
+    () => createColorGenerator(сolors),
     [tilesData.length],
   );
 
