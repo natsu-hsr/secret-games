@@ -35,7 +35,7 @@ export const taskSlice = createSlice({
       const preparedData: TTask = {
         ...payload,
         chartData: payload.tableData.data?.[0] ? payload.tableData.data[0].chartData : [],
-        mapData: payload.tilesData?.[0] ? payload.tilesData[0].coordinates : [],
+        mapData: payload.tilesData?.[0] ? payload.tilesData[0].mapData : [],
         formConfig: payload.tilesData?.[0] ? payload.tilesData[0].formConfig : undefined,
       };
 

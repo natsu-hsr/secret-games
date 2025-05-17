@@ -30,7 +30,10 @@ export type TTableData = {
 export type TTileData = {
   id: number;
   title: string;
-  coordinates: TMapMarker[];
+  // массив координат "точек" плитки (предполагается, что они непрерывны)
+  coordinates: [number, number][];
+  // зависимые данные для других форм
+  mapData: TMapMarker[];
   formConfig: TFormConfig;
 }
 export type TTilesData = TTileData[];

@@ -11,38 +11,75 @@
   @include card-title();
 }
 
-.tileGrid {
-  height: 80%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-  gap: $gap-sm;
-  margin-top: $margin-lg;
-  padding: $padding-sm;
-  background-color: $light-gray;
-  border-radius: $border-radius;
+.grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.tile {
-  background-color: $white;
-  border: 1px solid $border-color;
-  border-radius: $border-radius-sm;
-  padding: $padding-sm;
-  text-align: center;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.row {
+  display: flex;
+}
 
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba($primary-color, 0.35);
+.cell {
+  width: 85px;
+  height: 85px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: opacity 0.2s ease;
+
+  &.tileCell {
+    opacity: 0.55;
+  }
+
+  &.hovered {
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  &.selected {
+    opacity: 1;
   }
 }
 
-.selected {
-  background-color: $primary-color;
-  :global {
-    .ant-typography {
-      color: $white;
-    }
+.tile-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+  position: absolute;
+  z-index: 1;
+  transition: transform 0.2s ease;
+
+  &.selected {
+    transform: scale(1.05);
+  }
+
+  &.hovered {
+    transform: scale(1.05);
+  }
+}
+
+@media (max-width: 991.5px) { 
+  .cell {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 576px) { 
+  .cell {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 320px) { 
+  .cell {
+    width: 40px;
+    height: 40px;
   }
 }

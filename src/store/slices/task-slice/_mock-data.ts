@@ -117,8 +117,11 @@ export const mockTasks: TTask[] = [
     tilesData: [
       {
         id: 1,
-        title: 'Shop 1', 
+        title: 'C1',
         coordinates: [
+          [1, 1], [1, 2], [2, 1],
+        ],
+        mapData: [
           {id: 1, coordinates: [55.75, 37.57]},
           {id: 2, coordinates: [55.15, 37.30]},
           {id: 3, coordinates: [56.75, 35.57]},
@@ -133,8 +136,11 @@ export const mockTasks: TTask[] = [
       },
       {
         id: 2,
-        title: 'Center', 
+        title: 'C2',
         coordinates: [
+          [3, 1], [4, 1], [2, 2], [3, 2],
+        ],
+        mapData: [
           {id: 1, coordinates: [33.67, 24.57]},
           {id: 2, coordinates: [35.15, 26.30]},
         ],
@@ -149,8 +155,11 @@ export const mockTasks: TTask[] = [
       },
       {
         id: 3,
-        title: 'Supplier', 
+        title: 'T1',
         coordinates: [
+          [1, 3], [2, 3], [1, 4], [2, 4], [3, 4], [4, 4],
+        ],
+        mapData: [
           {id: 1, coordinates: [44.75, 40.57]},
           {id: 2, coordinates: [55.15, 37.30]},
           {id: 3, coordinates: [37.75, 42.57]},
@@ -165,8 +174,11 @@ export const mockTasks: TTask[] = [
       },
       {
         id: 4,
-        title: 'Post office', 
+        title: 'C3',
         coordinates: [
+          [3, 3], [4, 2], [4, 3],
+        ],
+        mapData: [
           {id: 1, coordinates: [18.75, 79.57]},
           {id: 2, coordinates: [12.15, 75.30]},
           {id: 3, coordinates: [20.75, 77.57]},

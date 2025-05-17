@@ -15,7 +15,7 @@ interface CustomTableProps {
 
 export const CustomTable = ({tableData}: CustomTableProps) => {
   const dispatch = useAppDispatch();
-  const [selectedRowId, setSelectedRowId] = useState<number|undefined>(0);
+  const [selectedRowId, setSelectedRowId] = useState<number|undefined>(tableData.data?.[0].id ?? undefined);
 
   // todo
   const handleRowClick = (record: any) => {
@@ -25,6 +25,7 @@ export const CustomTable = ({tableData}: CustomTableProps) => {
 
   return (
     <Table
+      scroll={{x: 'max-content'}}
       className={styles.table}
       columns={tableData.columns}
       dataSource={tableData.data}

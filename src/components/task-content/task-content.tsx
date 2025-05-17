@@ -62,7 +62,7 @@ export const TaskContent = ({task}: TaskContentProps) => {
       </Row>
       <Row gutter={[12, 12]}>
         <Col xs={24} lg={12}>
-          <Card className={cn(styles.card, styles['min-h'])}>
+          <Card className={cn(styles.card, styles['tiles-card'])}>
             <CustomTiles tilesData={tilesData} />
           </Card>
         </Col>
