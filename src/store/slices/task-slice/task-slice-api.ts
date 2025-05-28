@@ -1,3 +1,4 @@
+import axios from "axios";
 import {mockTasks} from "./_mock-data";
 import type {TTask} from "./task-slice-types";
 
@@ -15,4 +16,16 @@ export const fetchTask = ({groupId, id}: FetchTaskArgs): Promise<{data: TTask}> 
       reject(`Задание с id ${id} и groupId ${groupId} не найдено`);
     }
   });
+}
+
+export const fetchTestData = () => {
+  return axios.get(
+    '/api_test.php',
+    {
+      params: {
+        script_id: 'SC0002',
+        stage_id: 'STG002',
+      },
+    }
+  )
 }

@@ -1,14 +1,22 @@
-import {Flex} from 'antd';
+import {Flex, Tooltip} from 'antd';
 import RocketOutlined from '@ant-design/icons/lib/icons/RocketOutlined';
-import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
+import LogoutOutlined from '@ant-design/icons/lib/icons/LogoutOutlined';
 import cn from 'classnames';
 import {useLocation, useNavigate} from 'react-router-dom';
+
+import {useAppDispatch} from '../../store/config/hooks';
+import {logout} from '../../store/slices/auth-slice';
 
 import styles from './header.module.scss';
 
 export const Header = () => {
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout())
+  }
 
   return (
     <nav className={styles.header}>
@@ -27,12 +35,18 @@ export const Header = () => {
         ].map(m => (
           <div
             key={m.path}
-            className={cn(styles.item, location.pathname === m.path && styles.active)}
+            // todo: костыль для роутов для github pages
+            className={cn(styles.item, (location.pathname === m.path || location.pathname === '/home' && m.path === '/') && styles.active)}
             onClick={() => navigate(m.path)}
           >{m.title}
           </div>
         ))}
-        <UserOutlined className={styles['user-icon']} />
+        <Tooltip
+          title='Выйти'
+          placement='bottomLeft'
+        >
+          <LogoutOutlined onClick={handleLogout} className={styles['user-icon']} />
+        </Tooltip>
       </Flex>
     </nav>
   )

@@ -10,4 +10,18 @@ export default defineConfig({
     svgr(),
     tsconfigPaths(),
   ],
+  server: {
+    proxy: {
+      '/api_test.php': {
+        target: 'http://2.59.41.201',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api_test\.php/, '/api_test.php'),
+      },
+      '/api.php': {
+        target: 'http://2.59.41.201',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api_test\.php/, '/api_test.php'),
+      },
+    },
+  },
 })

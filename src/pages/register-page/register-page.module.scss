@@ -1,0 +1,25 @@
+@use '/src/shared/styles/mixins.scss' as *;
+
+.wrapper {
+  @include auth-wrapper();
+}
+
+.background {
+  @include auth-background();
+}
+
+.title {
+  @include card-title();
+}
+
+.link {
+  @include auth-link();
+}
+
+.card {
+  @include auth-card();
+}
+
+.message {
+  @include auth-message();
+}

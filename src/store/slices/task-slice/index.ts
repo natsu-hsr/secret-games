@@ -22,3 +22,6 @@ export {
   taskSliceActions,
   taskSliceInitialState,
 } from './task-slice';
+export {
+  fetchTestData,
+} from './task-slice-api';
