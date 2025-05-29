@@ -39,7 +39,7 @@ export const taskSlice = createSlice({
         formConfig: payload.tilesData?.[0] ? payload.tilesData[0].formConfig : undefined,
       };
 
-      state.task = preparedData;
+      state.task = JSON.parse(JSON.stringify(preparedData));
   });
   },
 });
