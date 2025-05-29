@@ -8,15 +8,9 @@ import {PageLayout} from '../../components/page-layout/page-layout';
 import logisticsImage from '/src/assets/logistics_banner.svg'; // вставь свою SVG
 
 import styles from './home-page.module.scss';
-import { fetchTestData } from '../../store/slices/task-slice';
 
 export const HomePage = () => {
   const navigate = useNavigate();
-
-  const handleFetchTestData = async () => {
-    const data = await fetchTestData();
-    console.log('test data=', data);
-  }
 
   return (
     <PageLayout fullSize>

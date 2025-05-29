@@ -25,7 +25,6 @@ export const LoginPage = () => {
   const [form] = useForm<TAuthForm>();
 
   const handleSubmit = (values: TAuthForm) => {
-    console.log('submitted values=', values);
     dispatch(authorize(values));
   }
 

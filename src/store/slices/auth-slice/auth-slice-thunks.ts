@@ -5,10 +5,18 @@ import {authSliceActions} from './auth-slice'
 
 export const authorize = createAsyncThunk<boolean, AuthorizeArgs>(
   `${authSliceName}/authorize`,
-  async (arg, {dispatch, rejectWithValue}) => {
+  async (args, {dispatch, rejectWithValue}) => {
     try {
-      const response = await authorizeRequest(arg);
-      console.log('auth response=', response)
+      const {login, password} = args;
+
+      // todo: костыль для gh-pages
+      if (login === 'test' && password === 'test') {
+        localStorage.setItem('isAuthorized', '1');
+        return true;
+      }
+
+
+      const response = await authorizeRequest(args);
       const {data} = response;
 
       if (data === 1) {

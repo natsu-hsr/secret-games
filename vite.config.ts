@@ -20,7 +20,7 @@ export default defineConfig({
       '/api.php': {
         target: 'http://2.59.41.201',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api_test\.php/, '/api_test.php'),
+        rewrite: path => path.replace(/^\/api\.php/, '/api.php'),
       },
     },
   },
