@@ -44,13 +44,6 @@ export const HomePage = () => {
         >
           Перейти к заданиям
         </Button>
-        <Button
-          className={styles.button}
-          type="primary"
-          onClick={handleFetchTestData}
-        >
-          Запросить тестовые данные
-        </Button>
       </Flex>
     </PageLayout>
   )
