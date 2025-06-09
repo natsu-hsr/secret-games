@@ -1,3 +1,5 @@
+@use '/src/shared/styles/common.scss' as *;
+@use '/src/shared/styles/colors.scss' as *;
 @use '/src/shared/styles/mixins.scss' as *;
 
 .wrapper {
@@ -22,4 +24,16 @@
 
 .message {
   @include auth-message();
+
+  &-success {
+    text-align: center;
+    margin-bottom: $margin-lg !important;
+  }
+}
+
+.icon {
+  &-success {
+    color: $success;
+    font-size: 48px;
+  }
 }

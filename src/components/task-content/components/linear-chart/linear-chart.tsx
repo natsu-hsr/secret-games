@@ -12,15 +12,17 @@ import {
   CartesianGrid,
 } from "recharts"
 
-import {selectTaskChartData} from "../../../../store/slices/task-slice";
+import {LayoutSpin} from "../layout-spin/layout-spin";
 import {useAppSelector} from "../../../../store/config/hooks";
+import {selectTaskChartData} from "../../../../store/slices/task-slice";
+import {selectIsThunkPending} from "../../../../store/slices/loading-state-slice";
+import {loadChartDataByRowId} from "../../../../store/slices/task-slice/task-slice-thunks";
 
 import styles from './linear-chart.module.scss';
 
 export const LinearChart = () => {
   const chartData = useAppSelector(selectTaskChartData);
-
-  console.log('chartData=', chartData);
+  const isLoading = useAppSelector(s => selectIsThunkPending(s, loadChartDataByRowId.typePrefix));
 
   const lineDataKeys = useMemo(
     () => Object.keys(chartData?.[0] ?? {}).filter(k => k !== 'name'),
@@ -28,7 +30,7 @@ export const LinearChart = () => {
   );
 
   return (
-    <>
+    <LayoutSpin spinning={isLoading} tip='Загрузка...'>
       {
         chartData?.length ? (
           <div className={styles.container}>
@@ -56,6 +58,6 @@ export const LinearChart = () => {
           <Empty className={cn('fh', 'flex-col-center')} description='Данные графика не заданы' />
         )
       }
-    </>
+    </LayoutSpin>
   )
 }

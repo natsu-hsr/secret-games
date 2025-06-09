@@ -1,4 +1,4 @@
-import { matchRawFieldTypes } from "../../../components/task-content/components/task-form/task-form-utils";
+import {matchRawFieldTypes} from "../../../components/task-content/components/task-form/task-form-utils";
 import type {FormFieldsDto, RawFormFieldDto, RawFormFieldsDto, RawTableDataDto, SortedFormFieldsDto, TableDataDto} from "./task-slice-types"
 
 type ConvertRawTableDataArgs = {
@@ -10,7 +10,9 @@ export const convertRawTableData = ({rawData}: ConvertRawTableDataArgs): TableDa
   const configRawEntity = rawData?.shift();
   if (!configRawEntity) return undefined;
 
-  const columns = Object.entries(configRawEntity).map(([k, v]) => ({
+  const columns = Object.entries(configRawEntity)
+    .filter(([k])=> isNaN(Number(k))) //todo: убрать костыль как бэк уберет дублирование
+    .map(([k, v]) => ({
     key: k,
     dataIndex: k,
     title: v,

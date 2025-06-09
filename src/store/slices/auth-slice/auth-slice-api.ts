@@ -22,10 +22,10 @@ export const register = ({email, name, surname, middlename}: TRegisterForm) => {
     {
       params: {
         api_id: 'registration',
-        email: email,
-        name: name,
-        surname: surname,
-        middlename: middlename,
+        email,
+        name,
+        surname,
+        middlename,
       },
     }
   )

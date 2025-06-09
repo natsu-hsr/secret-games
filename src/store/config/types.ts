@@ -6,11 +6,13 @@ import type {authSliceName} from '../slices/auth-slice/auth-slice-constants';
 import type {TAuthSliceState} from '../slices/auth-slice';
 import type {tasksSliceName} from '../slices/tasks-slice/tasks-slice-constants';
 import type {TasksSliceState} from '../slices/tasks-slice/tasks-slice-types';
+import type {loadingStateSliceName, LoadingStateSliceState} from '../slices/loading-state-slice';
 
 export type AppState = {
   [authSliceName]: TAuthSliceState;
   [taskSliceName]: TTaskSliceState;
   [tasksSliceName]: TasksSliceState;
+  [loadingStateSliceName]: LoadingStateSliceState;
 };
 
 export type Dispatch = ThunkDispatch<AppState, undefined, AnyAction>;

@@ -4,6 +4,7 @@ import type {Action} from 'redux';
 import {authSliceReducer, authSliceName} from '../slices/auth-slice';
 import {taskSliceName, taskSliceReducer} from '../slices/task-slice';
 import {tasksSliceName, tasksSliceReducer} from '../slices/tasks-slice';
+import {loadingStateSliceName, loadingStateSliceReducer} from '../slices/loading-state-slice';
 
 const RESET_ACTION_TYPE = 'RESET';
 
@@ -11,6 +12,7 @@ export const appReducer = combineReducers({
   [authSliceName]: authSliceReducer,
   [taskSliceName]: taskSliceReducer,
   [tasksSliceName]: tasksSliceReducer,
+  [loadingStateSliceName]: loadingStateSliceReducer,
 });
 
 export const resetStore = () => ({type: RESET_ACTION_TYPE});
