@@ -4,7 +4,7 @@ import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
-  base: '/secret-games/',
+  // base: '/secret-games/',
   plugins: [
     react(),
     svgr(),

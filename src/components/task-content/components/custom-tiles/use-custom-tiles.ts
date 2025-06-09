@@ -1,61 +1,64 @@
 import {useMemo} from "react";
 
-import type {TTilesData} from "../../../../store/slices/task-slice";
+import type {TilesDto} from "../../../../store/slices/task-slice";
 import {сolors, createColorGenerator} from "./custom-tiles-utils";
 
 interface UseCustomTilesArgs {
-  tilesData: TTilesData;
+  tilesData: TilesDto | undefined;
 }
 
 export const useCustomTiles = ({tilesData}: UseCustomTilesArgs) => {
-  const defaultGridSize = 3;
+  const defaultGridSize = 1;
 
   const getUniqueColor = useMemo(
     () => createColorGenerator(сolors),
-    [tilesData.length],
+    [tilesData?.length],
+  );
+
+  const tilesWithColors = useMemo(
+    () => tilesData?.map((tile, index) => ({
+      ...tile,
+      color: getUniqueColor(index),
+    })),
+    [tilesData],
   );
 
   const {gridSizeX, gridSizeY} = useMemo(() => {
-    if (!tilesData || tilesData.length === 0) {
+    if (!tilesWithColors || tilesWithColors.length === 0) {
       return {gridSizeX: defaultGridSize, gridSizeY: defaultGridSize};
     }
   
     let maxX = 0;
     let maxY = 0;
   
-    tilesData.forEach((tile) => {
-      tile.coordinates.forEach(([x, y]) => {
-        maxX = Math.max(maxX, x);
-        maxY = Math.max(maxY, y);
-      });
+    tilesWithColors.forEach((tile) => {
+      maxX = Math.max(maxX, tile.columnEnd);
+      maxY = Math.max(maxY, tile.rowEnd);
     });
   
-    // Минимальный размер сетки — 3x3
     return {
       gridSizeX: Math.max(maxX, defaultGridSize),
       gridSizeY: Math.max(maxY, defaultGridSize),
     };
-  }, [tilesData]);
+  }, [tilesWithColors]);
   
-  const tilesWithColors = useMemo(
-    () => tilesData.map((tile, index) => ({
-      ...tile,
-      color: getUniqueColor(index),
-    })),
-    [tilesData],
-  );
-  
-  const grid = Array(gridSizeY)
+  const grid = useMemo(
+    () => Array(gridSizeY)
     .fill(null)
-    .map(() => Array(gridSizeX).fill(null));
-  
-  // Заполняем сетку данными плиток
-  tilesWithColors.forEach((tile) => {
-    tile.coordinates.forEach(([x, y]) => {
-      if (x <= gridSizeX && y <= gridSizeY) {
-        grid[y - 1][x - 1] = {...tile};
+    .map(() => Array(gridSizeX).fill(null)),
+    [gridSizeY, gridSizeX],
+  );
+
+  console.log('grid=', grid)
+
+  tilesWithColors?.forEach((tile) => {
+    for (let row = tile.rowStart; row <= tile.rowEnd; row++) {
+      for (let col = tile.columnStart; col <= tile.columnEnd; col++) {
+        if (row <= gridSizeY && col <= gridSizeX) {
+          grid[row - 1][col - 1] = tile;
+        }
       }
-    });
+    }
   });
 
   return {

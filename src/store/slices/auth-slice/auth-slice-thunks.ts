@@ -11,7 +11,7 @@ export const authorize = createAsyncThunk<boolean, AuthorizeArgs>(
 
       // todo: костыль для gh-pages
       if (login === 'test' && password === 'test') {
-        localStorage.setItem('isAuthorized', '1');
+        localStorage.setItem('userId', '1');
         return true;
       }
 
@@ -19,12 +19,11 @@ export const authorize = createAsyncThunk<boolean, AuthorizeArgs>(
       const response = await authorizeRequest(args);
       const {data} = response;
 
-      if (data === 1) {
-        localStorage.setItem('isAuthorized', '1');
+      if (data) {
+        localStorage.setItem('userId', data);
       } else {
-        console.log('here=1231');
         dispatch(authSliceActions.setMessage('Логин или пароль не совпадают или не найдены'))
-        localStorage.removeItem('isAuthorized');
+        localStorage.removeItem('userId');
       }
 
       return !!data;
@@ -37,7 +36,7 @@ export const authorize = createAsyncThunk<boolean, AuthorizeArgs>(
 export const logout = createAsyncThunk(
   '${authSliceName}/logout',
   async (_, { dispatch }) => {
-    localStorage.removeItem('isAuthorized');
+    localStorage.removeItem('userId');
     dispatch(authSliceActions.setAuthorized(false));
   }
 );

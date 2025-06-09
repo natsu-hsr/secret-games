@@ -1,4 +1,4 @@
-import type {TableProps} from 'antd/es/table';
+import type {ColumnType} from 'antd/es/table';
 
 export type TTaskInfo = {
   title: string;
@@ -6,49 +6,104 @@ export type TTaskInfo = {
 }
 
 // ======= map =======
-export type TCoordinates = [number, number];
-export type TMapMarker = {
-  id: number;
-  coordinates: TCoordinates;
+export type RawMapMarkerDto = {
+  Knot_ID: string;
+  Knot_Name: string;
+  Knot_Latitude: string
+  Knot_Longitude: string
+  label_type: string;
+  draggable: boolean;
 }
-export type TTaskMapData = TMapMarker[];
+
+export type MapMarkerDto = {
+  id: string;
+  name: string;
+  coordinates: [number, number];
+  labelType: string;
+  draggable: boolean;
+}
+
+export type RawMapDataDto = RawMapMarkerDto[];
+export type MapDataDto = MapMarkerDto[];
 
 // ======= chart =======
-export type TChartData = {
+export type RawChartDotDto = {
+  Time_Value: number;
+  Demand: string;
+};
+export type RawChartDataDto = RawChartDotDto[];
+
+export type ChartDotDto = {
   name: string;
   [key: string]: number | string;
 };
-export type TTaskChartData = TChartData[];
+export type ChartDataDto = ChartDotDto[];
 
 // ======= table =======
-export type TTableData = {
-  columns: TableProps['columns'];
-  data: TableProps['dataSource'];
+export type TableColumn = {
+  key: string;
+  dataIndex: ColumnType['dataIndex'];
+  title: ColumnType['title'];
 }
+export type TableDataDto = {
+  columns: TableColumn[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any;
+}
+export type RawTableDataDto = Record<string, string>[];
 
 // ======= tiles =======
-export type TTileData = {
-  id: number;
-  title: string;
-  // массив координат "точек" плитки (предполагается, что они непрерывны)
-  coordinates: [number, number][];
-  // зависимые данные для других форм
-  mapData: TMapMarker[];
-  formConfig: TFormConfig;
+export type RawTileDto = {
+  Card_Header_ID: string;
+  Card_Header_Name: string;
+  Card_Type_Name: string;
+  Card_Type_Description: string;
+  Card_Type_API_Name: string;
+  Column_Start: number;
+  Column_End: number;
+  Row_Start: number;
+  Row_End: number;
 }
-export type TTilesData = TTileData[];
+export type TileDto = {
+  id: string;
+  name: string;
+  typeName: string;
+  apiName: string;
+  typeDescription: string;
+  columnStart: number;
+  columnEnd: number;
+  rowStart: number;
+  rowEnd: number;
+}
+
+export type RawTilesDto = RawTileDto[];
+export type TilesDto = TileDto[];
 
 // ======= tiles =======
-export type TFieldType = 'TEXT';
+export type RawFieldType = 'text' | 'radio' | 'select';
+export type FieldType = 'TEXT' | 'RADIO' | 'SELECT';
 
-export type TFormField = {
+export type RawFormFieldDto = {
+  HTML_ID: string;
+  HTML_Label: string;
+  HTML_type: RawFieldType;
+  HTML_value: number | string;
+  HTML_enable: '0' | '1';
+}
+export type FormFieldDto = {
   name: string;
   label: string;
-  type: TFieldType;
+  type: FieldType;
+  defaultValue: number | string | boolean;
+  disabled: boolean;
+  options?: any;
+  optionLabel?: string[];
 }
-export type TFormConfig = {
-  title: string;
-  fields: TFormField[];
+export type RawFormFieldsDto = RawFormFieldDto[];
+export type FormFieldsDto = FormFieldDto[];
+export type SortedFormFieldsDto = {
+  radios?: FormFieldDto[];
+  regularFields: FormFieldDto[];
 }
 
 // ---------------------
@@ -57,13 +112,15 @@ export type TTask  = {
   groupId: number;
   id: number;
   info: TTaskInfo;
-  mapData: TTaskMapData;
-  chartData: TTaskChartData;
-  tableData: TTableData;
-  tilesData: TTilesData;
-  formConfig: TFormConfig | undefined;
+  mapData: MapDataDto;
+  chartData: ChartDataDto;
+  tableData: TableDataDto;
+  tilesData: TilesDto;
+  formConfig: SortedFormFieldsDto | undefined;
 }
 
-export type TTaskSliceState = {
-  task: TTask | undefined;
-};
+export type TTaskSliceState = Partial<TTask>
+
+// export type TTaskSliceState = {
+//   task: TTask | undefined;
+// };

@@ -1,7 +1,6 @@
 {
   "name": "logic-game",
   "private": true,
-  "homepage": "https://github.com/natsu-hsr/secret-games",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

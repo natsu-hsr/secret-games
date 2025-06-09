@@ -11,64 +11,54 @@ import {
   CustomTiles,
   LinearChart,
 } from './components';
-import type {TTask} from "../../store/slices/task-slice"
+import {TaskForm} from "./components/task-form/task-form";
 
 import styles from './task-content.module.scss';
-import { TaskForm } from "./components/task-form/task-form";
+import {Emptiable} from "../emptiable/emptiable";
 
-interface TaskContentProps {
-  task: TTask;
-}
-
-export const TaskContent = ({task}: TaskContentProps) => {
-  const {
-    info,
-    mapData,
-    chartData,
-    tableData,
-    tilesData,
-    formConfig,
-  } = task ?? {};
-
-  const {
-    title,
-    description,
-  } = info ?? {};
+export const TaskContent = () => {
+  const title = 'Тест';
+  const description = 'Тестовое описание';
 
   return (
     <div className={styles.container}>
       <Row>
         <Card className={styles.card}>
-          <Title level={2}>{title}</Title>
-          <Paragraph>{description}</Paragraph>
+          <Emptiable
+            ready={false}
+            emptyMessage="Данные отсутствуют"
+          >
+            <Title level={2}>{title}</Title>
+            <Paragraph>{description}</Paragraph>
+          </Emptiable>
         </Card>
       </Row>
       <Row gutter={[12, 12]}>
         <Col xs={24} lg={12}>
           <Card className={cn(styles.card, styles['min-h'], styles['map-row'])}>
-            <CustomMap data={mapData} />
+            <CustomMap />
           </Card>
         </Col>
         <Col xs={24} lg={12}>
           <Card className={cn(styles.card, styles['min-h'], styles['map-row'])} >
-            <LinearChart data={chartData} />
+            <LinearChart />
           </Card>
         </Col>
       </Row>
       <Row>
         <Card className={styles.card}>
-          <CustomTable tableData={tableData} />
+          <CustomTable />
         </Card>
       </Row>
       <Row gutter={[12, 12]}>
         <Col xs={24} lg={12}>
           <Card className={cn(styles.card, styles['tiles-card'])}>
-            <CustomTiles tilesData={tilesData} />
+            <CustomTiles />
           </Card>
         </Col>
         <Col xs={24} lg={12}>
           <Card className={cn(styles.card, styles['min-h'])}>
-            <TaskForm config={formConfig} />
+            <TaskForm />
           </Card>
         </Col>
       </Row>

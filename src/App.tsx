@@ -11,6 +11,7 @@ import {TasksPage} from "./pages/tasks-page/tasks-page";
 import {store} from "./store/config";
 
 import './App.scss'
+import './shared/styles/global.scss';
 
 export const App = () => (
   <ConfigProvider
@@ -21,7 +22,9 @@ export const App = () => (
     }}
   >
     <Provider store={store}>
-      <BrowserRouter basename="/secret-games">
+      <BrowserRouter
+        // basename="/secret-games"
+      >
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -31,10 +34,10 @@ export const App = () => (
             {/* todo: костыль для роутинга с github pages */}
             <Route path="/home" element={<HomePage />} />
             <Route path="/tasks" element={<TasksPage />} />
-            <Route path="/group/:groupId/task/:taskId" element={<TaskPage />} />
+            <Route path="/script/:scriptId/stage/:stageId" element={<TaskPage />} />
           </Route>
 
-          <Route path="*" element={<Navigate to="/home" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </Provider>

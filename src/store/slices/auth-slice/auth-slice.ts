@@ -4,7 +4,7 @@ import {authSliceName} from "./auth-slice-constants";
 import { authorize } from "./auth-slice-thunks";
 
 export const authSliceInitialState: TAuthSliceState = {
-  isAuthorized: localStorage.getItem('isAuthorized') === '1',
+  isAuthorized: !!localStorage.getItem('userId'),
   message: '',
 }
 

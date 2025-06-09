@@ -1,46 +1,30 @@
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
-import type {TFormConfig, TTask, TTaskChartData, TTaskMapData, TTaskSliceState} from "./task-slice-types";
+import type {ChartDataDto, MapDataDto, TTaskSliceState, TableDataDto, TilesDto, SortedFormFieldsDto} from "./task-slice-types";
 import {taskSliceName} from "./task-slice-constants";
-import {loadTask} from "./task-slice-thunks";
+import {loadChartDataByRowId, loadFormDataByTileParams, loadMapDataByTileId, loadTableData, loadTilesData} from "./task-slice-thunks";
 
-export const taskSliceInitialState: TTaskSliceState = {
-  task: undefined,
-}
+export const taskSliceInitialState: TTaskSliceState = {}
 
 export const taskSlice = createSlice({
   initialState: taskSliceInitialState,
   name: taskSliceName,
-  reducers: {
-    updateMapData(state, {payload}: PayloadAction<TTaskMapData>) {
-      if (!state.task) return;
-
-      state.task.mapData = payload;
-    },
-    updateChartData(state, {payload}: PayloadAction<TTaskChartData>) {
-      if (!state.task) return;
-
-      state.task.chartData = payload;
-    },
-    updateFormConfig(state, {payload}: PayloadAction<TFormConfig>) {
-      if (!state.task) return;
-
-      state.task.formConfig = payload;
-    },
-    resetTask(state) {
-      state.task = undefined;
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
-    builder.addCase(loadTask.fulfilled, (state, {payload}: PayloadAction<TTask>) => {
-      const preparedData: TTask = {
-        ...payload,
-        chartData: payload.tableData.data?.[0] ? payload.tableData.data[0].chartData : [],
-        mapData: payload.tilesData?.[0] ? payload.tilesData[0].mapData : [],
-        formConfig: payload.tilesData?.[0] ? payload.tilesData[0].formConfig : undefined,
-      };
-
-      state.task = JSON.parse(JSON.stringify(preparedData));
-  });
+    builder.addCase(loadMapDataByTileId.fulfilled, (state, {payload}: PayloadAction<MapDataDto>) => {
+      state.mapData = payload;
+    });
+    builder.addCase(loadTableData.fulfilled, (state, {payload}: PayloadAction<TableDataDto | undefined>) => {
+      state.tableData = payload;
+    });
+    builder.addCase(loadTilesData.fulfilled, (state, {payload}: PayloadAction<TilesDto>) => {
+      state.tilesData = payload;
+    });
+    builder.addCase(loadChartDataByRowId.fulfilled, (state, {payload}: PayloadAction<ChartDataDto>) => {
+      state.chartData = payload;
+    });
+    builder.addCase(loadFormDataByTileParams.fulfilled, (state, {payload}: PayloadAction<SortedFormFieldsDto>) => {
+      state.formConfig = payload;
+    });
   },
 });
 

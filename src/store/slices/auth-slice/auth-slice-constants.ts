@@ -1,1 +1,1 @@
-export const authSliceName = 'auth-slice';
+export const authSliceName = 'auth-info';

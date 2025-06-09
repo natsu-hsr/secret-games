@@ -1,56 +1,47 @@
 import Form, {useForm} from 'antd/es/form/Form';
-import FormItem from 'antd/es/form/FormItem';
-import Title from 'antd/es/typography/Title';
-import {Empty, Input} from 'antd';
+import {Button, Empty} from 'antd';
+import cn from 'classnames';
 
-import type {TFormConfig} from '../../../../store/slices/task-slice/task-slice-types';
+import {useAppSelector} from '../../../../store/config/hooks';
+import {selectFormConfigData} from '../../../../store/slices/task-slice';
+import {renderFormFields} from './task-form-utils';
 
 import styles from './task-form.module.scss';
 
-interface TaskFormProps {
-  config: TFormConfig | undefined;
-}
-
-export const TaskForm = ({config}: TaskFormProps) => {
+export const TaskForm = () => {
+  const fields = useAppSelector(selectFormConfigData);
   const [form] = useForm();
-  const {
-    title,
-    fields,
-  } = config ?? {};
+
+  const hasFields = fields?.radios?.length || fields?.regularFields?.length;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSubmit = (values: any) => {
+    console.log('values=', values)
+  }
 
   return (
-    config ? (
+    hasFields ? (
       <div className={styles.container}>
-        <Title level={4} className={styles.title}>{title}</Title>
         <Form
           className={styles.form}
           form={form}
           layout='vertical'
+          onFinish={handleSubmit}
         >
-          {fields?.map(f => (
-            <FormItem
-              key={f.name}
-              name={f.name}
-              label={f.label}
-            >
-              {(() => {
-                switch(f.type) {
-                  case 'TEXT': return (
-                    <Input
-                      placeholder={`Введите ${f.label.toLowerCase()}`}
-                    />
-                  );
-                  default: return <Input />;
-                }
-              })()}
-            </FormItem>
-          ))}
+          {renderFormFields({fields})}
         </Form>
+        <Button
+          className={styles['submit-btn']}
+          type='primary'
+          onClick={() => form.submit()}
+        >
+          Отправить
+        </Button>
       </div>
     ) : (
       <Empty
-        className={styles.empty}
-        description='Нет полей'
+        className={cn('fh', 'flex-col-center')}
+        description='Поля не заданы'
       />
     )
   )

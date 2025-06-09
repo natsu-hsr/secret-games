@@ -1,6 +1,20 @@
+import {convertRawFormFields, convertRawTableData} from './task-slice-utils';
 import {createAsyncThunk} from "@reduxjs/toolkit/react";
-import type {TTask} from "./task-slice-types";
-import {fetchTask, type FetchTaskArgs} from "./task-slice-api";
+import type {ChartDataDto, MapDataDto, TableDataDto, TTask, TilesDto, SortedFormFieldsDto} from "./task-slice-types";
+import {
+  fetchTask,
+  type FetchTaskArgs,
+  fetchMapDataByTileId,
+  type FetchMapDataByTileIdArgs,
+  fetchTableData,
+  type FetchTableDataArgs,
+  fetchTilesData,
+  type FetchTilesDataArgs,
+  type FetchChartDataByRowIdArgs,
+  fetchChartDataByRowId,
+  type FetchFormDataByTileParamsArgs,
+  fetchFormDataByTileParams,
+} from "./task-slice-api";
 import {taskSliceName} from "./task-slice-constants";
 
 export const loadTask = createAsyncThunk<TTask, FetchTaskArgs>(
@@ -10,6 +24,106 @@ export const loadTask = createAsyncThunk<TTask, FetchTaskArgs>(
       const response = await fetchTask(arg);
       const {data} = response;
       return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+
+export const loadTableData = createAsyncThunk<TableDataDto | undefined, FetchTableDataArgs>(
+  `${taskSliceName}/loadTableData`,
+  async (args, {rejectWithValue}) => {
+    try {
+      const response = await fetchTableData(args);
+      const {data} = response;
+
+      return convertRawTableData({rawData: data});
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+
+export const loadChartDataByRowId = createAsyncThunk<ChartDataDto, FetchChartDataByRowIdArgs>(
+  `${taskSliceName}/loadChartDataByRowId`,
+  async (args, {rejectWithValue}) => {
+    try {
+      const response = await fetchChartDataByRowId(args);
+      const {data} = response;
+
+      return data.map(d => ({
+        name: String(d.Time_Value),
+        y: +d.Demand,
+      }));
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+
+export const loadTilesData = createAsyncThunk<TilesDto, FetchTilesDataArgs>(
+  `${taskSliceName}/loadTilesData`,
+  async (args, {rejectWithValue}) => {
+    try {
+      const response = await fetchTilesData(args);
+      const {data} = response;
+
+      return data.map(t => ({
+        id: t.Card_Header_ID,
+        name: t.Card_Header_Name,
+        typeName: t.Card_Type_Name,
+        apiName: t.Card_Type_API_Name,
+        typeDescription: t.Card_Type_Description,
+        columnStart: t.Column_Start,
+        columnEnd: t.Column_End,
+        rowStart: t.Row_Start,
+        rowEnd: t.Row_End,
+      }));
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+
+export const loadMapDataByTileId = createAsyncThunk<MapDataDto, FetchMapDataByTileIdArgs>(
+  `${taskSliceName}/loadMapDataByTileId`,
+  async (args, {rejectWithValue}) => {
+    try {
+      const response = await fetchMapDataByTileId(args);
+      const {data} = response;
+
+      return data.map(m => ({
+        id: m.Knot_ID,
+        name: m.Knot_Name,
+        coordinates: [+(m.Knot_Latitude.replace(',', '.')), +m.Knot_Longitude.replace(',', '.')],
+        labelType: m.label_type,
+        draggable: m.draggable,
+      }));
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+
+export const loadFormDataByTileParams = createAsyncThunk<SortedFormFieldsDto, FetchFormDataByTileParamsArgs>(
+  `${taskSliceName}/loadFormDataByTileParams`,
+  async (args, {rejectWithValue}) => {
+    try {
+      const response = await fetchFormDataByTileParams(args);
+      const {data} = response;
+
+      const convertedData = convertRawFormFields({rawFormFields: data});
+
+      console.log('form convertedData=', convertedData)
+      return convertedData;
+
+      // return data.map(field => ({
+      //   name: field.HTML_ID,
+      //   label: field.HTML_Label,
+      //   type: matchRawFieldTypes({rawFieldType: field.HTML_type}),
+      //   defaultValue: field.HTML_value,
+      //   disabled: field.HTML_enable !== '1', 
+      // }));
     } catch (e) {
       return rejectWithValue(e);
     }

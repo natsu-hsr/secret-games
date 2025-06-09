@@ -1,1 +1,1 @@
-export const taskSliceName = 'task-slice';
+export const taskSliceName = 'task';

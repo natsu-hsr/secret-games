@@ -5,7 +5,32 @@ import {taskSliceName} from "./task-slice-constants";
 
 const selectTaskSliceState = (state: AppState) => state[taskSliceName];
 
-export const selectTask = createSelector(
+// export const selectTask = createSelector(
+//   selectTaskSliceState,
+//   ({task}) => task,
+// );
+
+export const selectTaskTableData = createSelector(
   selectTaskSliceState,
-  ({task}) => task,
+  ({tableData}) => tableData,
+);
+
+export const selectTaskMapData = createSelector(
+  selectTaskSliceState,
+  ({mapData}) => mapData,
+);
+
+export const selectTaskTilesData = createSelector(
+  selectTaskSliceState,
+  ({tilesData}) => tilesData,
+);
+
+export const selectTaskChartData = createSelector(
+  selectTaskSliceState,
+  ({chartData}) => chartData,
+);
+
+export const selectFormConfigData = createSelector(
+  selectTaskSliceState,
+  ({formConfig}) => formConfig,
 );

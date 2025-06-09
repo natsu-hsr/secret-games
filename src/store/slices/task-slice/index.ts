@@ -1,22 +1,39 @@
 export type {
-  TChartData,
-  TMapMarker,
-  TCoordinates,
-  TTaskChartData,
+  ChartDataDto,
   TTaskInfo,
-  TTaskMapData,
-  TTableData,
-  TTilesData,
-  TTileData,
-  TFieldType,
-  TFormField,
-  TFormConfig,
+  MapMarkerDto,
+  MapDataDto,
+  RawTableDataDto,
+  TableDataDto,
+  TableColumn,
+  TilesDto,
+  TileDto,
+  RawFieldType,
+  FieldType,
+  RawFormFieldDto,
+  FormFieldDto,
+  RawFormFieldsDto,
+  FormFieldsDto,
+  SortedFormFieldsDto as SortedFieldsDto,
   TTaskSliceState,
   TTask,
 } from './task-slice-types';
 export {taskSliceName} from './task-slice-constants';
-export {selectTask} from './task-slice-selectors';
-export {loadTask} from './task-slice-thunks';
+export {
+  // selectTask,
+  selectTaskMapData,
+  selectTaskTableData,
+  selectTaskTilesData,
+  selectTaskChartData,
+  selectFormConfigData,
+} from './task-slice-selectors';
+export {
+  loadTask,
+  loadTableData,
+  loadMapDataByTileId,
+  loadTilesData,
+  loadFormDataByTileParams,
+} from './task-slice-thunks';
 export {
   taskSliceReducer,
   taskSliceActions,

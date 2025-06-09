@@ -1,13 +1,60 @@
 @use '../../../../shared/styles/mixins.scss' as *;
 
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.form {
+  position: relative;
+  max-height: 600px;
+  overflow-y: auto;
+  padding-bottom: 32px;
+}
+
 .title {
   @include card-title();
 }
 
-.empty {
+.submit-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 32px !important;
+  z-index: 1;
+}
+
+.radio-group {
+  :global {
+    .ant-radio-wrapper {
+      display: flex;
+      align-items: flex-start;
+
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #ccc;
+
+      &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
+.radio-label {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+  flex-wrap: wrap;
+  gap: 4px;
+
+
+  &-text {
+    color: gray;
+    white-space: nowrap;
+  }
 }

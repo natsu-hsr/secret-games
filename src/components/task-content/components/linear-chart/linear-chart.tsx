@@ -1,4 +1,7 @@
 import Title from "antd/es/typography/Title";
+import {Empty} from "antd";
+import cn from 'classnames';
+import {useMemo} from "react";
 import {
   ResponsiveContainer,
   LineChart,
@@ -9,39 +12,50 @@ import {
   CartesianGrid,
 } from "recharts"
 
-import type {TTaskChartData} from "../../../../store/slices/task-slice";
+import {selectTaskChartData} from "../../../../store/slices/task-slice";
+import {useAppSelector} from "../../../../store/config/hooks";
 
 import styles from './linear-chart.module.scss';
 
-interface LinearChartProps {
-  data: TTaskChartData;
-}
+export const LinearChart = () => {
+  const chartData = useAppSelector(selectTaskChartData);
 
-export const LinearChart = ({data}: LinearChartProps) => {
-  const lineDataKeys = Object.keys(data?.[0] ?? {})
-    .filter(k => k !== 'name');
+  console.log('chartData=', chartData);
 
+  const lineDataKeys = useMemo(
+    () => Object.keys(chartData?.[0] ?? {}).filter(k => k !== 'name'),
+    [chartData],
+  );
 
   return (
-    <div className={styles.container}>
-      <Title level={4} className={styles.title}>Спрос: Продукт / Узел</Title>
-      <ResponsiveContainer className={styles['chart-container']}>
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis dataKey="y" />
-          <Tooltip />
-          {lineDataKeys?.map(lineKey => (
-            <Line
-              key={lineKey}
-              dataKey={lineKey}
-              type="monotone"
-              stroke="#8884d8"
-              strokeWidth={2}
-            />
-          ))}
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
+    <>
+      {
+        chartData?.length ? (
+          <div className={styles.container}>
+            <Title level={4} className={styles.title}>Спрос: Продукт / Узел</Title>
+            <ResponsiveContainer className={styles['chart-container']}>
+              <LineChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis dataKey="y" />
+                <Tooltip />
+                {lineDataKeys?.map(lineKey => (
+                  <Line
+                    key={lineKey}
+                    dataKey={lineKey}
+                    type="monotone"
+                    stroke="#8884d8"
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                ))}
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <Empty className={cn('fh', 'flex-col-center')} description='Данные графика не заданы' />
+        )
+      }
+    </>
   )
 }

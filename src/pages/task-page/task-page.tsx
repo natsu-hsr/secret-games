@@ -4,27 +4,29 @@ import {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom"
 
 import {TaskContent} from '../../components/task-content/task-content';
-import {useAppDispatch, useAppSelector} from '../../store/config/hooks';
-import {loadTask, selectTask} from '../../store/slices/task-slice';
+import {useAppDispatch} from '../../store/config/hooks';
+import {loadTableData, loadTilesData} from '../../store/slices/task-slice';
 
 import styles from './task-page.module.scss';
 
 export const TaskPage = () => {
   const dispatch = useAppDispatch();
-  const {groupId, taskId} = useParams();
-  const task = useAppSelector(selectTask)
+  // const task = useAppSelector(selectTask)
+
   const [isLoading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | undefined>();
+  
+  const {scriptId, stageId} = useParams();
 
   useEffect(() => {
-    if (!taskId) {
+    if (!stageId) {
       console.error('Id задачи не найден');
-      setError('Идентефикатор задачи (taskId) не найден');
+      setError('Идентефикатор задачи (stageId) не найден');
       return;
     }
-    if (!groupId) {
+    if (!scriptId) {
       console.error('Id группы не найден');
-      setError('Идентефикатор группы (groupId) не найден');
+      setError('Идентефикатор сценария (scriptId) не найден');
       return;
     }
 
@@ -34,7 +36,11 @@ export const TaskPage = () => {
         // симулируем задержку
         await new Promise(resolve => setTimeout(resolve, 2000));
   
-        await dispatch(loadTask({groupId: Number(groupId), id: Number(taskId)}))
+        // await dispatch(loadTask({groupId: Number(groupId), id: Number(taskId)}))
+        //   .unwrap();
+        await dispatch(loadTableData({scriptId, stageId}))
+          .unwrap();
+        await dispatch(loadTilesData({scriptId, stageId}))
           .unwrap();
         setError(undefined);
       } catch (e) {
@@ -46,7 +52,7 @@ export const TaskPage = () => {
     };
     
     loadTaskAction();
-  }, []);
+  }, [scriptId, stageId]);
 
   return (
     <Skeleton
@@ -61,16 +67,16 @@ export const TaskPage = () => {
           return <Alert type="error" description={error} />;
         }
 
-        if (!task) {
-          return (
-            <Alert
-              type="error"
-              description="Во время загрузки задания произошла непредвиденная ошибка"
-            />
-          )
-        }
+        // if (!task) {
+        //   return (
+        //     <Alert
+        //       type="error"
+        //       description="Во время загрузки задания произошла непредвиденная ошибка"
+        //     />
+        //   )
+        // }
 
-        return <TaskContent task={task} />;
+        return <TaskContent />;
       })()}
     </Skeleton>
   )
