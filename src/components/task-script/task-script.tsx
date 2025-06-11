@@ -39,7 +39,7 @@ export const TaskScript = ({script}: TaskScriptProps) => {
                 >
                   {stage.name}
                 </Link>
-                {script.hasResults && (
+                {stage.hasResults && (
                   <Button
                     className={styles['result-btn']}
                     type='default'

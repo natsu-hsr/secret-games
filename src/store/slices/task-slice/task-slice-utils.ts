@@ -1,5 +1,5 @@
 import {matchRawFieldTypes} from "../../../components/task-content/components/task-form/task-form-utils";
-import type {FieldControl, FieldControls, FormFieldDto, FormFieldsDto, RawFormFieldDto, RawFormFieldsDto, RawTableDataDto, SortedFormFieldsDto, TableDataDto} from "./task-slice-types"
+import type {FieldControls, FormFieldDto, FormFieldsDto, RawFormFieldDto, RawFormFieldsDto, RawTableDataDto, SortedFormFieldsDto, TableDataDto} from "./task-slice-types"
 
 type ConvertRawTableDataArgs = {
   rawData: RawTableDataDto;
