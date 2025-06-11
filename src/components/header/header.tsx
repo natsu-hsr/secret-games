@@ -1,5 +1,4 @@
 import {Flex, Tooltip} from 'antd';
-import RocketOutlined from '@ant-design/icons/lib/icons/RocketOutlined';
 import LogoutOutlined from '@ant-design/icons/lib/icons/LogoutOutlined';
 import cn from 'classnames';
 import {useLocation, useNavigate} from 'react-router-dom';
@@ -8,6 +7,7 @@ import {useAppDispatch} from '../../store/config/hooks';
 import {logout} from '../../store/slices/auth-slice';
 
 import styles from './header.module.scss';
+import logoImage from '/src/assets/logo.svg';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +21,11 @@ export const Header = () => {
   return (
     <nav className={styles.header}>
       <Flex align='center' gap={8}>
-        <RocketOutlined className={styles.logo}/>
+        <img
+          className={styles.logo}
+          src={logoImage}
+          alt="Dice logo"
+        />
         <div className={styles.title}>
           ЛогистИгра
         </div>

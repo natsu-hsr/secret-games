@@ -5,7 +5,7 @@ import Paragraph from 'antd/es/typography/Paragraph';
 import {useNavigate} from 'react-router-dom';
 
 import {PageLayout} from '../../components/page-layout/page-layout';
-import logisticsImage from '/src/assets/logistics_banner.svg'; // вставь свою SVG
+import logisticsImage from '/src/assets/logistics_banner.svg';
 
 import styles from './home-page.module.scss';
 
