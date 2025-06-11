@@ -1,6 +1,5 @@
 import axios from "axios";
-import {mockScriptList} from "./_mock-data";
-import type {ScriptListDto} from "./tasks-slice-types";
+import type {RawTasksDto} from "./tasks-slice-types";
 
 export type UserIdArgs = {
   userId: string;
@@ -8,17 +7,12 @@ export type UserIdArgs = {
 
 export type FetchTasksByUserIdArgs = UserIdArgs;
 export const fetchTasksByUserId = ({userId}: FetchTasksByUserIdArgs) => {
-  console.log('userId=', userId);
-  return Promise.resolve<ScriptListDto>(mockScriptList);
-}
-
-export const fetchTestTasksByUserId = () => {
-  return axios.get(
+  return axios.get<RawTasksDto>(
     'api.php',
     {
       params: {
         api_id: 'stage_list',
-        student_id: 'ST000001',
+        user_id: userId,
       }
     }
   );

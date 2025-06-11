@@ -1,6 +1,6 @@
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
 import { tasksSliceName } from "./tasks-slice-constants";
-import type { ScriptListDto, TasksSliceState } from "./tasks-slice-types";
+import type { TasksDto, TasksSliceState } from "./tasks-slice-types";
 import { loadTasksByUserId } from "./tasks-slice-thunks";
 
 export const tasksSliceInitialState: TasksSliceState = {
@@ -13,7 +13,7 @@ export const tasksSlice = createSlice({
   reducers: {
   },
   extraReducers(builder) {
-    builder.addCase(loadTasksByUserId.fulfilled, (state, {payload}: PayloadAction<ScriptListDto>) => {
+    builder.addCase(loadTasksByUserId.fulfilled, (state, {payload}: PayloadAction<TasksDto>) => {
       state.tasks = payload;
     });
   },

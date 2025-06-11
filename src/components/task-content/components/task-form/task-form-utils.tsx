@@ -1,8 +1,8 @@
 import Input from "antd/es/input/Input";
-
-import type {RawFieldType, FieldType, FormFieldDto, FormFieldsDto, SortedFieldsDto} from "../../../../store/slices/task-slice"
 import FormItem from "antd/es/form/FormItem";
 import {Radio} from "antd";
+
+import type {RawFieldType, FieldType, FormFieldDto, FormFieldsDto} from "../../../../store/slices/task-slice"
 
 import styles from './task-form.module.scss';
 
@@ -25,13 +25,6 @@ export const renderRegularFields = ({field}: RenderRegularFieldsArgs) => {
         disabled={disabled}
       />
     )
-    // todo: изменить название
-    // case 'RADIO': return (
-    //   <Checkbox
-    //     defaultChecked={!!defaultValue}
-    //     disabled={disabled}
-    //   />
-    // )
     default: return (
       <Input
         defaultValue={typeof defaultValue === 'boolean' ? undefined : defaultValue}
@@ -78,31 +71,6 @@ export const renderRadiosFields = ({radios}: RenderRadiosFieldsArgs) => {
         }))}
       />
     </FormItem>    
-  )
-}
-
-export type RenderFormFieldsArgs = {
-  fields: SortedFieldsDto;
-}
-export const renderFormFields = ({fields}: RenderFormFieldsArgs) => {
-  const {
-    radios,
-    regularFields,
-  } = fields;
-
-  return (
-    <>
-      {!!radios?.length && renderRadiosFields({radios})}
-      {regularFields?.map(f => (
-        <FormItem
-          key={f.name + f.label + f.defaultValue + f.disabled + f.type}
-          name={f.name}
-          label={f.label}
-        >
-          {renderRegularFields({field: f})}
-        </FormItem>
-      ))}
-    </>
   )
 }
 

@@ -17,7 +17,7 @@ interface TaskScriptProps {
 export const TaskScript = ({script}: TaskScriptProps) => {
   const {userId} = useUserId();
 
-  const handleResultsClick = (scriptId: string, stageId: string) => {
+  const handleResultsClick = (scriptId: string, stageId: string, userId: string) => {
     const url = `http://2.59.41.201/graph.php?student_id=${userId}&script_id=${scriptId}&stage_id=${stageId}`;
     window.open(url, '_blank');
   }
@@ -39,11 +39,11 @@ export const TaskScript = ({script}: TaskScriptProps) => {
                 >
                   {stage.name}
                 </Link>
-                {stage.id == 'STG001' && (
+                {script.hasResults && (
                   <Button
                     className={styles['result-btn']}
                     type='default'
-                    onClick={() => handleResultsClick(script.id, stage.id)}
+                    onClick={() => userId && handleResultsClick(script.id, stage.id, userId)}
                   >
                     Посмотреть ответ
                   </Button>

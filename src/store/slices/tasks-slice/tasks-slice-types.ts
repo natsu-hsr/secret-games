@@ -2,11 +2,13 @@ export type RawScriptDto = {
   Script_ID: string;
   Script_Name: string;
   Script_Active_Flag: boolean;
+  Result_Flag: boolean;
 }
 export type ScriptDto = {
   id: string;
   name: string;
   active: boolean;
+  hasResults: boolean;
   stages: StageDto[];
 }
 export type RawStageDto = {
@@ -20,9 +22,20 @@ export type StageDto = {
   active: boolean;
 }
 
-export type RawScriptListDto = RawScriptDto[]
-export type ScriptListDto = ScriptDto[]
+export type RawTaskDto = {
+  Script_ID: string;
+  Script_Name: string;
+  Script_Active_Flag: boolean;
+  Result_Flag: boolean;
+  //
+  Stage_ID: string;
+  Stage_Name: string;
+  Stage_Active_Flag: boolean;
+}
+
+export type RawTasksDto = RawTaskDto[]
+export type TasksDto = ScriptDto[]
 
 export type TasksSliceState = {
-  tasks: ScriptListDto | undefined;
+  tasks: TasksDto | undefined;
 }

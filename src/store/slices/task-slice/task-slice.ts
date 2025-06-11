@@ -1,5 +1,5 @@
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
-import type {ChartDataDto, MapDataDto, TTaskSliceState, TableDataDto, TilesDto, SortedFormFieldsDto} from "./task-slice-types";
+import type {ChartDataDto, MapDataDto, TTaskSliceState, TableDataDto, TilesDto, SortedFormFieldsDto, FormFieldsDto} from "./task-slice-types";
 import {taskSliceName} from "./task-slice-constants";
 import {loadChartDataByRowId, loadFormDataByTileParams, loadMapDataByTileId, loadTableData, loadTilesData} from "./task-slice-thunks";
 
@@ -8,7 +8,13 @@ export const taskSliceInitialState: TTaskSliceState = {}
 export const taskSlice = createSlice({
   initialState: taskSliceInitialState,
   name: taskSliceName,
-  reducers: {},
+  reducers: {
+    setRegularFormFields(state, {payload}: PayloadAction<FormFieldsDto>) {
+      if (state.formConfig?.regularFields) {
+        state.formConfig.regularFields = payload;
+      }
+    },
+  },
   extraReducers(builder) {
     builder.addCase(loadMapDataByTileId.fulfilled, (state, {payload}: PayloadAction<MapDataDto>) => {
       state.mapData = payload;

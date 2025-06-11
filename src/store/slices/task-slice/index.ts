@@ -10,6 +10,8 @@ export type {
   TileDto,
   RawFieldType,
   FieldType,
+  FieldControl,
+  FieldControls,
   RawFormFieldDto,
   FormFieldDto,
   RawFormFieldsDto,

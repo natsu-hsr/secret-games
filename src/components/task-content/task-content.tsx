@@ -14,25 +14,21 @@ import {
 import {TaskForm} from "./components/task-form/task-form";
 
 import styles from './task-content.module.scss';
-import {Emptiable} from "../emptiable/emptiable";
 
 export const TaskContent = () => {
   const title = 'Тест';
-  const description = 'Тестовое описание';
+  const description = '';
 
   return (
     <div className={styles.container}>
-      <Row>
-        <Card className={styles.card}>
-          <Emptiable
-            ready={false}
-            emptyMessage="Данные отсутствуют"
-          >
+      {title && description && ( // todo: временная заглушка
+        <Row>
+          <Card className={styles.card}>
             <Title level={2}>{title}</Title>
             <Paragraph>{description}</Paragraph>
-          </Emptiable>
-        </Card>
-      </Row>
+          </Card>
+        </Row>
+      )}
       <Row gutter={[12, 12]}>
         <Col xs={24} lg={12}>
           <Card className={cn(styles.card, styles['min-h'], styles['map-row'])}>

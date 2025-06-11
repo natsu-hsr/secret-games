@@ -26,11 +26,6 @@ export const TasksPage = () => {
     }
   }, [userId]);
 
-  // const handleManuallyLoadTasks = async () => {
-  //   const data = await fetchTestTasksByUserId({userId: ''});
-  //   console.log('manuallyLoadTasks=', data)
-  // }
-
   return (
     <PageLayout fullSize>
       <Title level={3} className={styles.title}>Список заданий</Title>
@@ -50,12 +45,6 @@ export const TasksPage = () => {
       ) : (
         <Empty description='Заданий нет' />
       )}
-      {/* <Button
-        type='primary'
-        onClick={handleManuallyLoadTasks}
-      >
-        Сделать запрос
-      </Button> */}
     </PageLayout>
   )
 }

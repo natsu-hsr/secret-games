@@ -63,6 +63,7 @@ export type RawTileDto = {
   Column_End: number;
   Row_Start: number;
   Row_End: number;
+  Cell_Color: string;
 }
 export type TileDto = {
   id: string;
@@ -74,6 +75,7 @@ export type TileDto = {
   columnEnd: number;
   rowStart: number;
   rowEnd: number;
+  color: string;
 }
 
 export type RawTilesDto = RawTileDto[];
@@ -83,13 +85,20 @@ export type TilesDto = TileDto[];
 export type RawFieldType = 'text' | 'radio' | 'select';
 export type FieldType = 'TEXT' | 'RADIO' | 'SELECT';
 
+export type FieldControl = {
+  value?: string;
+  disabled: boolean;
+}
+
+export type FieldControls = Record<string, FieldControl>;
+
 export type RawFormFieldDto = {
   HTML_ID: string;
   HTML_Label: string;
   HTML_type: RawFieldType;
   HTML_value: number | string;
   HTML_enable: '0' | '1';
-}
+} & Record<string, string>;
 export type FormFieldDto = {
   name: string;
   label: string;
@@ -98,10 +107,12 @@ export type FormFieldDto = {
   disabled: boolean;
   options?: any;
   optionLabel?: string[];
+  controls?: FieldControls;
 }
 export type RawFormFieldsDto = RawFormFieldDto[];
 export type FormFieldsDto = FormFieldDto[];
 export type SortedFormFieldsDto = {
+  select?: FormFieldDto;
   radios?: FormFieldDto[];
   regularFields: FormFieldDto[];
 }

@@ -1,6 +1,6 @@
-import type {ScriptListDto} from './tasks-slice-types';
+import type {TasksDto} from './tasks-slice-types';
 
-export const mockScriptList: ScriptListDto = [
+export const mockScriptList: TasksDto = [
   {
     id: '1',
     name: 'Сценарий 1',

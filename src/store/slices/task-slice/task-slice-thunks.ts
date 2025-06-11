@@ -78,6 +78,7 @@ export const loadTilesData = createAsyncThunk<TilesDto, FetchTilesDataArgs>(
         columnEnd: t.Column_End,
         rowStart: t.Row_Start,
         rowEnd: t.Row_End,
+        color: t.Cell_Color,
       }));
     } catch (e) {
       return rejectWithValue(e);
@@ -116,14 +117,6 @@ export const loadFormDataByTileParams = createAsyncThunk<SortedFormFieldsDto, Fe
 
       console.log('form convertedData=', convertedData)
       return convertedData;
-
-      // return data.map(field => ({
-      //   name: field.HTML_ID,
-      //   label: field.HTML_Label,
-      //   type: matchRawFieldTypes({rawFieldType: field.HTML_type}),
-      //   defaultValue: field.HTML_value,
-      //   disabled: field.HTML_enable !== '1', 
-      // }));
     } catch (e) {
       return rejectWithValue(e);
     }

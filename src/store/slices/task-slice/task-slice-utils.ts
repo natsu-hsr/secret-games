@@ -1,5 +1,5 @@
 import {matchRawFieldTypes} from "../../../components/task-content/components/task-form/task-form-utils";
-import type {FormFieldsDto, RawFormFieldDto, RawFormFieldsDto, RawTableDataDto, SortedFormFieldsDto, TableDataDto} from "./task-slice-types"
+import type {FieldControl, FieldControls, FormFieldDto, FormFieldsDto, RawFormFieldDto, RawFormFieldsDto, RawTableDataDto, SortedFormFieldsDto, TableDataDto} from "./task-slice-types"
 
 type ConvertRawTableDataArgs = {
   rawData: RawTableDataDto;
@@ -46,11 +46,55 @@ type ConvertRawFormFieldsArgs = {
 export const convertRawFormFields = ({rawFormFields}: ConvertRawFormFieldsArgs): SortedFormFieldsDto => {
   const regularConverted: FormFieldsDto = [];
 
+  let select: FormFieldDto | undefined = undefined;
+
   const radiosConverted: FormFieldsDto = rawFormFields
     .filter(rf => rf.HTML_type === 'radio')
     .map(ff => convertRawField({rawField: ff}));
 
+  console.log('rawFormFields=', rawFormFields);
+
   rawFormFields.forEach(rf => {
+    if (rf.HTML_type === 'select') {
+      if (!select) {
+        select = {
+          name: rf.HTML_ID,
+          label: rf.HTML_Label,
+          type: matchRawFieldTypes({rawFieldType: rf.HTML_type}),
+          defaultValue: rf.HTML_value,
+          disabled: rf.HTML_enable !== '1',
+          options: [],
+          controls: {},
+        };
+      } else {
+        const controls: FieldControls = {};
+
+        Object.entries(rf)
+          .forEach(([k, v]) => {
+            if (!k.endsWith('_enable') || k.startsWith('HTML')) {
+              return;
+            }
+
+            const key = k.split('_enable')?.[0];
+
+            controls[key] = {
+              disabled: v === 'readonly',
+              value: v === 'readonly' ? '' : undefined,
+            }
+          });
+
+        const option = {
+          label: rf.HTML_value,
+          value: rf.HTML_value,
+          controls: controls,
+        };
+
+        select.options.push(option);
+      }
+      return;
+    }
+
+
     if (radiosConverted.length === 0) {
       regularConverted.push(convertRawField({rawField: rf}));
     } else {
@@ -85,6 +129,7 @@ export const convertRawFormFields = ({rawFormFields}: ConvertRawFormFieldsArgs):
   })
 
   return {
+    select,
     radios: radiosConverted,
     regularFields: regularConverted,
   };
