@@ -5,7 +5,7 @@ import {useParams} from "react-router-dom"
 
 import {TaskContent} from '../../components/task-content/task-content';
 import {useAppDispatch} from '../../store/config/hooks';
-import {loadTableData, loadTilesData} from '../../store/slices/task-slice';
+import {loadMapDataByTileId, loadTableData} from '../../store/slices/task-slice';
 
 import styles from './task-page.module.scss';
 
@@ -36,12 +36,13 @@ export const TaskPage = () => {
         // симулируем задержку
         await new Promise(resolve => setTimeout(resolve, 2000));
   
-        // await dispatch(loadTask({groupId: Number(groupId), id: Number(taskId)}))
-        //   .unwrap();
         await dispatch(loadTableData({scriptId, stageId}))
           .unwrap();
-        await dispatch(loadTilesData({scriptId, stageId}))
-          .unwrap();
+        await dispatch(loadMapDataByTileId({
+          scriptId,
+          stageId,
+          tileId: '',
+        })).unwrap();
         setError(undefined);
       } catch (e) {
         console.error('Во время загрузки задания произошла ошибка', e);

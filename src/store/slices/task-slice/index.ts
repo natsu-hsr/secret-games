@@ -22,25 +22,23 @@ export type {
 } from './task-slice-types';
 export {taskSliceName} from './task-slice-constants';
 export {
-  // selectTask,
   selectTaskMapData,
   selectTaskTableData,
   selectTaskTilesData,
   selectTaskChartData,
   selectFormConfigData,
+  selectTableCurrentRowId,
 } from './task-slice-selectors';
 export {
   loadTask,
   loadTableData,
   loadMapDataByTileId,
-  loadTilesData,
+  loadTilesDataByRowId as loadTilesData,
   loadFormDataByTileParams,
+  loadChartDataByRowId,
 } from './task-slice-thunks';
 export {
   taskSliceReducer,
   taskSliceActions,
   taskSliceInitialState,
 } from './task-slice';
-export {
-  fetchTestData,
-} from './task-slice-api';

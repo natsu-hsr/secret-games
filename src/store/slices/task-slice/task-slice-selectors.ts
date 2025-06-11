@@ -15,6 +15,11 @@ export const selectTaskTableData = createSelector(
   ({tableData}) => tableData,
 );
 
+export const selectTableCurrentRowId = createSelector(
+  selectTaskTableData,
+  (tableData) => tableData?.currentRowId,
+);
+
 export const selectTaskMapData = createSelector(
   selectTaskSliceState,
   ({mapData}) => mapData,
@@ -22,7 +27,7 @@ export const selectTaskMapData = createSelector(
 
 export const selectTaskTilesData = createSelector(
   selectTaskSliceState,
-  ({tilesData}) => tilesData,
+  ({tilesData}) => [...(tilesData?.length ? tilesData : [])],
 );
 
 export const selectTaskChartData = createSelector(

@@ -2,11 +2,13 @@ import Title from 'antd/es/typography/Title'
 import {Empty} from 'antd';
 import cn from 'classnames';
 import {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
 
 import {
   type TileDto,
   loadFormDataByTileParams,
   loadMapDataByTileId,
+  selectTableCurrentRowId,
   selectTaskTilesData,
 } from '../../../../store/slices/task-slice';
 import {useAppDispatch, useAppSelector} from '../../../../store/config/hooks';
@@ -16,8 +18,10 @@ import styles from './custom-tiles.module.scss';
 
 export const CustomTiles = () => {
   const dispatch = useAppDispatch();
+  const {scriptId, stageId} = useParams();
 
   const tilesData = useAppSelector(selectTaskTilesData);
+  const selectedRowId = useAppSelector(selectTableCurrentRowId);
   console.log('tilesData=', tilesData);
 
 
@@ -26,38 +30,59 @@ export const CustomTiles = () => {
 
   const {grid} = useCustomTiles({tilesData});
 
-  useEffect(() => {
-    if (tilesData?.[0]) {
-      setSelectedTile(tilesData[0]);
-    }
-  }, [tilesData])
+  // useEffect(() => {
+  //   if (tilesData?.[0]) {
+  //     setSelectedTile(tilesData[0]);
+  //   }
+  // }, [tilesData])
+
+  // useEffect(() => {
+  //   return () => {
+  //     if (selectedTile) setSelectedTile(undefined);
+  //   }
+  // }, [tilesData])
 
   useEffect(() => {
-    if (selectedTile) {
-      const {
-        id: tileId,
-        name,
-        apiName,
-      } = selectedTile;
+    if (selectedTile){
+      setSelectedTile(undefined);
 
-      dispatch(loadMapDataByTileId({
-        scriptId: 'SC0002',
-        stageId: 'STG001',
-        tileId,
-      }));
-
-      dispatch(loadFormDataByTileParams({
-        scriptId: 'SC0002',
-        stageId: 'STG001',
-        name,
-        apiName,
-        tileId,
-      }));
     }
-  }, [selectedTile]);
+  }, [selectedRowId])
+
+  useEffect(() => {
+
+  }, [selectedTile, scriptId, stageId, selectedRowId]);
 
   const handleClick = (tile: TileDto) => {
+    if (!tile || !stageId || !scriptId) return;
+    
     setSelectedTile(tile);
+
+    const {
+      id: tileId,
+      name,
+      apiName,
+    } = tile;
+
+    dispatch(loadMapDataByTileId({
+      scriptId,
+      stageId,
+      tileId,
+    }));
+
+    if (!selectedRowId) {
+      console.error('selectedRowId не найден, загрузка полей остановлена');
+      return;
+    }
+
+    dispatch(loadFormDataByTileParams({
+      scriptId,
+      stageId,
+      name,
+      apiName,
+      tileId,
+      rowId: selectedRowId,
+    }));
   };
 
   return (

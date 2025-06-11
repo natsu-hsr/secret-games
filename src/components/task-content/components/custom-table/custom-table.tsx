@@ -1,40 +1,52 @@
 import Table from 'antd/es/table';
 import {Empty} from 'antd';
 import cn from 'classnames';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
+import {useParams} from 'react-router-dom';
 
-import {selectTaskTableData} from '../../../../store/slices/task-slice';
+import {selectTaskTableData, taskSliceActions} from '../../../../store/slices/task-slice';
 import {useAppDispatch, useAppSelector} from '../../../../store/config/hooks';
-import {loadChartDataByRowId} from '../../../../store/slices/task-slice/task-slice-thunks';
+import {loadChartDataByRowId, loadTilesData} from '../../../../store/slices/task-slice';
 
 import styles from './custom-table.module.scss';
 
 export const CustomTable = () => {
   const dispatch = useAppDispatch();
+  const {scriptId, stageId} = useParams();
+
   const tableData = useAppSelector(selectTaskTableData);
+  const selectedRowId = tableData?.currentRowId;
 
-  const [selectedRowId, setSelectedRowId] = useState<string|undefined>(undefined);
+  // const [selectedRowId, setSelectedRowId] = useState<string|undefined>(undefined);
+
+  // useEffect(() => {
+  //   if (tableData?.data?.[0]?.id) {
+  //     setSelectedRowId(tableData?.data?.[0].id);
+  //   }
+  // }, [tableData]);
 
   useEffect(() => {
-    if (tableData?.data?.[0]?.id) {
-      setSelectedRowId(tableData?.data?.[0].id);
-    }
-  }, [tableData]);
+    if (!selectedRowId || !scriptId || !stageId) return;
 
-  useEffect(() => {
-    if (selectedRowId) {
-      dispatch(loadChartDataByRowId({
-        scriptId: 'SC0002',
-        stageId: 'STG001',
-        rowId: selectedRowId,
-      }));
-    }
-  }, [selectedRowId]);
+    dispatch(loadChartDataByRowId({
+      scriptId,
+      stageId,
+      rowId: selectedRowId,
+    }));
+
+    dispatch(taskSliceActions.resetFormFields());
+    // dispatch(taskSliceActions.resetMapData());
+    dispatch(loadTilesData({
+      scriptId,
+      stageId,
+      rowId: selectedRowId,
+    }));
+  }, [selectedRowId, scriptId, stageId]);
 
 
   const handleRowClick = (record: Record<string, number | string | boolean >) => {
     if (record?.id && typeof record.id === 'string') {
-      setSelectedRowId(record.id);
+      dispatch(taskSliceActions.setCurrentTableRowId(record.id));
     }
   }
 

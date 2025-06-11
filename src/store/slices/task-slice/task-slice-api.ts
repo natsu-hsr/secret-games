@@ -30,27 +30,15 @@ export const fetchTask = ({groupId, id}: FetchTaskArgs): Promise<{data: TTask}> 
 //   ]);
 // }
 
-export const fetchTestData = () => {
-  return axios.get(
-    '/api_test.php',
-    {
-      params: {
-        script_id: 'SC0002',
-        stage_id: 'STG002',
-      },
-    }
-  )
-}
-//http://2.59.41.201/api.php?api_id=product_list&script_id=SC0001&stage_id=STG001
 export type FetchTableDataArgs = TaskInfo;
-export const fetchTableData = ({stageId}: FetchTableDataArgs) => {
+export const fetchTableData = ({scriptId, stageId}: FetchTableDataArgs) => {
   return axios.get<RawTableDataDto>(
     '/api.php',
     {
       params: {
         api_id: 'product_list',
+        script_id: scriptId,
         stage_id: stageId,
-        script_id: 'SC0001',
       }
     }
   );
@@ -113,10 +101,25 @@ export const fetchTableData = ({stageId}: FetchTableDataArgs) => {
   // });
 }
 
-export type FetchChartDataByRowIdArgs = TaskInfo & {
+export type FetchDataByRowIdArgs = TaskInfo & {
   rowId: string;
 };
-export const fetchChartDataByRowId = ({stageId, scriptId, rowId}: FetchChartDataByRowIdArgs) => {
+
+export const fetchTilesDataByRowId = ({stageId, scriptId, rowId}: FetchDataByRowIdArgs) => {
+  return axios.get<RawTilesDto>(
+    '/api.php',
+    {
+      params: {
+        api_id: 'stage_tetris',
+        script_id: scriptId,
+        stage_id: stageId,
+        product_id: rowId,
+      },
+    }
+  )
+}
+
+export const fetchChartDataByRowId = ({stageId, scriptId, rowId}: FetchDataByRowIdArgs) => {
   return axios.get<RawChartDataDto>(
     '/api.php',
     {
@@ -137,21 +140,6 @@ type TileParams = {
   apiName: string;
 }
 
-export type FetchTilesDataArgs = TaskInfo;
-export const fetchTilesData = ({stageId, scriptId}: FetchTilesDataArgs) => {
-  return axios.get<RawTilesDto>(
-    '/api.php',
-    {
-      params: {
-        api_id: 'stage_tetris',
-        script_id: scriptId,
-        stage_id: stageId,
-        product_id: 'Product1',
-      },
-    }
-  )
-}
-
 export type FetchMapDataByTileIdArgs = TaskInfo & Pick<TileParams, 'tileId'>;
 export const fetchMapDataByTileId = ({stageId, scriptId, tileId}: FetchMapDataByTileIdArgs) => {
   return axios.get<RawMapDataDto>(
@@ -167,8 +155,8 @@ export const fetchMapDataByTileId = ({stageId, scriptId, tileId}: FetchMapDataBy
   )
 }
 
-export type FetchFormDataByTileParamsArgs = TaskInfo & TileParams;
-export const fetchFormDataByTileParams = ({stageId, scriptId, apiName, tileId}: FetchFormDataByTileParamsArgs) => {
+export type FetchFormDataByTileParamsArgs = TaskInfo & TileParams & FetchDataByRowIdArgs;
+export const fetchFormDataByTileParams = ({stageId, scriptId, apiName, tileId, rowId}: FetchFormDataByTileParamsArgs) => {
   return axios.get<RawFormFieldsDto>(
     '/api.php',
     {
@@ -176,12 +164,9 @@ export const fetchFormDataByTileParams = ({stageId, scriptId, apiName, tileId}: 
         api_id: apiName,
         script_id: scriptId,
         stage_id: stageId,
-        product_id: 'Product1',
+        product_id: rowId,
         card_header_id: tileId,
       },
     }
   )
 }
-// http://2.59.41.201/api.php?api_id=stage_card_shop&script_id=SC0002&stage_id=STG001&product_id=Product1&card_header_id=CardHeader2
-// http://2.59.41.201/api.php?api_id=stage_card_wh&script_id=SC0002&stage_id=STG001&product_id=Product1&card_header_id=CardHeader2
-// http://2.59.41.201/api.php?api_id=stage_card_supplier&script_id=SC0002&stage_id=STG001&product_id=Product1&card_header_id=CardHeader2

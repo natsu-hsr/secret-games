@@ -17,6 +17,7 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [ymaps, setYmaps] = useState<any>(null);
 
+  console.log('mapData=', mapData)
 
   useEffect(() => {
     const loadYandexMap = () => {
@@ -27,7 +28,6 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
         }
 
         const script = document.createElement('script');
-        console.log('APU KEY=', import.meta.env.VITE_YMAPS_API_KEY);
         script.src = `https://api-maps.yandex.ru/2.1/?apikey=${import.meta.env.VITE_YMAPS_API_KEY}&lang=ru_RU`;
         script.type = 'text/javascript';
         script.onload = () => resolve();
@@ -50,6 +50,14 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
   }, []);
 
   useEffect(() => {
+    if (mapData === undefined && mapInstanceRef.current) {
+      mapInstanceRef.current.destroy();
+      mapInstanceRef.current = null;
+      geoObjectsRef.current = [];
+    }
+  }, [mapData]);
+
+  useEffect(() => {
     if (!isLoaded || !ymaps || !mapRef.current || mapInstanceRef.current) return;
 
     const center = mapData?.[0]?.coordinates;
@@ -64,7 +72,7 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
       zoom: 5,
       controls: ["zoomControl"],
     });
-  }, [isLoaded, ymaps]);
+  }, [isLoaded, mapData, ymaps]);
 
   useEffect(() => {
     if (!isLoaded || !ymaps || !mapInstanceRef.current || !mapData) return;

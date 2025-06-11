@@ -8,9 +8,8 @@ import {
   type FetchMapDataByTileIdArgs,
   fetchTableData,
   type FetchTableDataArgs,
-  fetchTilesData,
-  type FetchTilesDataArgs,
-  type FetchChartDataByRowIdArgs,
+  fetchTilesDataByRowId,
+  type FetchDataByRowIdArgs,
   fetchChartDataByRowId,
   type FetchFormDataByTileParamsArgs,
   fetchFormDataByTileParams,
@@ -44,7 +43,7 @@ export const loadTableData = createAsyncThunk<TableDataDto | undefined, FetchTab
   },
 );
 
-export const loadChartDataByRowId = createAsyncThunk<ChartDataDto, FetchChartDataByRowIdArgs>(
+export const loadChartDataByRowId = createAsyncThunk<ChartDataDto, FetchDataByRowIdArgs>(
   `${taskSliceName}/loadChartDataByRowId`,
   async (args, {rejectWithValue}) => {
     try {
@@ -61,11 +60,11 @@ export const loadChartDataByRowId = createAsyncThunk<ChartDataDto, FetchChartDat
   },
 );
 
-export const loadTilesData = createAsyncThunk<TilesDto, FetchTilesDataArgs>(
-  `${taskSliceName}/loadTilesData`,
+export const loadTilesDataByRowId = createAsyncThunk<TilesDto, FetchDataByRowIdArgs>(
+  `${taskSliceName}/loadTilesDataByRowId`,
   async (args, {rejectWithValue}) => {
     try {
-      const response = await fetchTilesData(args);
+      const response = await fetchTilesDataByRowId(args);
       const {data} = response;
 
       return data.map(t => ({

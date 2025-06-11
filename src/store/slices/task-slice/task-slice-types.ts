@@ -49,6 +49,7 @@ export type TableDataDto = {
   columns: TableColumn[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any;
+  currentRowId: string;
 }
 export type RawTableDataDto = Record<string, string>[];
 
@@ -132,6 +133,3 @@ export type TTask  = {
 
 export type TTaskSliceState = Partial<TTask>
 
-// export type TTaskSliceState = {
-//   task: TTask | undefined;
-// };
