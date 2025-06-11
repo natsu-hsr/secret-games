@@ -12,9 +12,8 @@ export type RawMapMarkerDto = {
   Knot_Latitude: string
   Knot_Longitude: string
   label_type: string;
-  draggable: boolean;
+  draggable: string;
 }
-
 export type MapMarkerDto = {
   id: string;
   name: string;
@@ -106,6 +105,7 @@ export type FormFieldDto = {
   type: FieldType;
   defaultValue: number | string | boolean;
   disabled: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options?: any;
   optionLabel?: string[];
   controls?: FieldControls;

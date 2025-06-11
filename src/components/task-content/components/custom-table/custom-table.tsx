@@ -55,18 +55,16 @@ export const CustomTable = () => {
       {
         tableData?.columns ? (
           <Table
+            className={styles.table}
             rowKey="Product_ID"
             scroll={{x: 'max-content'}}
-            className={styles.table}
             columns={tableData.columns}
             dataSource={tableData?.data}
             pagination={false}
-            onRow={(record) => {
-              return {
-                onClick: () => handleRowClick(record)
-              };
-            }}
-            rowClassName={(record) => (record.id === selectedRowId ? styles['selected-row'] : '')}
+            onRow={record => ({
+              onClick: () => handleRowClick(record)
+            })}
+            rowClassName={record => (record.id === selectedRowId ? styles['selected-row'] : '')}
             size='small'
           />
         ) : (

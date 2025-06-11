@@ -3,9 +3,15 @@
     .ant-table-row {
       cursor: pointer;
     }
-    // .ant-table-cell-row-hover {
-    //   background-color: $light-gray;
-    // }
+
+    .ant-table-thead {
+      .ant-table-cell {
+        text-align: center;
+        white-space: normal;
+        word-break: break-word;
+        max-width: 120px;
+      }
+    }
   }
 }
 

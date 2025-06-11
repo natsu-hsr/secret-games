@@ -1,4 +1,3 @@
-import Title from "antd/es/typography/Title";
 import {Empty} from "antd";
 import cn from 'classnames';
 import {useMemo} from "react";
@@ -34,7 +33,6 @@ export const LinearChart = () => {
       {
         chartData?.length ? (
           <div className={styles.container}>
-            <Title level={4} className={styles.title}>Спрос: Продукт / Узел</Title>
             <ResponsiveContainer className={styles['chart-container']}>
               <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />

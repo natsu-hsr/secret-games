@@ -1,0 +1,13 @@
+@use '/src/shared/styles/common.scss' as *;
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $gap-base;
+}
+
+.title {
+  margin: 0 !important;
+}

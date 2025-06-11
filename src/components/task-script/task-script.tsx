@@ -35,7 +35,7 @@ export const TaskScript = ({script}: TaskScriptProps) => {
             {stage.active ? (
               <>
                 <Link
-                  to={`/script/${script.id}/stage/${stage.id}`}
+                  to={`/script/${script.id}/stage/${stage.id}?stageName=${stage.name}`}
                 >
                   {stage.name}
                 </Link>

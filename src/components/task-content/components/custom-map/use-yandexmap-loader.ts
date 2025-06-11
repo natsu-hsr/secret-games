@@ -59,6 +59,7 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
 
   useEffect(() => {
     if (!isLoaded || !ymaps || !mapRef.current || mapInstanceRef.current) return;
+    if (!mapData?.length) return;
 
     const center = mapData?.[0]?.coordinates;
 
@@ -69,7 +70,7 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
 
     mapInstanceRef.current = new ymaps.Map(mapRef.current, {
       center,
-      zoom: 5,
+      zoom: 3,
       controls: ["zoomControl"],
     });
   }, [isLoaded, mapData, ymaps]);
@@ -80,28 +81,30 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
     const map = mapInstanceRef.current;
     map.geoObjects.removeAll();
 
-    geoObjectsRef.current.forEach(placemark => map.geoObjects.remove(placemark));
+    // массив координат для автоцентрирования и автозума по крайним точкам
+    const bounds = [];
 
     mapData.forEach(p => {
       const placemark = new ymaps.Placemark(
         p.coordinates,
         {
-          iconCaption: p.name,
+          iconCaption: p.name ?? 'Точка',
         },
         {
           draggable: p.draggable,
-          preset: p.labelType,
+          // preset: p.labelType,
           iconColor: "#0095b6",
         }
       );
 
       map.geoObjects.add(placemark);
       geoObjectsRef.current.push(placemark);
+      bounds.push(p.coordinates);
     });
 
-    if (mapData?.[0]?.coordinates.length) {
-      const centerPoint = mapData[0].coordinates;
-      map.setCenter(centerPoint, 4);
+    // автоцентрирование
+    if (bounds.length) {
+      map.setBounds(ymaps.geoQuery(map.geoObjects).getBounds(), {checkZoomRange: true});
     }
   }, [mapData, isLoaded, ymaps]);
 

@@ -4,17 +4,15 @@
 .container {
   width: 100%;
   height: 100%;
+  min-height: inherit;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.title {
-  @include card-title();
-}
-
 .chart-container {
   width: 100%;
   height: 100%;
+  min-height: inherit;
   margin-left: -30px;
 }

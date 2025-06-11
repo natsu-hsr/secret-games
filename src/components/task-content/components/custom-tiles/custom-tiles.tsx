@@ -24,7 +24,6 @@ export const CustomTiles = () => {
   const selectedRowId = useAppSelector(selectTableCurrentRowId);
   console.log('tilesData=', tilesData);
 
-
   const [selectedTile, setSelectedTile] = useState<TileDto | undefined>();
   const [hoveredTileId, setHoveredTileId] = useState<string | null>(null);
 

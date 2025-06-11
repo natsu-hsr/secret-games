@@ -62,8 +62,7 @@ export const convertRawFormFields = ({rawFormFields}: ConvertRawFormFieldsArgs):
     .filter(rf => rf.HTML_type === 'radio')
     .map(ff => convertRawField({rawField: ff}));
 
-  console.log('rawFormFields=', rawFormFields);
-
+  // обработка select
   rawFormFields.forEach(rf => {
     if (rf.HTML_type === 'select') {
       if (!select) {
@@ -76,31 +75,32 @@ export const convertRawFormFields = ({rawFormFields}: ConvertRawFormFieldsArgs):
           options: [],
           controls: {},
         };
-      } else {
-        const controls: FieldControls = {};
-
-        Object.entries(rf)
-          .forEach(([k, v]) => {
-            if (!k.endsWith('_enable') || k.startsWith('HTML')) {
-              return;
-            }
-
-            const key = k.split('_enable')?.[0];
-
-            controls[key] = {
-              disabled: v === 'readonly',
-              value: v === 'readonly' ? '' : undefined,
-            }
-          });
-
-        const option = {
-          label: rf.HTML_value,
-          value: rf.HTML_value,
-          controls: controls,
-        };
-
-        select.options.push(option);
       }
+
+      const controls: FieldControls = {};
+
+      Object.entries(rf)
+        .forEach(([k, v]) => {
+          if (!k.endsWith('_enable') || k.startsWith('HTML')) {
+            return;
+          }
+
+          const key = k.split('_enable')?.[0];
+
+          controls[key] = {
+            disabled: v === 'readonly',
+            value: v === 'readonly' ? '' : undefined,
+          }
+        });
+
+      const option = {
+        label: rf.HTML_value,
+        value: rf.HTML_value,
+        controls: controls,
+      };
+
+      select.options.push(option);
+
       return;
     }
 

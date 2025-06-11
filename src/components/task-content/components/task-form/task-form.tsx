@@ -20,16 +20,16 @@ export const TaskForm = () => {
   const fields = useAppSelector(selectFormConfigData);
   const isLoading = useAppSelector(s => selectIsThunkPending(s, loadFormDataByTileParams.typePrefix));
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleFormSubmit = (values: any) => {
-    console.log('values=', values)
-  }
-
   const {
     select,
     radios,
     regularFields,
   } = fields ?? {};
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleFormSubmit = (values: any) => {
+    console.log('values=', values)
+  }
 
   const handleSelectOptionChange = (value: string) => {
     console.log('selected value=', value);

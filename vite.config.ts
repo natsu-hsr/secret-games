@@ -10,6 +10,9 @@ export default defineConfig({
     svgr(),
     tsconfigPaths(),
   ],
+  css: {
+    devSourcemap: true,
+  },
   server: {
     proxy: {
       '/api_test.php': {
