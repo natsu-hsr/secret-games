@@ -68,7 +68,7 @@ export const RegisterPage = () => {
               onValuesChange={handleChange}
             >
               <Form.Item
-                label="Почтовый адрес"
+                label="E-mail"
                 name="email"
                 rules={[{required: true, type: "email", message: 'Необходимо ввести корректный почтовый адрес'}]}
               >
@@ -91,7 +91,6 @@ export const RegisterPage = () => {
               <Form.Item
                 label="Отчество"
                 name="middlename"
-                rules={[{required: true, message: 'Необходимо ввести отчество'}]}
               >
                 <Input placeholder='Введите отчество' />
               </Form.Item>

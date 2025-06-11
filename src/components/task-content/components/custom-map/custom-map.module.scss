@@ -8,7 +8,7 @@
   border-radius: $border-radius;
 
   :global {
-    ymaps > {
+    ymaps {
       border-radius: $border-radius !important;
     }
   }
