@@ -11,11 +11,10 @@ import {
   CartesianGrid,
 } from "recharts"
 
+import {useAppSelector} from "@store/config/hooks";
+import {selectTaskChartData, loadChartDataByRowId} from "@store/slices/task-slice";
+import {selectIsThunkPending} from "@store/slices/loading-state-slice";
 import {LayoutSpin} from "../layout-spin/layout-spin";
-import {useAppSelector} from "../../../../store/config/hooks";
-import {selectTaskChartData} from "../../../../store/slices/task-slice";
-import {selectIsThunkPending} from "../../../../store/slices/loading-state-slice";
-import {loadChartDataByRowId} from "../../../../store/slices/task-slice/task-slice-thunks";
 
 import styles from './linear-chart.module.scss';
 

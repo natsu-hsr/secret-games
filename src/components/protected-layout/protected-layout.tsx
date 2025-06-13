@@ -1,8 +1,8 @@
 import {Navigate, Outlet} from 'react-router-dom';
 
-import {Header} from '../header/header';
-import {selectAuthorizedStatus} from '../../store/slices/auth-slice';
-import {useAppSelector} from '../../store/config/hooks';
+import {Header} from '@components/header/header';
+import {selectAuthorizedStatus} from '@store/slices/auth-slice';
+import {useAppSelector} from '@store/config/hooks';
 
 export const ProtectedLayout = () => {
   const isAuthorized = useAppSelector(selectAuthorizedStatus);

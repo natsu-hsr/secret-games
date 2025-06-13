@@ -4,9 +4,13 @@ import cn from 'classnames';
 import {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 
-import {selectTaskTableData, taskSliceActions} from '../../../../store/slices/task-slice';
-import {useAppDispatch, useAppSelector} from '../../../../store/config/hooks';
-import {loadChartDataByRowId, loadTilesData} from '../../../../store/slices/task-slice';
+import {useAppDispatch, useAppSelector} from '@store/config/hooks';
+import {
+  loadChartDataByRowId,
+  loadTilesData,
+  selectTaskTableData,
+  taskSliceActions,
+} from '@store/slices/task-slice';
 
 import styles from './custom-table.module.scss';
 

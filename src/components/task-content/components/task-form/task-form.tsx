@@ -1,17 +1,17 @@
 import Form, {useForm} from 'antd/es/form/Form';
-import {Button, Empty, Select} from 'antd';
+import Input from 'antd/es/input/Input';
 import FormItem from 'antd/es/form/FormItem';
+import {Button, Empty, Select} from 'antd';
 import cn from 'classnames';
 import {useMemo} from 'react';
 
+import {selectIsThunkPending} from '@store/slices/loading-state-slice';
+import {useAppDispatch, useAppSelector} from '@store/config/hooks';
+import {loadFormDataByTileParams, selectFormConfigData, taskSliceActions} from '@store/slices/task-slice';
 import {LayoutSpin} from '../layout-spin/layout-spin';
-import {selectIsThunkPending} from '../../../../store/slices/loading-state-slice';
-import {useAppDispatch, useAppSelector} from '../../../../store/config/hooks';
-import {loadFormDataByTileParams, selectFormConfigData, taskSliceActions} from '../../../../store/slices/task-slice';
 import {renderRadiosFields} from './task-form-utils';
 
 import styles from './task-form.module.scss';
-import Input from 'antd/es/input/Input';
 
 export const TaskForm = () => {
   const dispatch = useAppDispatch();

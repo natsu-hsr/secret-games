@@ -2,7 +2,7 @@ import Input from "antd/es/input/Input";
 import FormItem from "antd/es/form/FormItem";
 import {Radio} from "antd";
 
-import type {RawFieldType, FieldType, FormFieldDto, FormFieldsDto} from "../../../../store/slices/task-slice"
+import type {RawFieldType, FieldType, FormFieldDto, FormFieldsDto} from "@store/slices/task-slice"
 
 import styles from './task-form.module.scss';
 

@@ -1,6 +1,6 @@
 import {useMemo} from "react";
 
-import type {TilesDto} from "../../../../store/slices/task-slice";
+import type {TilesDto} from "@store/slices/task-slice";
 
 interface UseCustomTilesArgs {
   tilesData: TilesDto | undefined;
@@ -49,6 +49,5 @@ export const useCustomTiles = ({tilesData}: UseCustomTilesArgs) => {
 
   return {
     grid,
-    tilesData,
   };
 };

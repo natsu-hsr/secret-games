@@ -4,8 +4,8 @@ import Title from 'antd/es/typography/Title';
 import Paragraph from 'antd/es/typography/Paragraph';
 import {useNavigate} from 'react-router-dom';
 
-import {PageLayout} from '../../components/page-layout/page-layout';
-import logisticsImage from '/src/assets/logistics_banner.svg';
+import {PageLayout} from '@components/page-layout/page-layout';
+import logisticsImage from '@assets/logistics_banner.svg';
 
 import styles from './home-page.module.scss';
 

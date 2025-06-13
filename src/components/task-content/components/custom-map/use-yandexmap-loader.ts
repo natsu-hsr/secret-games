@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState, type MutableRefObject} from 'react';
+import type {Map as YMap, Placemark as YPlacemark} from 'yandex-maps';
 
-import type {MapDataDto} from '../../../../store/slices/task-slice';
+import type {MapDataDto} from '@store/slices/task-slice';
 
 interface UseYandexMapLoaderArgs {
   mapData: MapDataDto | undefined;
@@ -8,14 +9,12 @@ interface UseYandexMapLoaderArgs {
 }
 
 export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mapInstanceRef = useRef<any>(null);
-  const geoObjectsRef = useRef<typeof ymaps.Placemark[]>([]);
+  const mapInstanceRef = useRef<YMap | null>(null);
+  const geoObjectsRef = useRef<YPlacemark[]>([]);
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [ymaps, setYmaps] = useState<any>(null);
+  const [ymaps, setYmaps] = useState<typeof window.ymaps | null>(null);
 
   console.log('mapData=', mapData)
 
@@ -81,8 +80,7 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
     const map = mapInstanceRef.current;
     map.geoObjects.removeAll();
 
-    // массив координат для автоцентрирования и автозума по крайним точкам
-    const bounds = [];
+    geoObjectsRef.current = [];
 
     mapData.forEach(p => {
       const placemark = new ymaps.Placemark(
@@ -99,12 +97,17 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
 
       map.geoObjects.add(placemark);
       geoObjectsRef.current.push(placemark);
-      bounds.push(p.coordinates);
+      // bounds.push(p.coordinates);
     });
 
     // автоцентрирование
-    if (bounds.length) {
-      map.setBounds(ymaps.geoQuery(map.geoObjects).getBounds(), {checkZoomRange: true});
+    if (geoObjectsRef.current.length > 0) {
+      const geoQueryResult = ymaps.geoQuery(geoObjectsRef.current);
+      const bounds = geoQueryResult.getBounds();
+
+      if (bounds) {
+        map.setBounds(bounds, {checkZoomRange: true});
+      }
     }
   }, [mapData, isLoaded, ymaps]);
 

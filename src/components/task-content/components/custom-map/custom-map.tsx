@@ -2,11 +2,11 @@ import {Empty} from "antd";
 import cn from 'classnames';
 import {useRef} from "react";
 
-import {loadMapDataByTileId, selectTaskMapData} from "../../../../store/slices/task-slice";
-import {useAppSelector} from "../../../../store/config/hooks";
+import {loadMapDataByTileId, selectTaskMapData} from "@store/slices/task-slice";
+import {useAppSelector} from "@store/config/hooks";
+import {selectIsThunkPending} from "@store/slices/loading-state-slice";
 import {useYandexMapLoader} from "./use-yandexmap-loader";
 import {LayoutSpin} from "../layout-spin/layout-spin";
-import {selectIsThunkPending} from "../../../../store/slices/loading-state-slice";
 
 import styles from './custom-map.module.scss';
 

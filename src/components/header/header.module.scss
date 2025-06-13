@@ -1,5 +1,5 @@
-@use '../../shared/styles/colors.scss' as *;
-@use '../../shared/styles/common.scss' as *;
+@use '/src/shared/styles/colors.scss' as *;
+@use '/src/shared/styles/common.scss' as *;
 
 .header {
   position: sticky;
@@ -33,6 +33,8 @@
 }
 
 .menu {
+  display: flex;
+  align-items: center;
   gap: 12px;
 }
 
@@ -49,6 +51,23 @@
 }
 
 .user-icon {
+  cursor: pointer;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.tooltip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logout-icon {
+  width: 18px;
+  height: 18px;
+
   cursor: pointer;
 
   &:hover {

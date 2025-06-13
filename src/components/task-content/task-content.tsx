@@ -27,13 +27,13 @@ export const TaskContent = () => (
       </Card>
     </Row>
     <Row>
-      <Card className={cn(styles.card, styles['min-h'])} >
-        <LinearChart />
+      <Card className={styles.card}>
+        <CustomTable />
       </Card>
     </Row>
     <Row>
-      <Card className={styles.card}>
-        <CustomTable />
+      <Card className={cn(styles.card, styles['min-h'])} >
+        <LinearChart />
       </Card>
     </Row>
     <Row gutter={[12, 12]}>

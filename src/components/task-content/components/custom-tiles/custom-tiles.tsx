@@ -10,8 +10,8 @@ import {
   loadMapDataByTileId,
   selectTableCurrentRowId,
   selectTaskTilesData,
-} from '../../../../store/slices/task-slice';
-import {useAppDispatch, useAppSelector} from '../../../../store/config/hooks';
+} from '@store/slices/task-slice';
+import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {useCustomTiles} from './use-custom-tiles';
 
 import styles from './custom-tiles.module.scss';

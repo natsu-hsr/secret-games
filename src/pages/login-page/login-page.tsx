@@ -1,17 +1,17 @@
 import {Button, Form, Input} from 'antd';
 import {useForm} from 'antd/es/form/Form';
 import Title from 'antd/es/typography/Title';
+import Card from 'antd/es/card/Card';
 import {Navigate, useNavigate} from 'react-router-dom';
 
-import Card from 'antd/es/card/Card';
 import {
   type TAuthForm,
   authorize,
   authSliceActions,
   selectAuthMessage,
   selectAuthorizedStatus,
-} from '../../store/slices/auth-slice';
-import {useAppDispatch, useAppSelector} from '../../store/config/hooks';
+} from '@store/slices/auth-slice';
+import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 
 import styles from './login-page.module.scss';
 

@@ -3,9 +3,9 @@ import Alert from 'antd/es/alert/Alert';
 import {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom"
 
-import {TaskContent} from '../../components/task-content/task-content';
-import {useAppDispatch} from '../../store/config/hooks';
-import {loadMapDataByTileId, loadTableData} from '../../store/slices/task-slice';
+import {TaskContent} from '@components/task-content/task-content';
+import {useAppDispatch} from '@store/config/hooks';
+import {loadMapDataByTileId, loadTableData} from '@store/slices/task-slice';
 
 import styles from './task-page.module.scss';
 
