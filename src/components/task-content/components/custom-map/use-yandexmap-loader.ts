@@ -97,7 +97,6 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
 
       map.geoObjects.add(placemark);
       geoObjectsRef.current.push(placemark);
-      // bounds.push(p.coordinates);
     });
 
     // автоцентрирование

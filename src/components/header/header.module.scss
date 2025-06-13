@@ -21,6 +21,10 @@
   z-index: 999;
 }
 
+.title-container {
+  cursor: pointer;
+}
+
 .logo {
   width: 26px;
   height: 26px;
@@ -50,14 +54,6 @@
   color: $primary-color;
 }
 
-.user-icon {
-  cursor: pointer;
-
-  &:hover {
-    color: $primary-color;
-  }
-}
-
 .tooltip {
   display: flex;
   justify-content: center;
@@ -71,6 +67,8 @@
   cursor: pointer;
 
   &:hover {
-    color: $primary-color;
+    path {
+      stroke: $primary-color;
+    }
   }
 }
