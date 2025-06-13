@@ -5,19 +5,14 @@ import {taskSliceName} from "./task-slice-constants";
 
 const selectTaskSliceState = (state: AppState) => state[taskSliceName];
 
-// export const selectTask = createSelector(
-//   selectTaskSliceState,
-//   ({task}) => task,
-// );
-
 export const selectTaskTableData = createSelector(
   selectTaskSliceState,
   ({tableData}) => tableData,
 );
 
-export const selectTableCurrentRowId = createSelector(
+export const selectTableSelectedRowId = createSelector(
   selectTaskTableData,
-  (tableData) => tableData?.currentRowId,
+  (tableData) => tableData?.options?.selectedRowId,
 );
 
 export const selectTaskMapData = createSelector(

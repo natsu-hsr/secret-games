@@ -7,7 +7,8 @@ import {useParams} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {
   loadChartDataByRowId,
-  loadTilesData,
+  loadTilesDataByRowId,
+  selectTableSelectedRowId,
   selectTaskTableData,
   taskSliceActions,
 } from '@store/slices/task-slice';
@@ -19,15 +20,7 @@ export const CustomTable = () => {
   const {scriptId, stageId} = useParams();
 
   const tableData = useAppSelector(selectTaskTableData);
-  const selectedRowId = tableData?.currentRowId;
-
-  // const [selectedRowId, setSelectedRowId] = useState<string|undefined>(undefined);
-
-  // useEffect(() => {
-  //   if (tableData?.data?.[0]?.id) {
-  //     setSelectedRowId(tableData?.data?.[0].id);
-  //   }
-  // }, [tableData]);
+  const selectedRowId = useAppSelector(selectTableSelectedRowId);
 
   useEffect(() => {
     if (!selectedRowId || !scriptId || !stageId) return;
@@ -39,8 +32,8 @@ export const CustomTable = () => {
     }));
 
     dispatch(taskSliceActions.resetFormFields());
-    // dispatch(taskSliceActions.resetMapData());
-    dispatch(loadTilesData({
+
+    dispatch(loadTilesDataByRowId({
       scriptId,
       stageId,
       rowId: selectedRowId,
@@ -49,9 +42,9 @@ export const CustomTable = () => {
 
 
   const handleRowClick = (record: Record<string, number | string | boolean >) => {
-    if (record?.id && typeof record.id === 'string') {
-      dispatch(taskSliceActions.setCurrentTableRowId(record.id));
-    }
+    if (!record?.id || typeof record.id !== 'string') return;
+
+    dispatch(taskSliceActions.setSelectedTableRowId(record.id));
   }
 
   return (
@@ -74,7 +67,7 @@ export const CustomTable = () => {
         ) : (
           <Empty
             className={cn('fh', 'flex-col-center')}
-            description="Таблица недоступна"
+            description="Данные таблицы не найдены"
           />
         )
       }

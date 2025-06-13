@@ -46,9 +46,10 @@ export type TableColumn = {
 }
 export type TableDataDto = {
   columns: TableColumn[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any;
-  currentRowId: string;
+  data: Record<string, string | number | boolean>[];
+  options: {
+    selectedRowId: string;
+  }
 }
 export type RawTableDataDto = Record<string, string>[];
 

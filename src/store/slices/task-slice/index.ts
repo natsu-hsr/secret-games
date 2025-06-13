@@ -27,13 +27,13 @@ export {
   selectTaskTilesData,
   selectTaskChartData,
   selectFormConfigData,
-  selectTableCurrentRowId,
+  selectTableSelectedRowId,
 } from './task-slice-selectors';
 export {
   loadTask,
   loadTableData,
   loadMapDataByTileId,
-  loadTilesDataByRowId as loadTilesData,
+  loadTilesDataByRowId,
   loadFormDataByTileParams,
   loadChartDataByRowId,
 } from './task-slice-thunks';

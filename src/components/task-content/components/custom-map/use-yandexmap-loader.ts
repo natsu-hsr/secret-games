@@ -16,8 +16,6 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
   const [error, setError] = useState<Error | null>(null);
   const [ymaps, setYmaps] = useState<typeof window.ymaps | null>(null);
 
-  console.log('mapData=', mapData)
-
   useEffect(() => {
     const loadYandexMap = () => {
       return new Promise<void>((resolve, reject) => {
@@ -87,7 +85,6 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
         p.coordinates,
         {
           iconCaption: p.name ?? 'Метка',
-          // iconContent: p.name ?? 'Метка',
         },
         {
           draggable: p.draggable,

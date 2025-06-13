@@ -9,9 +9,11 @@ export const taskSlice = createSlice({
   initialState: taskSliceInitialState,
   name: taskSliceName,
   reducers: {
-    setCurrentTableRowId(state, {payload}: PayloadAction<string>) {
-      if (state.tableData?.currentRowId) {
-        state.tableData.currentRowId = payload;
+    setSelectedTableRowId(state, {payload}: PayloadAction<string>) {
+      if (state.tableData?.options) {
+        state.tableData.options = {
+          selectedRowId: payload,
+        }
       }
     },
     setRegularFormFields(state, {payload}: PayloadAction<FormFieldsDto>) {

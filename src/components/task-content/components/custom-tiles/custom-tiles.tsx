@@ -8,7 +8,7 @@ import {
   type TileDto,
   loadFormDataByTileParams,
   loadMapDataByTileId,
-  selectTableCurrentRowId,
+  selectTableSelectedRowId,
   selectTaskTilesData,
 } from '@store/slices/task-slice';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
@@ -21,36 +21,19 @@ export const CustomTiles = () => {
   const {scriptId, stageId} = useParams();
 
   const tilesData = useAppSelector(selectTaskTilesData);
-  const selectedRowId = useAppSelector(selectTableCurrentRowId);
-  console.log('tilesData=', tilesData);
+  const selectedRowId = useAppSelector(selectTableSelectedRowId);
 
   const [selectedTile, setSelectedTile] = useState<TileDto | undefined>();
   const [hoveredTileId, setHoveredTileId] = useState<string | null>(null);
 
   const {grid} = useCustomTiles({tilesData});
 
-  // useEffect(() => {
-  //   if (tilesData?.[0]) {
-  //     setSelectedTile(tilesData[0]);
-  //   }
-  // }, [tilesData])
-
-  // useEffect(() => {
-  //   return () => {
-  //     if (selectedTile) setSelectedTile(undefined);
-  //   }
-  // }, [tilesData])
-
   useEffect(() => {
-    if (selectedTile){
+    // сбрасываем выбранные плитки
+    if (selectedTile) {
       setSelectedTile(undefined);
-
     }
-  }, [selectedRowId])
-
-  useEffect(() => {
-
-  }, [selectedTile, scriptId, stageId, selectedRowId]);
+  }, [selectedRowId]);
 
   const handleClick = (tile: TileDto) => {
     if (!tile || !stageId || !scriptId) return;
@@ -70,7 +53,7 @@ export const CustomTiles = () => {
     }));
 
     if (!selectedRowId) {
-      console.error('selectedRowId не найден, загрузка полей остановлена');
+      console.error('selectedRowId не найден, загрузка полей формы невозможна');
       return;
     }
 

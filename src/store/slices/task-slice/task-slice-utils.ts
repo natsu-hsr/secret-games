@@ -35,7 +35,9 @@ export const convertRawTableData = ({rawData}: ConvertRawTableDataArgs): TableDa
   return {
     columns,
     data: convertedData,
-    currentRowId: convertedData?.[0]?.id ?? '',
+    options: {
+      selectedRowId: convertedData?.[0]?.id ?? '',
+    }
   }
 }
 
