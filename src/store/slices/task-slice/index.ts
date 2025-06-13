@@ -16,7 +16,7 @@ export type {
   FormFieldDto,
   RawFormFieldsDto,
   FormFieldsDto,
-  SortedFormFieldsDto as SortedFieldsDto,
+  SortedFormFieldsDto,
   TTaskSliceState,
   TTask,
 } from './task-slice-types';

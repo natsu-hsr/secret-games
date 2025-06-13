@@ -86,7 +86,8 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
       const placemark = new ymaps.Placemark(
         p.coordinates,
         {
-          iconCaption: p.name ?? 'Точка',
+          iconCaption: p.name ?? 'Метка',
+          // iconContent: p.name ?? 'Метка',
         },
         {
           draggable: p.draggable,

@@ -7,18 +7,22 @@ import {useMemo} from 'react';
 
 import {selectIsThunkPending} from '@store/slices/loading-state-slice';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
-import {loadFormDataByTileParams, selectFormConfigData, taskSliceActions} from '@store/slices/task-slice';
+import {
+  loadFormDataByTileParams,
+  selectFormConfigData,
+  taskSliceActions,
+  type SortedFormFieldsDto,
+} from '@store/slices/task-slice';
 import {LayoutSpin} from '../layout-spin/layout-spin';
 import {renderRadiosFields} from './task-form-utils';
 
 import styles from './task-form.module.scss';
-
-export const TaskForm = () => {
+interface FormComponentProps {
+  fields: SortedFormFieldsDto | undefined
+}
+const FormComponent = ({fields}: FormComponentProps) => {
   const dispatch = useAppDispatch();
   const [form] = useForm();
-
-  const fields = useAppSelector(selectFormConfigData);
-  const isLoading = useAppSelector(s => selectIsThunkPending(s, loadFormDataByTileParams.typePrefix));
 
   const {
     select,
@@ -62,6 +66,66 @@ export const TaskForm = () => {
       dispatch(taskSliceActions.setRegularFormFields(updatedFields));
     }
   }
+
+  return (
+    <div className={styles.container}>
+      <Form
+        className={styles.form}
+        form={form}
+        layout='vertical'
+        onFinish={handleFormSubmit}
+      >
+        <>
+          {select && (
+            <FormItem
+              name={select.name}
+              label={select.label}
+            >
+              <Select
+                // defaultValue={select?.options?.[0]?.value}
+                options={select.options}
+                onChange={handleSelectOptionChange}
+              />
+            </FormItem>  
+          )}
+          {!!radios?.length && renderRadiosFields({radios})}
+          {regularFields?.map(f => (
+            <FormItem
+              key={f.name + f.label + f.defaultValue + f.disabled + f.type}
+              name={f.name}
+              label={f.label}
+              initialValue={f.defaultValue}
+            >
+              <Input
+                placeholder={`Введите ${f.label.toLowerCase()}`}
+                disabled={f.disabled}
+              />
+            </FormItem>
+          ))}
+        </>
+      </Form>
+      <div className={styles['submit-btn-container']}>
+        <Button
+          className={styles['submit-btn']}
+          type='primary'
+          onClick={() => form.submit()}
+        >
+          Сохранить данные
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+export const TaskForm = () => {
+  const fields = useAppSelector(selectFormConfigData);
+  const isLoading = useAppSelector(s => selectIsThunkPending(s, loadFormDataByTileParams.typePrefix));
+
+  const {
+    select,
+    radios,
+    regularFields,
+  } = fields ?? {};
   
   const hasActiveFields = useMemo(
     () => radios?.length || regularFields?.length || select?.name,
@@ -72,52 +136,7 @@ export const TaskForm = () => {
     <LayoutSpin spinning={isLoading} tip='Загрузка...'>
       {
         hasActiveFields ? (
-          <div className={styles.container}>
-            <Form
-              className={styles.form}
-              form={form}
-              layout='vertical'
-              onFinish={handleFormSubmit}
-            >
-              <>
-                {select && (
-                  <FormItem
-                    name={select.name}
-                    label={select.label}
-                  >
-                    <Select
-                      // defaultValue={select?.options?.[0]?.value}
-                      options={select.options}
-                      onChange={handleSelectOptionChange}
-                    />
-                  </FormItem>  
-                )}
-                {!!radios?.length && renderRadiosFields({radios})}
-                {regularFields?.map(f => (
-                  <FormItem
-                    key={f.name + f.label + f.defaultValue + f.disabled + f.type}
-                    name={f.name}
-                    label={f.label}
-                    initialValue={f.defaultValue}
-                  >
-                    <Input
-                      placeholder={`Введите ${f.label.toLowerCase()}`}
-                      disabled={f.disabled}
-                    />
-                  </FormItem>
-                ))}
-              </>
-            </Form>
-            <div className={styles['submit-btn-container']}>
-              <Button
-                className={styles['submit-btn']}
-                type='primary'
-                onClick={() => form.submit()}
-              >
-                Сохранить данные
-              </Button>
-            </div>
-          </div>
+          <FormComponent fields={fields} />
         ) : (
           <Empty
             className={cn('fh', 'flex-col-center')}
