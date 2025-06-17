@@ -68,15 +68,6 @@ export const TaskPage = () => {
           return <Alert type="error" description={error} />;
         }
 
-        // if (!task) {
-        //   return (
-        //     <Alert
-        //       type="error"
-        //       description="Во время загрузки задания произошла непредвиденная ошибка"
-        //     />
-        //   )
-        // }
-
         return <TaskContent />;
       })()}
     </Skeleton>

@@ -1,11 +1,11 @@
 import Form, {useForm} from 'antd/es/form/Form';
 import Input from 'antd/es/input/Input';
 import FormItem from 'antd/es/form/FormItem';
-import {Button, Empty, Select} from 'antd';
-import cn from 'classnames';
+import {Button, Select} from 'antd';
 import {useMemo} from 'react';
 
-import {selectIsThunkPending} from '@store/slices/loading-state-slice';
+import {Loadable} from '@components/loadable';
+import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {
   loadFormDataByTileParams,
@@ -13,7 +13,6 @@ import {
   taskSliceActions,
   type SortedFormFieldsDto,
 } from '@store/slices/task-slice';
-import {LayoutSpin} from '../layout-spin/layout-spin';
 import {renderRadiosFields} from './task-form-utils';
 
 import styles from './task-form.module.scss';
@@ -36,14 +35,8 @@ const FormComponent = ({fields}: FormComponentProps) => {
   }
 
   const handleSelectOptionChange = (value: string) => {
-    console.log('selected value=', value);
-    console.log('select?.options=', select?.options);
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const selectedControls = select?.options?.find((o: any) => {
-      return o.value === value
-    })?.controls;
-      console.log('selectedControls=', selectedControls);
+    const selectedControls = select?.options?.find((o: any) => o.value === value)?.controls;
 
     if (!selectedControls) {
       console.error(`selectedControls соответствующие значнию ${value} не найдено`);
@@ -120,6 +113,7 @@ const FormComponent = ({fields}: FormComponentProps) => {
 export const TaskForm = () => {
   const fields = useAppSelector(selectFormConfigData);
   const isLoading = useAppSelector(s => selectIsThunkPending(s, loadFormDataByTileParams.typePrefix));
+  const hasError = useAppSelector(s => selectIsThunkRejected(s, loadFormDataByTileParams.typePrefix));
 
   const {
     select,
@@ -128,22 +122,24 @@ export const TaskForm = () => {
   } = fields ?? {};
   
   const hasActiveFields = useMemo(
-    () => radios?.length || regularFields?.length || select?.name,
+    () => !!(radios?.length || regularFields?.length || select?.name),
     [regularFields, radios, select],
   );
 
   return (
-    <LayoutSpin spinning={isLoading} tip='Загрузка...'>
-      {
-        hasActiveFields ? (
-          <FormComponent fields={fields} />
-        ) : (
-          <Empty
-            className={cn('fh', 'flex-col-center')}
-            description='Поля не заданы'
-          />
-        )
-      }
-    </LayoutSpin>
+    <Loadable
+      emptyProps={{
+        isEmpty: !hasActiveFields,
+        emptyMessage: 'Поля не заданы',
+      }}
+      loadingProps={{
+        isLoading,
+      }}
+      errorProps={{
+        hasError,
+      }}
+    >
+      <FormComponent fields={fields} />;
+    </Loadable>
   )
 }

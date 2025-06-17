@@ -1,12 +1,11 @@
-import {Empty} from "antd";
 import cn from 'classnames';
 import {useRef} from "react";
 
+import {Loadable} from "@components/loadable";
 import {loadMapDataByTileId, selectTaskMapData} from "@store/slices/task-slice";
 import {useAppSelector} from "@store/config/hooks";
-import {selectIsThunkPending} from "@store/slices/loading-state-slice";
+import {selectIsThunkPending, selectIsThunkRejected} from "@store/slices/loading-state-slice";
 import {useYandexMapLoader} from "./use-yandexmap-loader";
-import {LayoutSpin} from "../layout-spin/layout-spin";
 
 import styles from './custom-map.module.scss';
 
@@ -15,6 +14,7 @@ export const CustomMap = () => {
 
   const mapData = useAppSelector(selectTaskMapData);
   const isLoading = useAppSelector(s => selectIsThunkPending(s, loadMapDataByTileId.typePrefix));
+  const hasError = useAppSelector(s => selectIsThunkRejected(s, loadMapDataByTileId.typePrefix));
 
   const {error} = useYandexMapLoader({mapData, mapRef});
 
@@ -27,20 +27,19 @@ export const CustomMap = () => {
   }
 
   return (
-    <LayoutSpin spinning={isLoading} tip='Загрузка...'>
-      {
-        mapData?.length ? (
-          <div
-            ref={mapRef}
-            className={styles.map}
-          />
-        ) : (
-          <Empty
-            className={cn('fh', 'flex-col-center')}
-            description='Координаты не заданы'
-          />
-        )
-      }
-    </LayoutSpin>
+    <Loadable
+      emptyProps={{
+        isEmpty: !mapData?.length,
+        emptyMessage: 'Координаты не заданы',
+      }}
+      loadingProps={{
+        isLoading,
+      }}
+      errorProps={{
+        hasError,
+      }}
+    >
+      <div ref={mapRef} className={styles.map} />
+    </Loadable>
   )
 }

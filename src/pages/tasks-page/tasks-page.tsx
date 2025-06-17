@@ -3,9 +3,9 @@ import Row from 'antd/es/grid/row';
 import Col from 'antd/es/grid/col';
 import Title from 'antd/es/typography/Title';
 import LockOutlined from '@ant-design/icons/lib/icons/LockOutlined';
-import {Button, Empty, Skeleton} from 'antd';
+import {Empty, Skeleton} from 'antd';
 import cn from 'classnames';
-import {useEffect, useMemo} from 'react';
+import {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 
 import {PageLayout} from '@components/page-layout/page-layout';
@@ -21,12 +21,6 @@ interface TaskScriptProps {
 }
 const TaskScript = ({script}: TaskScriptProps) => {
   const {userId} = useUserId();
-  const origin = useMemo(() => window.location.origin, [window.location.origin]);
-
-  const handleResultsClick = (scriptId: string, stageId: string, userId: string) => {
-    const url = `${origin}/graph.php?student_id=${userId}&script_id=${scriptId}&stage_id=${stageId}`;
-    window.open(url, '_blank');
-  }
 
   return (
     <Card className={styles.group}>
@@ -42,12 +36,14 @@ const TaskScript = ({script}: TaskScriptProps) => {
                   {stage.name}
                 </Link>
                 {stage.hasResults && (
-                  <Button
-                    type='default'
-                    onClick={() => userId && handleResultsClick(script.id, stage.id, userId)}
+                  <Link
+                    className={styles.link}
+                    to={`${window.location.origin}/graph.php?student_id=${userId}&script_id=${script.id}&stage_id=${stage.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Результаты
-                  </Button>
+                  </Link>
                 )}
               </>
             ) : (
@@ -84,6 +80,7 @@ export const TasksPage = () => {
           <Row gutter={[16, 16]}>
             {tasks.map(script => (
               <Col
+                className='fw'
                 key={script.id}
                 sm={24}
                 lg={12}

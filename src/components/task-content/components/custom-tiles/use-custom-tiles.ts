@@ -2,13 +2,13 @@ import {useMemo} from "react";
 
 import type {TilesDto} from "@store/slices/task-slice";
 
+const defaultGridSize = 1;
+
 interface UseCustomTilesArgs {
   tilesData: TilesDto | undefined;
 }
 
 export const useCustomTiles = ({tilesData}: UseCustomTilesArgs) => {
-  const defaultGridSize = 1;
-
   const {gridSizeX, gridSizeY} = useMemo(() => {
     if (!tilesData || tilesData.length === 0) {
       return {gridSizeX: defaultGridSize, gridSizeY: defaultGridSize};
@@ -34,8 +34,6 @@ export const useCustomTiles = ({tilesData}: UseCustomTilesArgs) => {
     .map(() => Array(gridSizeX).fill(null)),
     [gridSizeY, gridSizeX],
   );
-
-  console.log('grid=', grid)
 
   tilesData?.forEach(tile => {
     for (let row = tile.rowStart; row <= tile.rowEnd; row++) {

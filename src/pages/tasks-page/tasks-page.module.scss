@@ -42,3 +42,21 @@
   color: $text-dark;
   opacity: .5;
 }
+
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  border: 1px solid $inactive;
+  border-radius: $border-radius-md;
+  color: #000;
+  padding: 0 15px;
+
+  transition: color, border-color .2s ease-in;
+
+  &:hover {
+    color: $primary-color;
+    border-color: $primary-color;
+  }
+}
