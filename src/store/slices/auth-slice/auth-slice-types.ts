@@ -14,3 +14,7 @@ export type TAuthSliceState = {
   isAuthorized: boolean;
   message?: string;
 };
+
+export type User = {
+  userId: string;
+}

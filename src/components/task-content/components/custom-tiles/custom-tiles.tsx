@@ -12,6 +12,7 @@ import {
   loadTilesDataByRowId,
   selectTableSelectedRowId,
   selectTaskTilesData,
+  taskSliceActions,
 } from '@store/slices/task-slice';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {useCustomTiles} from './use-custom-tiles';
@@ -44,6 +45,7 @@ export const CustomTiles = () => {
     if (!tile || !stageId || !scriptId) return;
     
     setSelectedTile(tile);
+    dispatch(taskSliceActions.setSelectedTileId(tile.id));
 
     const {
       id: tileId,

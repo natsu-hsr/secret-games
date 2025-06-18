@@ -1,10 +1,13 @@
 import Form, {useForm} from 'antd/es/form/Form';
 import Input from 'antd/es/input/Input';
 import FormItem from 'antd/es/form/FormItem';
-import {Button, Select} from 'antd';
+import {Button, Select, notification} from 'antd';
+import type {AxiosError} from 'axios';
 import {useMemo} from 'react';
+import {useParams} from 'react-router-dom';
 
 import {Loadable} from '@components/loadable';
+import {useUserId} from '@shared/hooks';
 import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {
@@ -12,6 +15,9 @@ import {
   selectFormConfigData,
   taskSliceActions,
   type SortedFormFieldsDto,
+  submitFormData,
+  selectTableSelectedRowId,
+  selectSelectedTileId,
 } from '@store/slices/task-slice';
 import {renderRadiosFields} from './task-form-utils';
 
@@ -24,6 +30,11 @@ const FormComponent = ({fields}: FormComponentProps) => {
   const dispatch = useAppDispatch();
   const [form] = useForm();
 
+  const {userId} = useUserId();
+  const {scriptId, stageId} = useParams();
+  const productId = useAppSelector(selectTableSelectedRowId);
+  const cardHeaderId = useAppSelector(selectSelectedTileId);
+
   const {
     select,
     radios,
@@ -31,8 +42,30 @@ const FormComponent = ({fields}: FormComponentProps) => {
   } = fields ?? {};
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleFormSubmit = (values: any) => {
-    console.log('values=', values)
+  const handleFormSubmit = (values: Record<string, unknown>) => {
+    const globalParams = {
+      userId: userId ?? '',
+      scriptId: scriptId ?? '',
+      stageId: stageId ?? '',
+      productId: productId ?? '',
+      cardHeaderId: cardHeaderId ?? '',
+    }
+
+    const valuesToSubmit = {
+      ...globalParams,
+      ...values,
+    };
+
+    console.log('valuesToSubmit=', valuesToSubmit);
+
+    dispatch(submitFormData(valuesToSubmit))
+      .unwrap()
+      .then(data => console.log('submit form then data=', data))
+      .catch((e: AxiosError) => {
+        const errorMessage = e?.response?.data;
+        console.error('Ошибка при сохранении данных=', errorMessage);
+        notification.error({message: `При сохранении данных произошла ошибка${errorMessage ? ` :${errorMessage}` : ''}`});
+      });
   }
 
   const handleSelectOptionChange = (value: string) => {
@@ -40,7 +73,7 @@ const FormComponent = ({fields}: FormComponentProps) => {
     const selectedControls = select?.options?.find((o: any) => o.value === value)?.controls;
 
     if (!selectedControls) {
-      console.error(`selectedControls соответствующие значнию ${value} не найдено`);
+      console.error(`selectedControls соответствующие значению ${value} не найдено`);
       return;
     }
 
@@ -69,34 +102,32 @@ const FormComponent = ({fields}: FormComponentProps) => {
         layout='vertical'
         onFinish={handleFormSubmit}
       >
-        <>
-          {select && (
-            <FormItem
-              name={select.name}
-              label={select.label}
-            >
-              <Select
-                // defaultValue={select?.options?.[0]?.value}
-                options={select.options}
-                onChange={handleSelectOptionChange}
-              />
-            </FormItem>  
-          )}
-          {!!radios?.length && renderRadiosFields({radios})}
-          {regularFields?.map(f => (
-            <FormItem
-              key={f.name + f.label + f.defaultValue + f.disabled + f.type}
-              name={f.name}
-              label={f.label}
-              initialValue={f.defaultValue}
-            >
-              <Input
-                placeholder={`Введите ${f.label.toLowerCase()}`}
-                disabled={f.disabled}
-              />
-            </FormItem>
-          ))}
-        </>
+        {select && (
+          <FormItem
+            name={select.name}
+            label={select.label}
+          >
+            <Select
+              // defaultValue={select?.options?.[0]?.value}
+              options={select.options}
+              onChange={handleSelectOptionChange}
+            />
+          </FormItem>  
+        )}
+        {!!radios?.length && renderRadiosFields({radios})}
+        {regularFields?.map(f => (
+          <FormItem
+            key={f.name + f.label + f.defaultValue + f.disabled + f.type}
+            name={f.name}
+            label={f.label}
+            initialValue={f.defaultValue}
+          >
+            <Input
+              placeholder={`Введите ${f.label.toLowerCase()}`}
+              disabled={f.disabled}
+            />
+          </FormItem>
+        ))}
       </Form>
       <div className={styles['submit-btn-container']}>
         <Button

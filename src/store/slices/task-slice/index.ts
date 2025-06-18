@@ -25,6 +25,7 @@ export {
   selectTaskMapData,
   selectTaskTableData,
   selectTaskTilesData,
+  selectSelectedTileId,
   selectTaskChartData,
   selectFormConfigData,
   selectTableSelectedRowId,
@@ -35,6 +36,8 @@ export {
   loadTilesDataByRowId,
   loadFormDataByTileParams,
   loadChartDataByRowId,
+  submitFormData,
+  submitTask,
 } from './task-slice-thunks';
 export {
   taskSliceReducer,

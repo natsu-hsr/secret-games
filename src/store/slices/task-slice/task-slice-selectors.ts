@@ -22,7 +22,12 @@ export const selectTaskMapData = createSelector(
 
 export const selectTaskTilesData = createSelector(
   selectTaskSliceState,
-  ({tilesData}) => [...(tilesData?.length ? tilesData : [])],
+  ({tilesData}) => [...(tilesData?.tiles?.length ? tilesData.tiles : [])],
+);
+
+export const selectSelectedTileId = createSelector(
+  selectTaskSliceState,
+  ({tilesData}) => tilesData?.options?.selectedTileId,
 );
 
 export const selectTaskChartData = createSelector(

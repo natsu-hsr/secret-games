@@ -82,6 +82,13 @@ export type TileDto = {
 export type RawTilesDto = RawTileDto[];
 export type TilesDto = TileDto[];
 
+export type TilesDataDto = {
+  tiles: TilesDto;
+  options: {
+    selectedTileId: string | undefined;
+  };
+};
+
 // ======= tiles =======
 export type RawFieldType = 'text' | 'radio' | 'select';
 export type FieldType = 'TEXT' | 'RADIO' | 'SELECT';
@@ -128,7 +135,7 @@ export type TTask  = {
   mapData: MapDataDto;
   chartData: ChartDataDto;
   tableData: TableDataDto;
-  tilesData: TilesDto;
+  tilesData: TilesDataDto;
   formConfig: SortedFormFieldsDto | undefined;
 }
 

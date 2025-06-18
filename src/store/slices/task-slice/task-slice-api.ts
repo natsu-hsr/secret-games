@@ -2,6 +2,10 @@ import axios from "axios";
 import type {RawChartDataDto, RawFormFieldsDto, RawMapDataDto, RawTableDataDto, RawTilesDto} from "./task-slice-types";
 
 // common
+type UserInfo = {
+  userId: string;
+}
+
 export type TaskInfo = {
   stageId: string;
   scriptId: string;
@@ -150,6 +154,51 @@ export const fetchFormDataByTileParams = ({stageId, scriptId, apiName, tileId, r
         product_id: rowId,
         card_header_id: tileId,
       },
+    }
+  )
+}
+
+export type PostFormDataArgs = TaskInfo & UserInfo & {
+  productId: string,
+  cardHeaderId : string,
+} & Record<string, unknown>;
+export const postFormData = (data: PostFormDataArgs) => {
+  const {
+    userId,
+    scriptId,
+    stageId,
+    productId,
+    cardHeaderId,
+    ...rest
+  } = data;
+
+  return axios.post<string>(
+    '/save.php?save_id=tmp_result',
+    {
+      user_id: userId,
+      script_id: scriptId,
+      stage_id: stageId,
+      product_id: productId,
+      card_header_id: cardHeaderId,
+      ...rest,
+    },
+    {
+      headers: {"Content-Type": "multipart/form-data"},
+    }
+  )
+}
+
+export type PostTaskArgs = TaskInfo & UserInfo;
+export const postTask= ({userId, scriptId, stageId}: PostTaskArgs) => {
+  return axios.post<string>(
+    '/save.php?save_id=main_result',
+    {
+      user_id: userId,
+      script_id: scriptId,
+      stage_id: stageId,
+    },
+    {
+      headers: {"Content-Type": "multipart/form-data"},
     }
   )
 }

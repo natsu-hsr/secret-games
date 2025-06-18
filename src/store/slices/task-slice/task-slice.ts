@@ -1,7 +1,21 @@
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
-import type {ChartDataDto, MapDataDto, TTaskSliceState, TableDataDto, TilesDto, SortedFormFieldsDto, FormFieldsDto} from "./task-slice-types";
+import type {
+  ChartDataDto,
+  MapDataDto,
+  TTaskSliceState,
+  TableDataDto,
+  SortedFormFieldsDto,
+  FormFieldsDto,
+  TilesDataDto,
+} from "./task-slice-types";
 import {taskSliceName} from "./task-slice-constants";
-import {loadChartDataByRowId, loadFormDataByTileParams, loadMapDataByTileId, loadTableData, loadTilesDataByRowId} from "./task-slice-thunks";
+import {
+  loadChartDataByRowId,
+  loadFormDataByTileParams,
+  loadMapDataByTileId,
+  loadTableData,
+  loadTilesDataByRowId,
+} from "./task-slice-thunks";
 
 export const taskSliceInitialState: TTaskSliceState = {}
 
@@ -13,6 +27,13 @@ export const taskSlice = createSlice({
       if (state.tableData?.options) {
         state.tableData.options = {
           selectedRowId: payload,
+        }
+      }
+    },
+    setSelectedTileId(state, {payload}: PayloadAction<string>) {
+      if (state.tilesData?.options) {
+        state.tilesData.options = {
+          selectedTileId: payload,
         }
       }
     },
@@ -35,7 +56,7 @@ export const taskSlice = createSlice({
     builder.addCase(loadTableData.fulfilled, (state, {payload}: PayloadAction<TableDataDto | undefined>) => {
       state.tableData = payload;
     });
-    builder.addCase(loadTilesDataByRowId.fulfilled, (state, {payload}: PayloadAction<TilesDto>) => {
+    builder.addCase(loadTilesDataByRowId.fulfilled, (state, {payload}: PayloadAction<TilesDataDto>) => {
       state.tilesData = payload;
     });
     builder.addCase(loadChartDataByRowId.fulfilled, (state, {payload}: PayloadAction<ChartDataDto>) => {
