@@ -1,9 +1,7 @@
 import {convertRawFormFields, convertRawTableData} from './task-slice-utils';
 import {createAsyncThunk} from "@reduxjs/toolkit/react";
-import type {ChartDataDto, MapDataDto, TableDataDto, TTask, TilesDto, SortedFormFieldsDto} from "./task-slice-types";
+import type {ChartDataDto, MapDataDto, TableDataDto, TilesDto, SortedFormFieldsDto} from "./task-slice-types";
 import {
-  fetchTask,
-  type FetchTaskArgs,
   fetchMapDataByTileId,
   type FetchMapDataByTileIdArgs,
   fetchTableData,
@@ -15,19 +13,6 @@ import {
   fetchFormDataByTileParams,
 } from "./task-slice-api";
 import {taskSliceName} from "./task-slice-constants";
-
-export const loadTask = createAsyncThunk<TTask, FetchTaskArgs>(
-  `${taskSliceName}/loadTask`,
-  async (arg, {rejectWithValue}) => {
-    try {
-      const response = await fetchTask(arg);
-      const {data} = response;
-      return data;
-    } catch (e) {
-      return rejectWithValue(e);
-    }
-  },
-);
 
 export const loadTableData = createAsyncThunk<TableDataDto | undefined, FetchTableDataArgs>(
   `${taskSliceName}/loadTableData`,

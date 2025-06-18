@@ -16,6 +16,7 @@ import {
 import {renderRadiosFields} from './task-form-utils';
 
 import styles from './task-form.module.scss';
+
 interface FormComponentProps {
   fields: SortedFormFieldsDto | undefined
 }
@@ -139,7 +140,7 @@ export const TaskForm = () => {
         hasError,
       }}
     >
-      <FormComponent fields={fields} />;
+      <FormComponent fields={fields} />
     </Loadable>
   )
 }

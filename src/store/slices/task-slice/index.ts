@@ -30,7 +30,6 @@ export {
   selectTableSelectedRowId,
 } from './task-slice-selectors';
 export {
-  loadTask,
   loadTableData,
   loadMapDataByTileId,
   loadTilesDataByRowId,

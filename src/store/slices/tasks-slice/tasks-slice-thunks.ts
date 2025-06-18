@@ -13,8 +13,6 @@ export const loadTasksByUserId = createAsyncThunk<TasksDto, FetchTasksByUserIdAr
 
       const convertedTasks = convertRawTasks({rawTasks: data});
 
-      console.log('convertedTasks=', convertedTasks);
-
       return convertedTasks;
     } catch (e) {
       return rejectWithValue(e);
