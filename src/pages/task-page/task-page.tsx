@@ -1,13 +1,48 @@
-import {Skeleton} from 'antd';
-import Alert from 'antd/es/alert/Alert';
+import {Skeleton, Popover} from 'antd';
+import QuestionCircleOutlined from '@ant-design/icons/QuestionCircleOutlined'
 import {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom"
+import {Link, useParams} from "react-router-dom"
 
 import {TaskContent} from '@components/task-content/task-content';
 import {useAppDispatch} from '@store/config/hooks';
 import {loadMapDataByTileId, loadTableData} from '@store/slices/task-slice';
 
 import styles from './task-page.module.scss';
+import errorImage from '@assets/robot-error.webp';
+import Paragraph from 'antd/es/typography/Paragraph';
+import Title from 'antd/es/typography/Title';
+
+interface ErrorPanelProps {
+  error: string | undefined;
+}
+const ErrorPanel: React.FC<ErrorPanelProps> = ({error}) => {
+  const [isOpen, setOpen] = useState(false);
+
+  return (
+    <div className={styles['error-wrapper']}>
+      <img className={styles['error-image']} src={errorImage} alt="error_image" />
+      <Paragraph className={styles['error-text']}>
+        <Title level={2} className={styles['error-title']}>Страница не найдена</Title>
+        <Paragraph className={styles['error-description']}>
+          При загрузке данных произошла непредвиденная ошибка.<br />
+          Попробуйте перезагрузить страницу или вернитесь к <Link to='/tasks' replace>списку заданий</Link>
+        </Paragraph>
+        <Paragraph className={styles['error-popover-wrapper']}>
+          Подробнее об ошибке
+          <Popover
+            content={error}
+            trigger="click"
+            open={isOpen}
+            onOpenChange={() => setOpen(p => !p)}
+            placement='right'
+          >
+            <QuestionCircleOutlined className={styles['error-popover-icon']} />
+          </Popover>
+        </Paragraph>
+      </Paragraph>
+    </div>
+  );
+}
 
 export const TaskPage = () => {
   const dispatch = useAppDispatch();
@@ -21,12 +56,12 @@ export const TaskPage = () => {
   useEffect(() => {
     if (!stageId) {
       console.error('Id задачи не найден');
-      setError('Идентефикатор задачи (stageId) не найден');
+      setError('Идентификатор задачи (stageId) не найден');
       return;
     }
     if (!scriptId) {
       console.error('Id группы не найден');
-      setError('Идентефикатор сценария (scriptId) не найден');
+      setError('Идентификатор сценария (scriptId) не найден');
       return;
     }
 
@@ -44,9 +79,10 @@ export const TaskPage = () => {
           tileId: '',
         })).unwrap();
         setError(undefined);
-      } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e : any) {
         console.error('Во время загрузки задания произошла ошибка', e);
-        setError('Ошибка при загрузке задания');
+        setError(e?.data ?? 'Ошибка при загрузке задания');
       } finally {
         setLoading(false);
       }
@@ -57,7 +93,7 @@ export const TaskPage = () => {
 
   return (
     <Skeleton
-      className={styles.spinner}
+      className={styles.skeleton}
       active={isLoading}
       loading={isLoading}
       title
@@ -65,7 +101,7 @@ export const TaskPage = () => {
     >
       {(() => {
         if (error) {
-          return <Alert type="error" description={error} />;
+          return <ErrorPanel error={error} />
         }
 
         return <TaskContent />;

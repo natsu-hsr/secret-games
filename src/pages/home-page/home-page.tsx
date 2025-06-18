@@ -2,6 +2,7 @@ import Button from 'antd/es/button';
 import Flex from 'antd/es/flex';
 import Title from 'antd/es/typography/Title';
 import Paragraph from 'antd/es/typography/Paragraph';
+import PlayCircleOutlined from '@ant-design/icons/PlayCircleOutlined'
 import {useNavigate} from 'react-router-dom';
 
 import {PageLayout} from '@components/page-layout/page-layout';
@@ -21,7 +22,7 @@ export const HomePage = () => {
         gap={8}
       >
         <Title level={1} className={styles.title}>
-          Добро пожаловать на сайт <span className={styles.name}>логистигра.рф</span>
+          Добро пожаловать на сайт <span className={styles.name}>логистигра.ру</span>
         </Title>
         <Paragraph className={styles.subtitle}>
           Платформа для моделирования логистических сценариев в обучающих целях
@@ -35,6 +36,7 @@ export const HomePage = () => {
           className={styles.button}
           type="primary"
           onClick={() => navigate('/tasks')}
+          icon={<PlayCircleOutlined />}
         >
           Перейти к заданиям
         </Button>

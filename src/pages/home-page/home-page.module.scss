@@ -6,28 +6,29 @@
   font-size: 28px;
   font-weight: 700;
   margin: 0;
-  margin-bottom: 8px;
   color: $text-dark;
 }
 
 .name {
-  color: $primary-color;
-  font-weight: 700;
+  color: $primary-color !important;
+  font-weight: 700 !important;
+  text-decoration: underline !important;
 }
 
 .subtitle {
   text-align: center;
-  font-size: 16px;
-  margin-bottom: 16px;
+  font-size: 22px;
+  margin-bottom: $margin-lg;
   color: $secondary-color;
 }
 
 .banner {
-  width: 65%;
-  max-width: 676px;
+  width: 90%;
+  max-width: 670px;
 }
 
 .button {
-  padding: $padding-base;
+  font-size: 16px;
+  height: 36px;
   margin-top: $margin-base; 
 }

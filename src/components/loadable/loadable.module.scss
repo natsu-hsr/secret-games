@@ -9,10 +9,11 @@
 }
 
 .error-icon {
+  width: 80px;
   height: 80px;
   margin-bottom: 8px;
   g {
-    fill: $inactive;
+    fill: $secondary-color;
   }
 }
 

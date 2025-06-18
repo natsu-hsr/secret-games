@@ -30,3 +30,7 @@ body {
   );
   margin: $body-top-margin $body-side-margin $body-bottom-margin $body-side-margin;
 }
+
+h1 {
+  margin: 0 !important;
+}
