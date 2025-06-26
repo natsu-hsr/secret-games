@@ -1,5 +1,5 @@
 export type TAuthForm = {
-  login: string;
+  email: string;
   password: string;
 }
 

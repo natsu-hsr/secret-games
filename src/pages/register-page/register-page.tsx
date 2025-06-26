@@ -70,9 +70,9 @@ export const RegisterPage = () => {
               <Form.Item
                 label="E-mail"
                 name="email"
-                rules={[{required: true, type: "email", message: 'Необходимо ввести корректный почтовый адрес'}]}
+                rules={[{required: true, type: "email", message: 'Необходимо ввести корректную электронную почту'}]}
               >
-                <Input type='email' placeholder='Введите почтовый адрес' />
+                <Input type='email' placeholder='Введите электронную почту' />
               </Form.Item>
               <Form.Item
                 label="Фамилия"

@@ -48,11 +48,11 @@ export const LoginPage = () => {
           onValuesChange={handleChange}
         >
           <Form.Item
-            label="Логин"
-            name="login"
-            rules={[{required: true, message: 'Необходимо ввести логин'}]}
+            label="E-mail"
+            name="email"
+            rules={[{required: true, message: 'Необходимо ввести электронную почту'}]}
           >
-            <Input placeholder='Введите логин' />
+            <Input placeholder='Введите электронную почту' />
           </Form.Item>
           <Form.Item
             label="Пароль"
