@@ -41,7 +41,6 @@ const FormComponent = ({fields}: FormComponentProps) => {
     regularFields,
   } = fields ?? {};
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleFormSubmit = (values: Record<string, unknown>) => {
     const globalParams = {
       userId: userId ?? '',
@@ -60,7 +59,10 @@ const FormComponent = ({fields}: FormComponentProps) => {
 
     dispatch(submitFormData(valuesToSubmit))
       .unwrap()
-      .then(data => console.log('submit form then data=', data))
+      .then(data => {
+        console.log('submit form then data=', data);
+        notification.success({message: 'Данные успешно сохранены'});
+      })
       .catch((e: AxiosError) => {
         const errorMessage = e?.response?.data;
         console.error('Ошибка при сохранении данных=', errorMessage);

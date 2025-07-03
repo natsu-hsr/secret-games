@@ -27,7 +27,7 @@ export const TaskTitle = () => {
     }))
       .unwrap()
       .then(data => {
-        notification.success({message: data?.length ? data : 'Результаты сохранены'});
+        notification.success({message: data?.length ? data : 'Результаты успешно отправлены'});
         navigate('/tasks', {replace: true});
       })
       .catch((e: AxiosError) => {
