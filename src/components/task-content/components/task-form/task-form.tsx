@@ -55,8 +55,6 @@ const FormComponent = ({fields}: FormComponentProps) => {
       ...values,
     };
 
-    console.log('valuesToSubmit=', valuesToSubmit);
-
     dispatch(submitFormData(valuesToSubmit))
       .unwrap()
       .then(data => {

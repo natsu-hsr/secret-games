@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react';
 import {Link, useParams} from "react-router-dom"
 
 import {TaskContent} from '@components/task-content/task-content';
+import {useUserId} from "@shared/hooks";
 import {useAppDispatch} from '@store/config/hooks';
 import {loadMapDataByTileId, loadTableData} from '@store/slices/task-slice';
 
@@ -46,11 +47,13 @@ const ErrorPanel: React.FC<ErrorPanelProps> = ({error}) => {
 
 export const TaskPage = () => {
   const dispatch = useAppDispatch();
+
   // const task = useAppSelector(selectTask)
 
   const [isLoading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | undefined>();
   
+  const {userId} = useUserId();
   const {scriptId, stageId} = useParams();
 
   useEffect(() => {
@@ -64,6 +67,11 @@ export const TaskPage = () => {
       setError('Идентификатор сценария (scriptId) не найден');
       return;
     }
+    if (!userId) {
+      console.error('UserId не найден');
+      setError('Идентификатор пользователя не найден');
+      return;
+    }
 
     const loadTaskAction = async () => {
       setLoading(true);
@@ -71,9 +79,10 @@ export const TaskPage = () => {
         // симулируем задержку
         await new Promise(resolve => setTimeout(resolve, 2000));
   
-        await dispatch(loadTableData({scriptId, stageId}))
+        await dispatch(loadTableData({userId, scriptId, stageId}))
           .unwrap();
         await dispatch(loadMapDataByTileId({
+          userId,
           scriptId,
           stageId,
           tileId: '',
@@ -89,7 +98,7 @@ export const TaskPage = () => {
     };
     
     loadTaskAction();
-  }, [scriptId, stageId]);
+  }, [scriptId, stageId, userId]);
 
   return (
     <Skeleton

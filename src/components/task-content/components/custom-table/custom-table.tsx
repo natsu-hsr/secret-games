@@ -4,6 +4,7 @@ import cn from 'classnames';
 import {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 
+import { useUserId } from '@shared/hooks';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {
   loadChartDataByRowId,
@@ -18,14 +19,16 @@ import styles from './custom-table.module.scss';
 export const CustomTable = () => {
   const dispatch = useAppDispatch();
   const {scriptId, stageId} = useParams();
+  const {userId} = useUserId();
 
   const tableData = useAppSelector(selectTaskTableData);
   const selectedRowId = useAppSelector(selectTableSelectedRowId);
 
   useEffect(() => {
-    if (!selectedRowId || !scriptId || !stageId) return;
+    if (!selectedRowId || !scriptId || !stageId || !userId) return;
 
     dispatch(loadChartDataByRowId({
+      userId,
       scriptId,
       stageId,
       rowId: selectedRowId,
@@ -34,11 +37,12 @@ export const CustomTable = () => {
     dispatch(taskSliceActions.resetFormFields());
 
     dispatch(loadTilesDataByRowId({
+      userId,
       scriptId,
       stageId,
       rowId: selectedRowId,
     }));
-  }, [selectedRowId, scriptId, stageId]);
+  }, [selectedRowId, scriptId, stageId, userId]);
 
 
   const handleRowClick = (record: Record<string, number | string | boolean >) => {

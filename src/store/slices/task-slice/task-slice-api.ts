@@ -17,86 +17,31 @@ export type TaskInfo = {
 //   ]);
 // }
 
-export type FetchTableDataArgs = TaskInfo;
-export const fetchTableData = ({scriptId, stageId}: FetchTableDataArgs) => {
+export type FetchTableDataArgs = TaskInfo & UserInfo;
+export const fetchTableData = ({scriptId, stageId, userId}: FetchTableDataArgs) => {
   return axios.get<RawTableDataDto>(
     '/api.php',
     {
       params: {
+        user_id: userId,
         api_id: 'product_list',
         script_id: scriptId,
         stage_id: stageId,
       }
     }
   );
-  //   columns: [
-  //     {
-  //       title: 'Наименование',
-  //       dataIndex: 'name',
-  //       key: 'name',
-  //     },
-  //     {
-  //       title: 'Количество шт.',
-  //       dataIndex: 'count',
-  //       key: 'count',
-  //     },
-  //     {
-  //       title: 'Производитель',
-  //       dataIndex: 'manufacturer',
-  //       key: 'manufacturer',
-  //     },
-  //     {
-  //       title: 'Стоимость шт.',
-  //       dataIndex: 'cost',
-  //       key: 'cost',
-  //     },
-  //   ],
-  //   data: [
-  //     {
-  //       key: '1',
-  //       id: '1',
-  //       name: 'Продукт 1',
-  //       count: 1048,
-  //       manufacturer: 'Япония',
-  //       cost: 0.97,
-  //     },
-  //     {
-  //       key: '2',
-  //       id: '2',
-  //       name: 'Продукт 2',
-  //       count: 554,
-  //       manufacturer: 'США',
-  //       cost: 1.25,
-  //     },
-  //     {
-  //       key: '3',
-  //       id: '3',
-  //       name: 'Продукт 3',
-  //       count: 703,
-  //       manufacturer: 'Китай',
-  //       cost: 0.67,
-  //     },
-  //     {
-  //        key: '4',
-  //       id: '4',
-  //       name: 'Продукт4',
-  //       count: 898,
-  //       manufacturer: 'Россия',
-  //       cost: 1.1,
-  //     },
-  //   ]
-  // });
 }
 
-export type FetchDataByRowIdArgs = TaskInfo & {
+export type FetchDataByRowIdArgs = TaskInfo & UserInfo & {
   rowId: string;
 };
 
-export const fetchTilesDataByRowId = ({stageId, scriptId, rowId}: FetchDataByRowIdArgs) => {
+export const fetchTilesDataByRowId = ({stageId, scriptId, rowId, userId}: FetchDataByRowIdArgs) => {
   return axios.get<RawTilesDto>(
     '/api.php',
     {
       params: {
+        user_id: userId,
         api_id: 'stage_tetris',
         script_id: scriptId,
         stage_id: stageId,
@@ -106,11 +51,12 @@ export const fetchTilesDataByRowId = ({stageId, scriptId, rowId}: FetchDataByRow
   )
 }
 
-export const fetchChartDataByRowId = ({stageId, scriptId, rowId}: FetchDataByRowIdArgs) => {
+export const fetchChartDataByRowId = ({stageId, scriptId, rowId, userId}: FetchDataByRowIdArgs) => {
   return axios.get<RawChartDataDto>(
     '/api.php',
     {
       params: {
+        user_id: userId,
         api_id: 'stage_product_demand',
         script_id: scriptId,
         stage_id: stageId,
@@ -127,12 +73,13 @@ type TileParams = {
   apiName: string;
 }
 
-export type FetchMapDataByTileIdArgs = TaskInfo & Pick<TileParams, 'tileId'>;
-export const fetchMapDataByTileId = ({stageId, scriptId, tileId}: FetchMapDataByTileIdArgs) => {
+export type FetchMapDataByTileIdArgs = TaskInfo & UserInfo & Pick<TileParams, 'tileId'>;
+export const fetchMapDataByTileId = ({stageId, scriptId, tileId, userId}: FetchMapDataByTileIdArgs) => {
   return axios.get<RawMapDataDto>(
     '/api.php',
     {
       params: {
+        user_id: userId,
         api_id: 'stage_ya_map',
         script_id: scriptId,
         stage_id: stageId,
@@ -143,11 +90,12 @@ export const fetchMapDataByTileId = ({stageId, scriptId, tileId}: FetchMapDataBy
 }
 
 export type FetchFormDataByTileParamsArgs = TaskInfo & TileParams & FetchDataByRowIdArgs;
-export const fetchFormDataByTileParams = ({stageId, scriptId, apiName, tileId, rowId}: FetchFormDataByTileParamsArgs) => {
+export const fetchFormDataByTileParams = ({stageId, scriptId, apiName, tileId, rowId, userId}: FetchFormDataByTileParamsArgs) => {
   return axios.get<RawFormFieldsDto>(
     '/api.php',
     {
       params: {
+        user_id: userId,
         api_id: apiName,
         script_id: scriptId,
         stage_id: stageId,

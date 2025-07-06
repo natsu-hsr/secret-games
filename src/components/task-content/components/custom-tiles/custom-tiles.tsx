@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 
 import {Loadable} from '@components/loadable';
+import {useUserId} from '@shared/hooks';
 import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
 import {
   type TileDto,
@@ -22,6 +23,7 @@ import styles from './custom-tiles.module.scss';
 export const CustomTiles = () => {
   const dispatch = useAppDispatch();
   const {scriptId, stageId} = useParams();
+  const {userId} = useUserId();
 
   const tilesData = useAppSelector(selectTaskTilesData);
   const selectedRowId = useAppSelector(selectTableSelectedRowId);
@@ -42,7 +44,7 @@ export const CustomTiles = () => {
   }, [selectedRowId]);
 
   const handleClick = (tile: TileDto) => {
-    if (!tile || !stageId || !scriptId) return;
+    if (!tile || !stageId || !scriptId || !userId) return;
     
     setSelectedTile(tile);
     dispatch(taskSliceActions.setSelectedTileId(tile.id));
@@ -54,6 +56,7 @@ export const CustomTiles = () => {
     } = tile;
 
     dispatch(loadMapDataByTileId({
+      userId,
       scriptId,
       stageId,
       tileId,
@@ -65,6 +68,7 @@ export const CustomTiles = () => {
     }
 
     dispatch(loadFormDataByTileParams({
+      userId,
       scriptId,
       stageId,
       name,
