@@ -3,7 +3,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {fetchTasksByUserId, type FetchTasksByUserIdArgs} from './tasks-slice-api';
 import {tasksSliceName} from './tasks-slice-constants';
 import type {TasksDto} from './tasks-slice-types';
-import { convertRawTasks } from './tasks-slice-utils';
+import {convertRawTasks} from './tasks-slice-utils';
 
 export const loadTasksByUserId = createAsyncThunk<TasksDto, FetchTasksByUserIdArgs>(
   `${tasksSliceName}/loadTasksByUserId`,

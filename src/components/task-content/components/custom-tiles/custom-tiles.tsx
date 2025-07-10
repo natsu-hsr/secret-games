@@ -41,7 +41,7 @@ export const CustomTiles = () => {
     if (selectedTile) {
       setSelectedTile(undefined);
     }
-  }, [selectedRowId]);
+  }, [selectedRowId, selectedTile]);
 
   const handleClick = (tile: TileDto) => {
     if (!tile || !stageId || !scriptId || !userId) return;

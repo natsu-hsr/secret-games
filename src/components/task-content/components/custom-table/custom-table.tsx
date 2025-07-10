@@ -4,7 +4,7 @@ import cn from 'classnames';
 import {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 
-import { useUserId } from '@shared/hooks';
+import {useUserId} from '@shared/hooks';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {
   loadChartDataByRowId,

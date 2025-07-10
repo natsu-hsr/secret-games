@@ -65,7 +65,15 @@ export default tseslint.config(
             "caseInsensitive": true,
           }
         }
-      ]
+      ],
+      "max-len": [
+        "warn",
+        {
+          "code": 121,
+          "ignorePattern": "^(import\\s.+\\sform\\s.+|\\} from)",
+        }
+      ],
+      "object-curly-spacing": ["error", "never"],
     },
   },
 )

@@ -4,7 +4,6 @@ import {createSelector, createSlice, type PayloadAction} from '@reduxjs/toolkit'
 import {loadingStateSliceName} from './loading-state-slice-constants';
 import type {AppState} from '../../../store/config/types';
 
-
 const extractTypeParts = (type: string) => {
     const typeSplit = type.split('/');
     const [

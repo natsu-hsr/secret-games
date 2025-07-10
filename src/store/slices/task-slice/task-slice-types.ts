@@ -105,7 +105,7 @@ export type RawFormFieldDto = {
   HTML_Label: string;
   HTML_type: RawFieldType;
   HTML_value: number | string;
-  HTML_enable: '0' | '1';
+  HTML_enable: '0' | '1' | 'selected';
 } & Record<string, string>;
 export type FormFieldDto = {
   name: string;
@@ -122,6 +122,7 @@ export type RawFormFieldsDto = RawFormFieldDto[];
 export type FormFieldsDto = FormFieldDto[];
 export type SortedFormFieldsDto = {
   select?: FormFieldDto;
+  selectedSelect?: string;
   radios?: FormFieldDto[];
   regularFields: FormFieldDto[];
 }
@@ -137,6 +138,9 @@ export type TTask  = {
   tableData: TableDataDto;
   tilesData: TilesDataDto;
   formConfig: SortedFormFieldsDto | undefined;
+  sharedData: {
+    tileId: string;
+  } | undefined;
 }
 
 export type TTaskSliceState = Partial<TTask>

@@ -92,7 +92,9 @@ export const fetchMapDataByTileId = ({stageId, scriptId, tileId, userId}: FetchM
 }
 
 export type FetchFormDataByTileParamsArgs = TaskInfoArgs & TileParams & FetchDataByRowIdArgs;
-export const fetchFormDataByTileParams = ({stageId, scriptId, apiName, tileId, rowId, userId}: FetchFormDataByTileParamsArgs) => {
+export const fetchFormDataByTileParams = ({
+  stageId, scriptId, apiName, tileId, rowId, userId,
+}: FetchFormDataByTileParamsArgs) => {
   return axios.get<RawFormFieldsDto>(
     API_PREFIX.fetch,
     {

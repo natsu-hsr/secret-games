@@ -20,8 +20,11 @@ export const convertRawTableData = ({rawData}: ConvertRawTableDataArgs): TableDa
   const configRawEntity = rawData?.shift();
   if (!configRawEntity) return undefined;
 
+  const hiddenColumns: string[] = ['Product_ID']; // TODO: перенести на бэк
+
   const columns = Object.entries(configRawEntity)
-    .filter(([k])=> isNaN(Number(k))) //todo: убрать костыль как бэк уберет дублирование
+    .filter(([k])=> isNaN(Number(k))) // TODO: убрать костыль как бэк уберет дублирование
+    .filter(([k]) => !hiddenColumns.includes(k))
     .map(([k, v]) => ({
     key: k,
     dataIndex: k,
@@ -59,7 +62,8 @@ type ConvertRawFormFieldsArgs = {
 export const convertRawFormFields = ({rawFormFields}: ConvertRawFormFieldsArgs): SortedFormFieldsDto => {
   const regularConverted: FormFieldsDto = [];
 
-  let select: FormFieldDto | undefined = undefined;
+  let select: FormFieldDto | undefined;
+  let selectedSelect: string | undefined;
 
   const radiosConverted: FormFieldsDto = rawFormFields
     .filter(rf => rf.HTML_type === 'radio')
@@ -68,6 +72,9 @@ export const convertRawFormFields = ({rawFormFields}: ConvertRawFormFieldsArgs):
   // обработка select
   rawFormFields.forEach(rf => {
     if (rf.HTML_type === 'select') {
+      if (rf.HTML_enable === 'selected') {
+        selectedSelect = String(rf.HTML_value); // TODO: 
+      }
       if (!select) {
         select = {
           name: rf.HTML_ID,
@@ -143,6 +150,7 @@ export const convertRawFormFields = ({rawFormFields}: ConvertRawFormFieldsArgs):
 
   return {
     select,
+    selectedSelect,
     radios: radiosConverted,
     regularFields: regularConverted,
   };

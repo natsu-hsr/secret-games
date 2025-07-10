@@ -70,7 +70,7 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
       zoom: 3,
       controls: ['zoomControl'],
     });
-  }, [isLoaded, mapData, ymaps]);
+  }, [isLoaded, mapData, ymaps, mapRef]);
 
   useEffect(() => {
     if (!isLoaded || !ymaps || !mapInstanceRef.current || !mapData) return;

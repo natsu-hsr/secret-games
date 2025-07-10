@@ -1,7 +1,7 @@
 import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 
 import {authSliceName} from './auth-slice-constants';
-import { authorize } from './auth-slice-thunks';
+import {authorize} from './auth-slice-thunks';
 import type {TAuthSliceState} from './auth-slice-types';
 
 export const authSliceInitialState: TAuthSliceState = {

@@ -1,6 +1,6 @@
 import {Button, notification} from 'antd';
 import Title from 'antd/es/typography/Title'
-import type { AxiosError } from 'axios';
+import type {AxiosError} from 'axios';
 import {useNavigate, useLocation, useParams} from 'react-router-dom'
 
 import {useUserId} from '@shared/hooks';
@@ -33,7 +33,9 @@ export const TaskTitle = () => {
       .catch((e: AxiosError) => {
         const errorMessage = e?.response?.data;
         console.error('Ошибка при завершении задачи=', errorMessage);
-        notification.error({message: `При завершении задачи произошла ошибка${errorMessage ? ` :${errorMessage}` : ''}`});
+        notification.error({
+          message: `При завершении задачи произошла ошибка${errorMessage ? ` :${errorMessage}` : ''}`
+        });
       });
   }
 

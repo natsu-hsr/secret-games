@@ -27,7 +27,7 @@ export const authorize = createAsyncThunk<boolean, AuthorizeArgs>(
 
 export const logout = createAsyncThunk(
   '${authSliceName}/logout',
-  async (_, { dispatch }) => {
+  async (_, {dispatch}) => {
     localStorage.removeItem('userId');
     dispatch(authSliceActions.setAuthorized(false));
   }

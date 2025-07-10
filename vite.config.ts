@@ -1,8 +1,9 @@
 import {defineConfig} from 'vite'
-import react from '@vitejs/plugin-react'
+import eslint from 'vite-plugin-eslint2';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths'
-import eslint from 'vite-plugin-eslint2';
+
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   // base: '/secret-games/',
