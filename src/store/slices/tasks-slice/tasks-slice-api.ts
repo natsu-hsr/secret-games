@@ -1,5 +1,6 @@
-import axios from "axios";
-import type {RawTasksDto} from "./tasks-slice-types";
+import axios from 'axios';
+
+import type {RawTasksDto} from './tasks-slice-types';
 
 export type UserIdArgs = {
   userId: string;

@@ -1,17 +1,19 @@
 import {Skeleton, Popover} from 'antd';
-import QuestionCircleOutlined from '@ant-design/icons/QuestionCircleOutlined'
+import Paragraph from 'antd/es/typography/Paragraph';
+import Title from 'antd/es/typography/Title';
 import {useEffect, useState} from 'react';
-import {Link, useParams} from "react-router-dom"
+import {Link, useParams} from 'react-router-dom'
 
+import QuestionCircleOutlined from '@ant-design/icons/QuestionCircleOutlined'
 import {TaskContent} from '@components/task-content/task-content';
-import {useUserId} from "@shared/hooks";
+import {useUserId} from '@shared/hooks';
 import {useAppDispatch} from '@store/config/hooks';
 import {loadMapDataByTileId, loadTableData} from '@store/slices/task-slice';
 
 import styles from './task-page.module.scss';
+
 import errorImage from '@assets/robot-error.webp';
-import Paragraph from 'antd/es/typography/Paragraph';
-import Title from 'antd/es/typography/Title';
+
 
 interface ErrorPanelProps {
   error: string | undefined;

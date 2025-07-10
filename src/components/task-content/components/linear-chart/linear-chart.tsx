@@ -1,4 +1,4 @@
-import {useMemo} from "react";
+import {useMemo} from 'react';
 import {
   ResponsiveContainer,
   LineChart,
@@ -7,12 +7,12 @@ import {
   Tooltip,
   Line,
   CartesianGrid,
-} from "recharts"
+} from 'recharts'
 
-import {Loadable} from "@components/loadable";
-import {useAppSelector} from "@store/config/hooks";
-import {selectTaskChartData, loadChartDataByRowId} from "@store/slices/task-slice";
-import {selectIsThunkPending, selectIsThunkRejected} from "@store/slices/loading-state-slice";
+import {Loadable} from '@components/loadable';
+import {useAppSelector} from '@store/config/hooks';
+import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
+import {selectTaskChartData, loadChartDataByRowId} from '@store/slices/task-slice';
 
 import styles from './linear-chart.module.scss';
 

@@ -1,5 +1,6 @@
-import axios from "axios";
-import type {TAuthForm, TRegisterForm} from "./auth-slice-types";
+import axios from 'axios';
+
+import type {TAuthForm, TRegisterForm} from './auth-slice-types';
 
 export type AuthorizeArgs = TAuthForm;
 export const authorize = ({email, password}: AuthorizeArgs) => {

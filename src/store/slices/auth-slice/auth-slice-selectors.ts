@@ -1,7 +1,7 @@
-import {createSelector} from "@reduxjs/toolkit";
+import {createSelector} from '@reduxjs/toolkit';
 
-import type {AppState} from "../../config/types";
-import {authSliceName} from "./auth-slice-constants";
+import {authSliceName} from './auth-slice-constants';
+import type {AppState} from '../../config/types';
 
 const selectAuthSliceState = (state: AppState) => state[authSliceName];
 

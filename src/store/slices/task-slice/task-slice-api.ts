@@ -1,12 +1,14 @@
-import axios from "axios";
-import type {RawChartDataDto, RawFormFieldsDto, RawMapDataDto, RawTableDataDto, RawTilesDto} from "./task-slice-types";
+import axios from 'axios';
+
+import {API_PREFIX, FETCH_API_PATH, POST_API_PATH} from './task-slice-constants';
+import type {RawChartDataDto, RawFormFieldsDto, RawMapDataDto, RawTableDataDto, RawTilesDto} from './task-slice-types';
 
 // common
-type UserInfo = {
+type UserInfoArgs = {
   userId: string;
 }
 
-export type TaskInfo = {
+export type TaskInfoArgs = {
   stageId: string;
   scriptId: string;
 }
@@ -17,14 +19,14 @@ export type TaskInfo = {
 //   ]);
 // }
 
-export type FetchTableDataArgs = TaskInfo & UserInfo;
+export type FetchTableDataArgs = TaskInfoArgs & UserInfoArgs;
 export const fetchTableData = ({scriptId, stageId, userId}: FetchTableDataArgs) => {
   return axios.get<RawTableDataDto>(
-    '/api.php',
+    API_PREFIX.fetch,
     {
       params: {
         user_id: userId,
-        api_id: 'product_list',
+        api_id: FETCH_API_PATH.table,
         script_id: scriptId,
         stage_id: stageId,
       }
@@ -32,17 +34,17 @@ export const fetchTableData = ({scriptId, stageId, userId}: FetchTableDataArgs) 
   );
 }
 
-export type FetchDataByRowIdArgs = TaskInfo & UserInfo & {
+export type FetchDataByRowIdArgs = TaskInfoArgs & UserInfoArgs & {
   rowId: string;
 };
 
 export const fetchTilesDataByRowId = ({stageId, scriptId, rowId, userId}: FetchDataByRowIdArgs) => {
   return axios.get<RawTilesDto>(
-    '/api.php',
+    API_PREFIX.fetch,
     {
       params: {
         user_id: userId,
-        api_id: 'stage_tetris',
+        api_id: FETCH_API_PATH.tiles,
         script_id: scriptId,
         stage_id: stageId,
         product_id: rowId,
@@ -53,11 +55,11 @@ export const fetchTilesDataByRowId = ({stageId, scriptId, rowId, userId}: FetchD
 
 export const fetchChartDataByRowId = ({stageId, scriptId, rowId, userId}: FetchDataByRowIdArgs) => {
   return axios.get<RawChartDataDto>(
-    '/api.php',
+    API_PREFIX.fetch,
     {
       params: {
         user_id: userId,
-        api_id: 'stage_product_demand',
+        api_id: FETCH_API_PATH.chart,
         script_id: scriptId,
         stage_id: stageId,
         product_id: rowId,
@@ -73,14 +75,14 @@ type TileParams = {
   apiName: string;
 }
 
-export type FetchMapDataByTileIdArgs = TaskInfo & UserInfo & Pick<TileParams, 'tileId'>;
+export type FetchMapDataByTileIdArgs = TaskInfoArgs & UserInfoArgs & Pick<TileParams, 'tileId'>;
 export const fetchMapDataByTileId = ({stageId, scriptId, tileId, userId}: FetchMapDataByTileIdArgs) => {
   return axios.get<RawMapDataDto>(
-    '/api.php',
+    API_PREFIX.fetch,
     {
       params: {
         user_id: userId,
-        api_id: 'stage_ya_map',
+        api_id: FETCH_API_PATH.map,
         script_id: scriptId,
         stage_id: stageId,
         tileId: tileId,
@@ -89,10 +91,10 @@ export const fetchMapDataByTileId = ({stageId, scriptId, tileId, userId}: FetchM
   )
 }
 
-export type FetchFormDataByTileParamsArgs = TaskInfo & TileParams & FetchDataByRowIdArgs;
+export type FetchFormDataByTileParamsArgs = TaskInfoArgs & TileParams & FetchDataByRowIdArgs;
 export const fetchFormDataByTileParams = ({stageId, scriptId, apiName, tileId, rowId, userId}: FetchFormDataByTileParamsArgs) => {
   return axios.get<RawFormFieldsDto>(
-    '/api.php',
+    API_PREFIX.fetch,
     {
       params: {
         user_id: userId,
@@ -106,7 +108,7 @@ export const fetchFormDataByTileParams = ({stageId, scriptId, apiName, tileId, r
   )
 }
 
-export type PostFormDataArgs = TaskInfo & UserInfo & {
+export type PostFormDataArgs = TaskInfoArgs & UserInfoArgs & {
   productId: string,
   cardHeaderId : string,
 } & Record<string, unknown>;
@@ -121,7 +123,7 @@ export const postFormData = (data: PostFormDataArgs) => {
   } = data;
 
   return axios.post<string>(
-    '/save.php?save_id=tmp_result',
+    API_PREFIX.post,
     {
       user_id: userId,
       script_id: scriptId,
@@ -131,22 +133,24 @@ export const postFormData = (data: PostFormDataArgs) => {
       ...rest,
     },
     {
-      headers: {"Content-Type": "multipart/form-data"},
+      params: {save_id: POST_API_PATH.form},
+      headers: {'Content-Type': 'multipart/form-data'},
     }
   )
 }
 
-export type PostTaskArgs = TaskInfo & UserInfo;
+export type PostTaskArgs = TaskInfoArgs & UserInfoArgs;
 export const postTask= ({userId, scriptId, stageId}: PostTaskArgs) => {
   return axios.post<string>(
-    '/save.php?save_id=main_result',
+    API_PREFIX.post,
     {
       user_id: userId,
       script_id: scriptId,
       stage_id: stageId,
     },
     {
-      headers: {"Content-Type": "multipart/form-data"},
+      params: {save_id: POST_API_PATH.task},
+      headers: {'Content-Type': 'multipart/form-data'},
     }
   )
 }

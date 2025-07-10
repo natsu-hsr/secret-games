@@ -1,7 +1,8 @@
-import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
-import { tasksSliceName } from "./tasks-slice-constants";
-import type { TasksDto, TasksSliceState } from "./tasks-slice-types";
-import { loadTasksByUserId } from "./tasks-slice-thunks";
+import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
+
+import { tasksSliceName } from './tasks-slice-constants';
+import { loadTasksByUserId } from './tasks-slice-thunks';
+import type { TasksDto, TasksSliceState } from './tasks-slice-types';
 
 export const tasksSliceInitialState: TasksSliceState = {
   tasks: undefined,

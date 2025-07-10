@@ -1,5 +1,5 @@
-import {Spin, type SpinProps} from "antd";
-import type {ReactNode} from "react"
+import {Spin, type SpinProps} from 'antd';
+import type {ReactNode} from 'react'
 
 import styles from './layout-spin.module.scss';
 

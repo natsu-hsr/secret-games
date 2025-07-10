@@ -2,12 +2,12 @@ import {Button, Flex, Form, Input} from 'antd';
 import Card from 'antd/es/card/Card';
 import {useForm} from 'antd/es/form/Form';
 import Title from 'antd/es/typography/Title';
-import CheckCircleOutlined from '@ant-design/icons/lib/icons/CheckCircleOutlined';
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
-import {register, type TRegisterForm} from '@store/slices/auth-slice';
+import CheckCircleOutlined from '@ant-design/icons/lib/icons/CheckCircleOutlined';
 import type {MessageEntity} from '@shared/types';
+import {register, type TRegisterForm} from '@store/slices/auth-slice';
 
 import styles from './register-page.module.scss';
 
@@ -70,7 +70,7 @@ export const RegisterPage = () => {
               <Form.Item
                 label="E-mail"
                 name="email"
-                rules={[{required: true, type: "email", message: 'Необходимо ввести корректную электронную почту'}]}
+                rules={[{required: true, type: 'email', message: 'Необходимо ввести корректную электронную почту'}]}
               >
                 <Input type='email' placeholder='Введите электронную почту' />
               </Form.Item>

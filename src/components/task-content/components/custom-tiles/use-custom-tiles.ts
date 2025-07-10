@@ -1,6 +1,6 @@
-import {useMemo} from "react";
+import {useMemo} from 'react';
 
-import type {TilesDto} from "@store/slices/task-slice";
+import type {TilesDto} from '@store/slices/task-slice';
 
 const defaultGridSize = 1;
 

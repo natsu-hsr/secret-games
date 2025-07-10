@@ -1,6 +1,6 @@
-import Row from "antd/es/grid/row";
-import Card from "antd/es/card/Card";
-import Col from "antd/es/grid/col";
+import Card from 'antd/es/card/Card';
+import Col from 'antd/es/grid/col';
+import Row from 'antd/es/grid/row';
 import cn from 'classnames';
 
 import {
@@ -11,7 +11,6 @@ import {
   TaskTitle,
   TaskForm,
 } from './components';
-
 import styles from './task-content.module.scss';
 
 export const TaskContent = () => (

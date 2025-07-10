@@ -1,13 +1,13 @@
-import Title from 'antd/es/typography/Title'
 import {Button, notification} from 'antd';
+import Title from 'antd/es/typography/Title'
+import type { AxiosError } from 'axios';
 import {useNavigate, useLocation, useParams} from 'react-router-dom'
 
 import {useUserId} from '@shared/hooks';
-import {submitTask} from '@store/slices/task-slice';
 import {useAppDispatch} from '@store/config/hooks';
+import {submitTask} from '@store/slices/task-slice';
 
 import styles from './task-title.module.scss';
-import type { AxiosError } from 'axios';
 
 export const TaskTitle = () => {
   const dispatch = useAppDispatch();

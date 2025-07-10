@@ -1,18 +1,18 @@
-import Card from 'antd/es/card/Card';
-import Row from 'antd/es/grid/row';
-import Col from 'antd/es/grid/col';
-import Title from 'antd/es/typography/Title';
-import LockOutlined from '@ant-design/icons/lib/icons/LockOutlined';
 import {Empty, Skeleton} from 'antd';
+import Card from 'antd/es/card/Card';
+import Col from 'antd/es/grid/col';
+import Row from 'antd/es/grid/row';
+import Title from 'antd/es/typography/Title';
 import cn from 'classnames';
 import {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 
+import LockOutlined from '@ant-design/icons/lib/icons/LockOutlined';
 import {PageLayout} from '@components/page-layout/page-layout';
 import {useUserId} from '@shared/hooks';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
-import {loadTasksByUserId, selectTasks, type ScriptDto} from '@store/slices/tasks-slice';
 import {selectIsThunkPending} from '@store/slices/loading-state-slice';
+import {loadTasksByUserId, selectTasks, type ScriptDto} from '@store/slices/tasks-slice';
 
 import styles from './tasks-page.module.scss';
 

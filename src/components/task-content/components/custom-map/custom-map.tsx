@@ -1,13 +1,13 @@
 import cn from 'classnames';
-import {useRef} from "react";
+import {useRef} from 'react';
 
-import {Loadable} from "@components/loadable";
-import {loadMapDataByTileId, selectTaskMapData} from "@store/slices/task-slice";
-import {useAppSelector} from "@store/config/hooks";
-import {selectIsThunkPending, selectIsThunkRejected} from "@store/slices/loading-state-slice";
-import {useYandexMapLoader} from "./use-yandexmap-loader";
+import {Loadable} from '@components/loadable';
+import {useAppSelector} from '@store/config/hooks';
+import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
+import {loadMapDataByTileId, selectTaskMapData} from '@store/slices/task-slice';
 
 import styles from './custom-map.module.scss';
+import {useYandexMapLoader} from './use-yandexmap-loader';
 
 export const CustomMap = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);

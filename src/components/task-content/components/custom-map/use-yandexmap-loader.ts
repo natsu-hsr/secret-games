@@ -68,7 +68,7 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
     mapInstanceRef.current = new ymaps.Map(mapRef.current, {
       center,
       zoom: 3,
-      controls: ["zoomControl"],
+      controls: ['zoomControl'],
     });
   }, [isLoaded, mapData, ymaps]);
 
@@ -89,7 +89,7 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
         {
           draggable: p.draggable,
           // preset: p.labelType,
-          iconColor: "#0095b6",
+          iconColor: '#0095b6',
         }
       );
 

@@ -5,6 +5,7 @@ import {useParams} from 'react-router-dom';
 
 import {Loadable} from '@components/loadable';
 import {useUserId} from '@shared/hooks';
+import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
 import {
   type TileDto,
@@ -15,10 +16,9 @@ import {
   selectTaskTilesData,
   taskSliceActions,
 } from '@store/slices/task-slice';
-import {useAppDispatch, useAppSelector} from '@store/config/hooks';
-import {useCustomTiles} from './use-custom-tiles';
 
 import styles from './custom-tiles.module.scss';
+import {useCustomTiles} from './use-custom-tiles';
 
 export const CustomTiles = () => {
   const dispatch = useAppDispatch();
@@ -117,13 +117,13 @@ export const CustomTiles = () => {
 
                 const borders = currentTile
                   ? {
-                      borderLeft: isLeftEdge ? "1px solid #d9d9d9" : "none",
-                      borderRight: isRightEdge ? "1px solid #d9d9d9" : "none",
-                      borderTop: isTopEdge ? "1px solid #d9d9d9" : "none",
-                      borderBottom: isBottomEdge ? "1px solid #d9d9d9" : "none",
+                      borderLeft: isLeftEdge ? '1px solid #d9d9d9' : 'none',
+                      borderRight: isRightEdge ? '1px solid #d9d9d9' : 'none',
+                      borderTop: isTopEdge ? '1px solid #d9d9d9' : 'none',
+                      borderBottom: isBottomEdge ? '1px solid #d9d9d9' : 'none',
                     }
                   : {
-                      border: "1px solid #d9d9d9",
+                      border: '1px solid #d9d9d9',
                     };
                   
                 const isTopLeftCorner =
@@ -142,7 +142,7 @@ export const CustomTiles = () => {
                       isTopLeftCorner && styles.topCell
                     )}
                     style={{
-                      backgroundColor: currentTile?.color ?? "#fff",
+                      backgroundColor: currentTile?.color ?? '#fff',
                       ...borders,
                     }}
                     onMouseEnter={() => currentTile && setHoveredTileId(currentTile.id)}

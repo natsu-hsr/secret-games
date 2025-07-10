@@ -6,8 +6,10 @@ import {useAppDispatch} from '@store/config/hooks';
 import {logout} from '@store/slices/auth-slice';
 
 import styles from './header.module.scss';
-import LogoutSvg from "@assets/logout.svg?react";
+
 import LogoSvg from '@assets/logo.svg?react';
+import LogoutSvg from '@assets/logout.svg?react';
+
 
 type NavMenu = {
   title: string,

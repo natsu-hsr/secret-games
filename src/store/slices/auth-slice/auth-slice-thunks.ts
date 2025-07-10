@@ -1,7 +1,8 @@
-import {createAsyncThunk} from "@reduxjs/toolkit/react";
-import {authorize as authorizeRequest, type AuthorizeArgs} from "./auth-slice-api";
-import {authSliceName} from "./auth-slice-constants";
+import {createAsyncThunk} from '@reduxjs/toolkit/react';
+
 import {authSliceActions} from './auth-slice'
+import {authorize as authorizeRequest, type AuthorizeArgs} from './auth-slice-api';
+import {authSliceName} from './auth-slice-constants';
 
 export const authorize = createAsyncThunk<boolean, AuthorizeArgs>(
   `${authSliceName}/authorize`,

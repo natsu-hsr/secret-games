@@ -3,9 +3,9 @@ import Paragraph from 'antd/es/typography/Paragraph';
 import cn from 'classnames';
 import type {ReactNode} from 'react';
 
-import {LayoutSpin} from "./layout-spin/layout-spin";
-
+import {LayoutSpin} from './layout-spin/layout-spin';
 import styles from './loadable.module.scss';
+
 import ErrorSvg from '@assets/error.svg?react';
 
 interface ErrorProps {

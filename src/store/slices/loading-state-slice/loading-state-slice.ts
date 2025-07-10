@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {createSelector, createSlice, type PayloadAction} from '@reduxjs/toolkit';
 
+import {loadingStateSliceName} from './loading-state-slice-constants';
 import type {AppState} from '../../../store/config/types';
 
-import {loadingStateSliceName} from './loading-state-slice-constants';
 
 const extractTypeParts = (type: string) => {
     const typeSplit = type.split('/');

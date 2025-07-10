@@ -1,14 +1,16 @@
 import Button from 'antd/es/button';
 import Flex from 'antd/es/flex';
-import Title from 'antd/es/typography/Title';
 import Paragraph from 'antd/es/typography/Paragraph';
-import PlayCircleOutlined from '@ant-design/icons/PlayCircleOutlined'
+import Title from 'antd/es/typography/Title';
 import {useNavigate} from 'react-router-dom';
 
+import PlayCircleOutlined from '@ant-design/icons/PlayCircleOutlined'
 import {PageLayout} from '@components/page-layout/page-layout';
-import logisticsImage from '@assets/logistics_banner.svg';
 
 import styles from './home-page.module.scss';
+
+import logisticsImage from '@assets/logistics_banner.svg';
+
 
 export const HomePage = () => {
   const navigate = useNavigate();

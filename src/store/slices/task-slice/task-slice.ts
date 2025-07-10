@@ -1,4 +1,13 @@
-import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
+
+import {taskSliceName} from './task-slice-constants';
+import {
+  loadChartDataByRowId,
+  loadFormDataByTileParams,
+  loadMapDataByTileId,
+  loadTableData,
+  loadTilesDataByRowId,
+} from './task-slice-thunks';
 import type {
   ChartDataDto,
   MapDataDto,
@@ -7,15 +16,7 @@ import type {
   SortedFormFieldsDto,
   FormFieldsDto,
   TilesDataDto,
-} from "./task-slice-types";
-import {taskSliceName} from "./task-slice-constants";
-import {
-  loadChartDataByRowId,
-  loadFormDataByTileParams,
-  loadMapDataByTileId,
-  loadTableData,
-  loadTilesDataByRowId,
-} from "./task-slice-thunks";
+} from './task-slice-types';
 
 export const taskSliceInitialState: TTaskSliceState = {}
 

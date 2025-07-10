@@ -1,6 +1,6 @@
-import Card from "antd/es/card/Card";
+import Card from 'antd/es/card/Card';
 import cn from 'classnames';
-import type {ReactNode} from "react";
+import type {ReactNode} from 'react';
 
 import styles from './page-layout.module.scss';
 

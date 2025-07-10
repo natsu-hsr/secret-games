@@ -1,15 +1,15 @@
-import Form, {useForm} from 'antd/es/form/Form';
-import Input from 'antd/es/input/Input';
-import FormItem from 'antd/es/form/FormItem';
 import {Button, Select, notification} from 'antd';
+import Form, {useForm} from 'antd/es/form/Form';
+import FormItem from 'antd/es/form/FormItem';
+import Input from 'antd/es/input/Input';
 import type {AxiosError} from 'axios';
 import {useMemo} from 'react';
 import {useParams} from 'react-router-dom';
 
 import {Loadable} from '@components/loadable';
 import {useUserId} from '@shared/hooks';
-import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
+import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
 import {
   loadFormDataByTileParams,
   selectFormConfigData,
@@ -19,8 +19,8 @@ import {
   selectTableSelectedRowId,
   selectSelectedTileId,
 } from '@store/slices/task-slice';
-import {renderRadiosFields} from './task-form-utils';
 
+import {renderRadiosFields} from './task-form-utils';
 import styles from './task-form.module.scss';
 
 interface FormComponentProps {

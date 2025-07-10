@@ -1,4 +1,4 @@
-import type {RawTasksDto, TasksDto} from "./tasks-slice-types"
+import type {RawTasksDto, TasksDto} from './tasks-slice-types'
 
 type ConvertRawTasksArgs = {
   rawTasks: RawTasksDto;

@@ -1,14 +1,14 @@
-import ConfigProvider from "antd/es/config-provider";
-import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom"
-import {Provider} from "react-redux";
+import ConfigProvider from 'antd/es/config-provider';
+import {Provider} from 'react-redux';
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 
-import {ProtectedLayout} from "@components/protected-layout/protected-layout";
+import {ProtectedLayout} from '@components/protected-layout/protected-layout';
 import {HomePage} from '@pages/home-page/home-page';
-import {LoginPage} from "@pages/login-page/login-page";
-import {RegisterPage} from "@pages/register-page/register-page";
+import {LoginPage} from '@pages/login-page/login-page';
+import {RegisterPage} from '@pages/register-page/register-page';
 import {TaskPage} from '@pages/task-page/task-page';
-import {TasksPage} from "@pages/tasks-page/tasks-page";
-import {store} from "@store/config";
+import {TasksPage} from '@pages/tasks-page/tasks-page';
+import {store} from '@store/config';
 
 import './App.scss'
 import './shared/styles/global.scss';

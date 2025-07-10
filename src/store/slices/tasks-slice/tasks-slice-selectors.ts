@@ -1,6 +1,7 @@
-import {createSelector} from "@reduxjs/toolkit";
-import type {AppState} from "../../config/types";
-import {tasksSliceName} from "./tasks-slice-constants";
+import {createSelector} from '@reduxjs/toolkit';
+
+import {tasksSliceName} from './tasks-slice-constants';
+import type {AppState} from '../../config/types';
 
 const selectTasksSliceState = (state: AppState) => state[tasksSliceName];
 
