@@ -1,9 +1,8 @@
-import {matchRawFieldTypes} from '@components/task-content/components/task-form/task-form-utils';
-
 import type {
   FieldControls,
   FormFieldDto,
   FormFieldsDto,
+  FormType,
   RawFormFieldDto,
   RawFormFieldsDto,
   RawTableDataDto,
@@ -44,17 +43,40 @@ export const convertRawTableData = ({rawData}: ConvertRawTableDataArgs): TableDa
     }
   }
 }
-
 type ConvertRawFieldArgs = {
   rawField: RawFormFieldDto;
 }
-export const convertRawField = ({rawField}: ConvertRawFieldArgs) => ({
-  name: rawField.HTML_ID,
-  label: rawField.HTML_Label,
-  type: matchRawFieldTypes({rawFieldType: rawField.HTML_type}),
-  defaultValue: rawField.HTML_value,
-  disabled: rawField.HTML_enable !== '1', 
-})
+export const convertRawField = ({rawField}: ConvertRawFieldArgs): FormFieldDto => {
+  const convertedField: FormFieldDto = {
+    name: rawField.HTML_ID,
+    label: rawField.HTML_Label,
+    type: rawField.HTML_type ?? 'text',
+    defaultValue: rawField.HTML_value,
+    disabled: rawField.HTML_enable !== '1',
+    selected: rawField.HTML_enable === 'selected',
+    dependentFields: [],
+  }
+
+  // ==== dependentFields ====
+  if (convertedField.type === 'select') {
+    // для типа select это состояние обычных полей при выборе конкретного опшена
+    Object.entries(rawField)
+      .forEach(([k, v]) => {
+        if (!k.endsWith('_enable') || k.startsWith('HTML')) {
+          return;
+        }
+
+        const key = k.split('_enable')?.[0];
+
+        convertedField.dependentFields?.push(({
+          name: key,
+          disabled: v === 'readonly',
+        }))
+      });
+  }
+
+  return convertedField;
+};
 
 type ConvertRawFormFieldsArgs = {
   rawFormFields: RawFormFieldsDto;
@@ -79,7 +101,7 @@ export const convertRawFormFields = ({rawFormFields}: ConvertRawFormFieldsArgs):
         select = {
           name: rf.HTML_ID,
           label: rf.HTML_Label,
-          type: matchRawFieldTypes({rawFieldType: rf.HTML_type}),
+          type: rf.HTML_type ?? 'text',
           defaultValue: rf.HTML_value,
           disabled: rf.HTML_enable !== '1',
           options: [],
@@ -155,3 +177,13 @@ export const convertRawFormFields = ({rawFormFields}: ConvertRawFormFieldsArgs):
     regularFields: regularConverted,
   };
 };
+
+type GetFormTypeArgs = {
+  rawFields: RawFormFieldDto[];
+}
+export const getFormType = ({rawFields}: GetFormTypeArgs): FormType => {
+  if (rawFields.some(f => f.HTML_type === 'radio')) return 'radio';
+  if (rawFields.some(f => f.HTML_type === 'select')) return 'select';
+
+  return 'default';
+}

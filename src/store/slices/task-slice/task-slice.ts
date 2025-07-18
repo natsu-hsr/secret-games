@@ -3,7 +3,6 @@ import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 import {taskSliceName} from './task-slice-constants';
 import {
   loadChartDataByRowId,
-  loadFormDataByTileParams,
   loadMapDataByTileId,
   loadTableData,
   loadTilesDataByRowId,
@@ -13,9 +12,9 @@ import type {
   MapDataDto,
   TTaskSliceState,
   TableDataDto,
-  SortedFormFieldsDto,
   FormFieldsDto,
   TilesDataDto,
+  TaskCommonData,
 } from './task-slice-types';
 
 export const taskSliceInitialState: TTaskSliceState = {}
@@ -43,6 +42,18 @@ export const taskSlice = createSlice({
         state.formConfig.regularFields = payload;
       }
     },
+    setTilesCommonData(state, {payload}: PayloadAction<Required<Pick<TaskCommonData, 'tileId' | 'tileApiName'>>>) {
+      state.commonData = {
+        ...state?.commonData,
+        tileId: payload.tileId,
+        tileApiName: payload.tileApiName,
+      };
+    },
+    setTableCommonDataWithReset(state, {payload}: PayloadAction<Required<Pick<TaskCommonData, 'tableRowId'>>>) {
+      state.commonData = {
+        tableRowId: payload.tableRowId,
+      };
+    },
     resetFormFields(state) {
       state.formConfig = undefined;
     },
@@ -55,6 +66,11 @@ export const taskSlice = createSlice({
       state.mapData = payload;
     });
     builder.addCase(loadTableData.fulfilled, (state, {payload}: PayloadAction<TableDataDto | undefined>) => {
+      const firstRowId = payload?.data?.[0]?.id;
+      state.commonData = {
+        ...state?.commonData,
+        tableRowId: String(firstRowId),
+      };
       state.tableData = payload;
     });
     builder.addCase(loadTilesDataByRowId.fulfilled, (state, {payload}: PayloadAction<TilesDataDto>) => {
@@ -63,9 +79,9 @@ export const taskSlice = createSlice({
     builder.addCase(loadChartDataByRowId.fulfilled, (state, {payload}: PayloadAction<ChartDataDto>) => {
       state.chartData = payload;
     });
-    builder.addCase(loadFormDataByTileParams.fulfilled, (state, {payload}: PayloadAction<SortedFormFieldsDto>) => {
-      state.formConfig = payload;
-    });
+    // builder.addCase(loadFormDataByTileParams.fulfilled, (state, {payload}: PayloadAction<SortedFormFieldsDto>) => {
+    //   state.formConfig = payload;
+    // });
   },
 });
 

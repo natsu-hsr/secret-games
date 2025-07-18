@@ -1,7 +1,7 @@
 import {Spin, type SpinProps} from 'antd';
 import type {ReactNode} from 'react'
 
-import styles from './layout-spin.module.scss';
+import styles from './styles.module.scss';
 
 interface LayoutSpinProps extends SpinProps {
   children: ReactNode;

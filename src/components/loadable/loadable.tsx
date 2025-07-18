@@ -3,8 +3,8 @@ import Paragraph from 'antd/es/typography/Paragraph';
 import cn from 'classnames';
 import type {ReactNode} from 'react';
 
-import {LayoutSpin} from './layout-spin/layout-spin';
-import styles from './loadable.module.scss';
+import {LayoutSpin} from './layout-spin';
+import styles from './styles.module.scss';
 
 import ErrorSvg from '@assets/error.svg?react';
 

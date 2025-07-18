@@ -11,7 +11,7 @@ import {
   TaskTitle,
   TaskForm,
 } from './components';
-import styles from './task-content.module.scss';
+import styles from './styles.module.scss';
 
 export const TaskContent = () => (
   <div className={styles.container}>

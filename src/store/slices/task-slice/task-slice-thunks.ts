@@ -8,8 +8,6 @@ import {
   fetchTilesDataByRowId,
   type FetchDataByRowIdArgs,
   fetchChartDataByRowId,
-  type FetchFormDataByTileParamsArgs,
-  fetchFormDataByTileParams,
   postFormData,
   type PostFormDataArgs,
   postTask,
@@ -21,9 +19,8 @@ import type {
   MapDataDto,
   TableDataDto,
   TilesDataDto,
-  SortedFormFieldsDto,
 } from './task-slice-types';
-import {convertRawFormFields, convertRawTableData} from './task-slice-utils';
+import {convertRawTableData} from './task-slice-utils';
 
 export const loadTableData = createAsyncThunk<TableDataDto | undefined, FetchTableDataArgs>(
   `${taskSliceName}/loadTableData`,
@@ -108,24 +105,31 @@ export const loadMapDataByTileId = createAsyncThunk<MapDataDto, FetchMapDataByTi
   },
 );
 
-export const loadFormDataByTileParams = createAsyncThunk<SortedFormFieldsDto, FetchFormDataByTileParamsArgs>(
-  `${taskSliceName}/loadFormDataByTileParams`,
-  async (args, {rejectWithValue}) => {
-    try {
-      const response = await fetchFormDataByTileParams(args);
-      const {data} = response;
+// TODO: вынести в redux-query
+// export const loadFormDataByTileParams = createAsyncThunk<TypedRawFormFields, FetchFormDataByTileParamsArgs>(
+//   `${taskSliceName}/loadFormDataByTileParams`,
+//   async (args, {rejectWithValue}) => {
+//     try {
+//       const response = await fetchFormDataByTileParams(args);
+//       const {data} = response;
 
-      const convertedData = convertRawFormFields({rawFormFields: data});
+//       const formType = getFormType({rawFormFields: data});
 
-      console.log('form convertedData=', convertedData)
-      return convertedData;
-    } catch (e) {
-      return rejectWithValue(e);
-    }
-  },
-);
+//       return {
+//         type: formType,
+//         rawFields: data,
+//       };
 
-/*============== submit thunks  ==============*/
+//       // const convertedData = convertRawFormFields({rawFormFields: data});
+
+//       // return convertedData;
+//     } catch (e) {
+//       return rejectWithValue(e);
+//     }
+//   },
+// );
+
+/* ============== submit thunks  ============== */
 
 export const submitFormData = createAsyncThunk<string, PostFormDataArgs>(
   `${taskSliceName}/submitFormData`,

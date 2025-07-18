@@ -5,12 +5,12 @@ import {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom'
 
 import QuestionCircleOutlined from '@ant-design/icons/QuestionCircleOutlined'
-import {TaskContent} from '@components/task-content/task-content';
+import {TaskContent} from '@components/task-content';
 import {useUserId} from '@shared/hooks';
 import {useAppDispatch} from '@store/config/hooks';
 import {loadMapDataByTileId, loadTableData} from '@store/slices/task-slice';
 
-import styles from './task-page.module.scss';
+import styles from './styles.module.scss';
 
 import errorImage from '@assets/robot-error.webp';
 

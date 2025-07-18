@@ -8,13 +8,13 @@ import {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 
 import LockOutlined from '@ant-design/icons/lib/icons/LockOutlined';
-import {PageLayout} from '@components/page-layout/page-layout';
+import {PageLayout} from '@components/page-layout';
 import {useUserId} from '@shared/hooks';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {selectIsThunkPending} from '@store/slices/loading-state-slice';
 import {loadTasksByUserId, selectTasks, type ScriptDto} from '@store/slices/tasks-slice';
 
-import styles from './tasks-page.module.scss';
+import styles from './styles.module.scss';
 
 interface TaskScriptProps {
   script: ScriptDto;
@@ -38,7 +38,7 @@ const TaskScript = ({script}: TaskScriptProps) => {
                 {stage.hasResults && (
                   <Link
                     className={styles.link}
-                    to={`${window.location.origin}/graph.php?student_id=${userId}&script_id=${script.id}&stage_id=${stage.id}`}
+                    to={`${window.location.origin}/graph.php?user_id=${userId}&script_id=${script.id}&stage_id=${stage.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

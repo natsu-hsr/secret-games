@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 import {API_PREFIX, FETCH_API_PATH, POST_API_PATH} from './task-slice-constants';
-import type {RawChartDataDto, RawFormFieldsDto, RawMapDataDto, RawTableDataDto, RawTilesDto} from './task-slice-types';
+import type {
+  RawChartDataDto, RawFormFieldsDto, RawMapDataDto, RawTableDataDto, RawTilesDto, TypedFormData,
+} from './task-slice-types';
+import {convertRawField, getFormType} from './task-slice-utils';
 
 // common
 type UserInfoArgs = {
@@ -12,6 +15,10 @@ export type TaskInfoArgs = {
   stageId: string;
   scriptId: string;
 }
+
+export type FetchDataByRowIdArgs = TaskInfoArgs & UserInfoArgs & {
+  rowId: string;
+};
 
 // export const fetchTaskData = ({scriptId, stageId}: TaskInfo): Promise<{data: TTask}> => {
 //   return Promise.all([
@@ -33,10 +40,6 @@ export const fetchTableData = ({scriptId, stageId, userId}: FetchTableDataArgs) 
     }
   );
 }
-
-export type FetchDataByRowIdArgs = TaskInfoArgs & UserInfoArgs & {
-  rowId: string;
-};
 
 export const fetchTilesDataByRowId = ({stageId, scriptId, rowId, userId}: FetchDataByRowIdArgs) => {
   return axios.get<RawTilesDto>(
@@ -71,7 +74,6 @@ export const fetchChartDataByRowId = ({stageId, scriptId, rowId, userId}: FetchD
 // tiles and dependent blocks
 type TileParams = {
   tileId: string;
-  name: string;
   apiName: string;
 }
 
@@ -108,6 +110,32 @@ export const fetchFormDataByTileParams = ({
       },
     }
   )
+}
+
+// TODO: заменить этот и родительский методы на redux-query
+export const manuallyFetchFormDataByTileParams = ({
+  stageId, scriptId, apiName, tileId, rowId, userId,
+}: FetchFormDataByTileParamsArgs): Promise<TypedFormData>=> {
+  return axios.get<RawFormFieldsDto>(
+    API_PREFIX.fetch,
+    {
+      params: {
+        user_id: userId,
+        api_id: apiName,
+        script_id: scriptId,
+        stage_id: stageId,
+        product_id: rowId,
+        card_header_id: tileId,
+      },
+    }
+  ).then(response => {
+    const {data} = response;
+
+    return {
+      type: getFormType({rawFields: data}),
+      fields: data?.map(raw => convertRawField({rawField: raw})),
+    }
+  })
 }
 
 export type PostFormDataArgs = TaskInfoArgs & UserInfoArgs & {

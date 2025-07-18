@@ -1,26 +1,24 @@
-import {notification, Form, Select, Input, Button} from 'antd';
+import {notification, Button} from 'antd';
 import {useForm} from 'antd/es/form/Form';
-import FormItem from 'antd/es/form/FormItem';
 import type {AxiosError} from 'axios';
 import {useParams} from 'react-router-dom';
 
 import {useUserId} from '@shared/hooks';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {
-  type SortedFormFieldsDto,
   selectTableSelectedRowId,
   selectSelectedTileId,
   submitFormData,
-  taskSliceActions,
+  type TypedFormData,
 } from '@store/slices/task-slice';
 
-import {renderRadiosFields} from '../task-form-utils';
-import styles from './base-form.module.scss';
+import {GenericForm} from './generic-form';
+import styles from './styles.module.scss';
 
 interface BaseFormProps {
-  fields: SortedFormFieldsDto | undefined
+  formData: TypedFormData
 }
-export const BaseForm: React.FC<BaseFormProps> = ({fields}) => {
+export const BaseForm: React.FC<BaseFormProps> = ({formData}) => {
   const dispatch = useAppDispatch();
   const [form] = useForm();
 
@@ -28,14 +26,10 @@ export const BaseForm: React.FC<BaseFormProps> = ({fields}) => {
   const {scriptId, stageId} = useParams();
   const productId = useAppSelector(selectTableSelectedRowId);
   const cardHeaderId = useAppSelector(selectSelectedTileId);
+  
+  const {type, fields} = formData
 
-  const {
-    select,
-    selectedSelect,
-    radios,
-    regularFields,
-  } = fields ?? {};
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleFormSubmit = (values: Record<string, unknown>) => {
     const globalParams = {
       userId: userId ?? '',
@@ -65,67 +59,15 @@ export const BaseForm: React.FC<BaseFormProps> = ({fields}) => {
       });
   }
 
-  const handleSelectOptionChange = (value: string) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const selectedControls = select?.options?.find((o: any) => o.value === value)?.controls;
-
-    if (!selectedControls) {
-      console.error(`selectedControls соответствующие значению ${value} не найдено`);
-      return;
-    }
-
-    const updatedFields = regularFields?.map(rf => {
-      const matchedControlsKey = Object.keys(selectedControls).find(k => rf.name.endsWith(k));
-      if (!matchedControlsKey) return rf;
-
-      const matchedControls = selectedControls[matchedControlsKey];
-      return ({
-        ...rf,
-        disabled: matchedControls?.disabled,
-        defaultValue: matchedControls?.disabled ? '' : rf.defaultValue,
-      })
-    });
-
-    if (updatedFields?.length) {
-      dispatch(taskSliceActions.setRegularFormFields(updatedFields));
-    }
-  }
+  const FormComponent = GenericForm[type]
 
   return (
     <div className={styles.container}>
-      <Form
-        className={styles.form}
-        form={form}
-        layout='vertical'
-        onFinish={handleFormSubmit}
-      >
-        {select && (
-          <FormItem
-            name={select.name}
-            label={select.label}
-            initialValue={selectedSelect}
-          >
-            <Select
-              options={select.options}
-              onChange={handleSelectOptionChange}
-            />
-          </FormItem>  
-        )}
-        {!!radios?.length && renderRadiosFields({radios})}
-        {regularFields?.map(f => (
-          <FormItem
-            key={f.name + f.label + f.defaultValue + f.disabled + f.type}
-            name={f.name}
-            label={f.label}
-            initialValue={f.defaultValue}
-          >
-            <Input
-              placeholder={`Введите ${f.label.toLowerCase()}`}
-              disabled={f.disabled}
-            />
-          </FormItem>
-        ))}
-      </Form>
+      {FormComponent ? (
+        <FormComponent form={form} fields={fields} />
+      ) : (
+        <div>Форма для данного типа полей не найдена</div> // TODO: стилизовать сообщение
+      )}
       <div className={styles['submit-btn-container']}>
         <Button
           className={styles['submit-btn']}

@@ -7,7 +7,7 @@ import {useUserId} from '@shared/hooks';
 import {useAppDispatch} from '@store/config/hooks';
 import {submitTask} from '@store/slices/task-slice';
 
-import styles from './task-title.module.scss';
+import styles from './styles.module.scss';
 
 export const TaskTitle = () => {
   const dispatch = useAppDispatch();

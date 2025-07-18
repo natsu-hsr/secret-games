@@ -5,9 +5,9 @@ import Title from 'antd/es/typography/Title';
 import {useNavigate} from 'react-router-dom';
 
 import PlayCircleOutlined from '@ant-design/icons/PlayCircleOutlined'
-import {PageLayout} from '@components/page-layout/page-layout';
+import {PageLayout} from '@components/page-layout';
 
-import styles from './home-page.module.scss';
+import styles from './styles.module.scss';
 
 import logisticsImage from '@assets/logistics_banner.svg';
 

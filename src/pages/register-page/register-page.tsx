@@ -9,7 +9,7 @@ import CheckCircleOutlined from '@ant-design/icons/lib/icons/CheckCircleOutlined
 import type {MessageEntity} from '@shared/types';
 import {register, type TRegisterForm} from '@store/slices/auth-slice';
 
-import styles from './register-page.module.scss';
+import styles from './styles.module.scss';
 
 export const RegisterPage = () => {
   const navigate = useNavigate();

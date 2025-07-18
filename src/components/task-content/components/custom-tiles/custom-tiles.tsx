@@ -9,15 +9,13 @@ import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
 import {
   type TileDto,
-  loadFormDataByTileParams,
-  loadMapDataByTileId,
   loadTilesDataByRowId,
-  selectTableSelectedRowId,
+  selectTaskCommonData,
   selectTaskTilesData,
   taskSliceActions,
 } from '@store/slices/task-slice';
 
-import styles from './custom-tiles.module.scss';
+import styles from './styles.module.scss';
 import {useCustomTiles} from './use-custom-tiles';
 
 export const CustomTiles = () => {
@@ -26,8 +24,7 @@ export const CustomTiles = () => {
   const {userId} = useUserId();
 
   const tilesData = useAppSelector(selectTaskTilesData);
-  const selectedRowId = useAppSelector(selectTableSelectedRowId);
-
+  const {tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
   const isLoading = useAppSelector(s => selectIsThunkPending(s, loadTilesDataByRowId.typePrefix));
   const hasError = useAppSelector(s => selectIsThunkRejected(s, loadTilesDataByRowId.typePrefix));
 
@@ -37,44 +34,45 @@ export const CustomTiles = () => {
   const {grid} = useCustomTiles({tilesData});
 
   useEffect(() => {
-    // сбрасываем выбранные плитки
+    // сбрасываем выбранную плитку при изменении выбранной строки
     if (selectedTile) {
       setSelectedTile(undefined);
     }
-  }, [selectedRowId, selectedTile]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tableRowId]);
 
-  const handleClick = (tile: TileDto) => {
-    if (!tile || !stageId || !scriptId || !userId) return;
-    
-    setSelectedTile(tile);
-    dispatch(taskSliceActions.setSelectedTileId(tile.id));
-
-    const {
-      id: tileId,
-      name,
-      apiName,
-    } = tile;
-
-    dispatch(loadMapDataByTileId({
-      userId,
-      scriptId,
-      stageId,
-      tileId,
-    }));
-
-    if (!selectedRowId) {
-      console.error('selectedRowId не найден, загрузка полей формы невозможна');
+  useEffect(() => {
+    // если этих параметров нету, то все нормально, просто не время загружать данные
+    if (!tableRowId) {
+      return;
+    }
+    if (!scriptId || !stageId || !userId) {
+      console.error('Один из параметров scriptId || stageId || userId не найден, загрузка графика невозможна');
       return;
     }
 
-    dispatch(loadFormDataByTileParams({
+    dispatch(loadTilesDataByRowId({
       userId,
       scriptId,
       stageId,
-      name,
-      apiName,
+      rowId: tableRowId,
+    }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tableRowId, scriptId, stageId, userId]);
+
+  const handleClick = (tile: TileDto) => {
+    if (!tile || !stageId || !scriptId || !userId) {
+      console.error('Не наден один или несколько идентификаторов tile || stageId || scriptId || userId');
+      return;
+    }
+    
+    setSelectedTile(tile);
+
+    const {id: tileId, apiName} = tile;
+
+    dispatch(taskSliceActions.setTilesCommonData({
       tileId,
-      rowId: selectedRowId,
+      tileApiName: apiName,
     }));
   };
 

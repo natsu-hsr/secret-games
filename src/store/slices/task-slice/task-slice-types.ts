@@ -89,9 +89,11 @@ export type TilesDataDto = {
   };
 };
 
-// ======= tiles =======
+// ======= form =======
 export type RawFieldType = 'text' | 'radio' | 'select';
-export type FieldType = 'TEXT' | 'RADIO' | 'SELECT';
+export type FieldType = RawFieldType;
+
+export type FormType = 'radio' | 'select' | 'default';
 
 export type FieldControl = {
   value?: string;
@@ -107,6 +109,12 @@ export type RawFormFieldDto = {
   HTML_value: number | string;
   HTML_enable: '0' | '1' | 'selected';
 } & Record<string, string>;
+
+export type FieldDependentField = {
+  name: string,
+  disabled?: boolean
+};
+
 export type FormFieldDto = {
   name: string;
   label: string;
@@ -117,9 +125,16 @@ export type FormFieldDto = {
   options?: any;
   optionLabel?: string[];
   controls?: FieldControls;
+  // TODO: убрать как бэк положет selected в другое поле
+  // специальное поле под селект для значения HTML_enable = 'selected'
+  selected?: boolean;
+  // массив зависимых полей: значение value интерпретируется в зависимости от типа поля
+  dependentFields?: FieldDependentField[]
 }
+
 export type RawFormFieldsDto = RawFormFieldDto[];
 export type FormFieldsDto = FormFieldDto[];
+
 export type SortedFormFieldsDto = {
   select?: FormFieldDto;
   selectedSelect?: string;
@@ -127,7 +142,23 @@ export type SortedFormFieldsDto = {
   regularFields: FormFieldDto[];
 }
 
+export type TypedRawFormFields = {
+  type: FormType;
+  rawFields: RawFormFieldsDto;
+}
+
+export type TypedFormData = {
+  type: FormType;
+  fields: FormFieldsDto;
+}
+
 // ---------------------
+
+export type TaskCommonData = Partial<{
+  tableRowId: string;
+  tileId: string;
+  tileApiName: string;
+}>;
 
 export type TTask  = {
   groupId: number;
@@ -138,9 +169,7 @@ export type TTask  = {
   tableData: TableDataDto;
   tilesData: TilesDataDto;
   formConfig: SortedFormFieldsDto | undefined;
-  sharedData: {
-    tileId: string;
-  } | undefined;
+  commonData: TaskCommonData | undefined;
 }
 
 export type TTaskSliceState = Partial<TTask>

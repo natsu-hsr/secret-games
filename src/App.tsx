@@ -2,16 +2,16 @@ import ConfigProvider from 'antd/es/config-provider';
 import {Provider} from 'react-redux';
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 
-import {ProtectedLayout} from '@components/protected-layout/protected-layout';
-import {HomePage} from '@pages/home-page/home-page';
-import {LoginPage} from '@pages/login-page/login-page';
-import {RegisterPage} from '@pages/register-page/register-page';
-import {TaskPage} from '@pages/task-page/task-page';
-import {TasksPage} from '@pages/tasks-page/tasks-page';
+import {ProtectedLayout} from '@components/protected-layout';
+import {HomePage} from '@pages/home-page';
+import {LoginPage} from '@pages/login-page';
+import {RegisterPage} from '@pages/register-page';
+import {TaskPage} from '@pages/task-page';
+import {TasksPage} from '@pages/tasks-page';
 import {store} from '@store/config';
 
 import './App.scss'
-import './shared/styles/global.scss';
+import '@shared/styles/global.scss';
 
 export const App = () => (
   <ConfigProvider

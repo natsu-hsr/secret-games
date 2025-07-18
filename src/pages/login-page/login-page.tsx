@@ -13,7 +13,7 @@ import {
   selectAuthorizedStatus,
 } from '@store/slices/auth-slice';
 
-import styles from './login-page.module.scss';
+import styles from './styles.module.scss';
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch();

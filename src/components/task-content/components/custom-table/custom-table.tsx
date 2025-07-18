@@ -1,54 +1,26 @@
 import {Empty} from 'antd';
 import Table from 'antd/es/table';
 import cn from 'classnames';
-import {useEffect} from 'react';
-import {useParams} from 'react-router-dom';
 
-import {useUserId} from '@shared/hooks';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {
-  loadChartDataByRowId,
-  loadTilesDataByRowId,
-  selectTableSelectedRowId,
+  selectTaskCommonData,
   selectTaskTableData,
   taskSliceActions,
 } from '@store/slices/task-slice';
 
-import styles from './custom-table.module.scss';
+import styles from './styles.module.scss';
 
 export const CustomTable = () => {
   const dispatch = useAppDispatch();
-  const {scriptId, stageId} = useParams();
-  const {userId} = useUserId();
 
   const tableData = useAppSelector(selectTaskTableData);
-  const selectedRowId = useAppSelector(selectTableSelectedRowId);
-
-  useEffect(() => {
-    if (!selectedRowId || !scriptId || !stageId || !userId) return;
-
-    dispatch(loadChartDataByRowId({
-      userId,
-      scriptId,
-      stageId,
-      rowId: selectedRowId,
-    }));
-
-    dispatch(taskSliceActions.resetFormFields());
-
-    dispatch(loadTilesDataByRowId({
-      userId,
-      scriptId,
-      stageId,
-      rowId: selectedRowId,
-    }));
-  }, [selectedRowId, scriptId, stageId, userId]);
-
+  const {tableRowId: selectedRowId} = useAppSelector(selectTaskCommonData) ?? {};
 
   const handleRowClick = (record: Record<string, number | string | boolean >) => {
     if (!record?.id || typeof record.id !== 'string') return;
 
-    dispatch(taskSliceActions.setSelectedTableRowId(record.id));
+    dispatch(taskSliceActions.setTableCommonDataWithReset({tableRowId: record.id}));
   }
 
   return (

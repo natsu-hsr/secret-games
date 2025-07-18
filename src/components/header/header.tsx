@@ -5,7 +5,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {useAppDispatch} from '@store/config/hooks';
 import {logout} from '@store/slices/auth-slice';
 
-import styles from './header.module.scss';
+import styles from './styles.module.scss';
 
 import LogoSvg from '@assets/logo.svg?react';
 import LogoutSvg from '@assets/logout.svg?react';

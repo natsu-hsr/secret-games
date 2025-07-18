@@ -2,7 +2,7 @@ import Card from 'antd/es/card/Card';
 import cn from 'classnames';
 import type {ReactNode} from 'react';
 
-import styles from './page-layout.module.scss';
+import styles from './styles.module.scss';
 
 interface PageLayoutProps {
   children: ReactNode;
