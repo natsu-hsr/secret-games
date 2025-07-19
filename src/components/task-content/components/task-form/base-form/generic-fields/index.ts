@@ -1,0 +1,1 @@
+export {GenericFields} from './generic-fields';

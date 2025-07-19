@@ -9,7 +9,7 @@
   height: 100%;
 
 
-  max-height: 600px;
+  max-height: 450px;
   overflow-y: auto;
 
   scrollbar-width: thin; // Firefox
@@ -47,35 +47,4 @@
     
   width: 100%;
   background-color: $white;
-}
-
-.radio-group {
-  :global {
-    .ant-radio-wrapper {
-      display: flex;
-      align-items: flex-start;
-
-      padding-bottom: 8px;
-      margin-bottom: 8px;
-      border-bottom: 1px solid #ccc;
-
-      &:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-      }
-    }
-  }
-}
-
-.radio-label {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-
-
-  &-text {
-    color: gray;
-    white-space: nowrap;
-  }
 }

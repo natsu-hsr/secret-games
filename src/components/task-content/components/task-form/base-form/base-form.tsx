@@ -1,5 +1,5 @@
 import {notification, Button} from 'antd';
-import {useForm} from 'antd/es/form/Form';
+import Form, {useForm} from 'antd/es/form/Form';
 import type {AxiosError} from 'axios';
 import {useParams} from 'react-router-dom';
 
@@ -12,7 +12,7 @@ import {
   type TypedFormData,
 } from '@store/slices/task-slice';
 
-import {GenericForm} from './generic-form';
+import {GenericFields} from './generic-fields';
 import styles from './styles.module.scss';
 
 interface BaseFormProps {
@@ -29,7 +29,6 @@ export const BaseForm: React.FC<BaseFormProps> = ({formData}) => {
   
   const {type, fields} = formData
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleFormSubmit = (values: Record<string, unknown>) => {
     const globalParams = {
       userId: userId ?? '',
@@ -59,24 +58,32 @@ export const BaseForm: React.FC<BaseFormProps> = ({formData}) => {
       });
   }
 
-  const FormComponent = GenericForm[type]
+  const FieldsComponent = GenericFields[type]
 
   return (
     <div className={styles.container}>
-      {FormComponent ? (
-        <FormComponent form={form} fields={fields} />
+      {FieldsComponent ? (
+        <>
+          <Form
+            form={form}
+            layout='vertical'
+            onFinish={handleFormSubmit}
+          >
+            <FieldsComponent form={form} fields={fields} />
+          </Form>
+          <div className={styles['submit-btn-container']}>
+            <Button
+              className={styles['submit-btn']}
+              type='primary'
+              onClick={() => form.submit()}
+            >
+              Сохранить данные
+            </Button>
+          </div>
+        </>
       ) : (
         <div>Форма для данного типа полей не найдена</div> // TODO: стилизовать сообщение
       )}
-      <div className={styles['submit-btn-container']}>
-        <Button
-          className={styles['submit-btn']}
-          type='primary'
-          onClick={() => form.submit()}
-        >
-          Сохранить данные
-        </Button>
-      </div>
     </div>
   )
 }

@@ -1,4 +1,3 @@
-import Form, {useForm} from 'antd/es/form/Form';
 import FormItem from 'antd/es/form/FormItem';
 import Input from 'antd/es/input';
 import Select from 'antd/es/select';
@@ -7,20 +6,15 @@ import {useState, type FC} from 'react';
 import type {FormFieldsDto} from '@store/slices/task-slice';
 
 import {adaptFieldsToSelectForm} from './utils';
-import type {GenericFormProps} from '../../generic-form';
+import type {GenericFieldsProps} from '../../generic-fields';
 
-export const SelectForm: FC<GenericFormProps> = ({
-  classNames, fields,
-}) => {
-  const [form] = useForm();
+export const SelectFields: FC<GenericFieldsProps> = ({fields}) => {
   const [textFields, setTextFields] = useState<FormFieldsDto>(() => fields.filter(f => f.type === 'text'));
 
   const {
     select,
     selectedOption,
   } = adaptFieldsToSelectForm({fields});
-
-  const {wrapperClassName} = classNames ?? {};
 
   const handleSelectOptionChange = (value: string) => {
     const selectedOptionControls = select?.options?.find(o => o.value === value)?.controls;
@@ -29,8 +23,6 @@ export const SelectForm: FC<GenericFormProps> = ({
       console.error(`selectedOptionControls соответствующих значению ${value} не найдено`);
       return;
     }
-
-    console.log('selectedOptionControls=', selectedOptionControls);
   
     const updatedFields: FormFieldsDto = textFields?.map(tf => {
       const fieldControl = selectedOptionControls.find(control => tf.name.endsWith(control.name));
@@ -50,12 +42,7 @@ export const SelectForm: FC<GenericFormProps> = ({
   }
 
   return (
-    <Form
-      className={wrapperClassName}
-      form={form}
-      layout='vertical'
-      // onFinish={handleFormSubmit}
-    >
+    <>
       {select && (
         <FormItem
           name={select.name}
@@ -81,6 +68,6 @@ export const SelectForm: FC<GenericFormProps> = ({
           />
         </FormItem>
       ))}
-    </Form>
+    </>
   )
 };

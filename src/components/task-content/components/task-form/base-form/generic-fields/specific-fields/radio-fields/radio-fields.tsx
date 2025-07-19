@@ -1,29 +1,18 @@
 import {Radio} from 'antd';
-import Form, {useForm} from 'antd/es/form/Form';
 import FormItem from 'antd/es/form/FormItem';
 import type {FC} from 'react';
 
 import styles from './styles.module.scss';
 import {convertFieldsToRadios} from './utils';
-import type {GenericFormProps} from '../../generic-form';
+import type {GenericFieldsProps} from '../../generic-fields';
 
 
-export const RadioForm: FC<GenericFormProps> = ({
-  classNames, fields
-}) => {
-  const [form] = useForm();
+export const RadioFields: FC<GenericFieldsProps> = ({fields}) => {
   const radioGroups =  convertFieldsToRadios({fields});
   const checkedValueName = radioGroups.find(group => group.checked)?.name ?? '';
-  
-  const {wrapperClassName} = classNames ?? {};
 
   return (
-    <Form
-      className={wrapperClassName}
-      form={form}
-      layout='vertical'
-      // onFinish={handleFormSubmit}
-    >
+    <>
       <FormItem
         name="radioValue"
       >
@@ -49,6 +38,6 @@ export const RadioForm: FC<GenericFormProps> = ({
           }))}
         />
       </FormItem>    
-    </Form>
+    </>
   )
 }
