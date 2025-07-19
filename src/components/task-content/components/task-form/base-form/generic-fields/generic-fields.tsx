@@ -1,5 +1,5 @@
 import type {FormInstance} from 'antd/lib/form';
-import type {FC} from 'react';
+import type {FC, RefObject} from 'react';
 
 import type {FormFieldsDto, FormType} from '@store/slices/task-slice';
 
@@ -13,6 +13,7 @@ type GenericFieldsClassNames = Partial<{
 export type GenericFieldsProps = {
   form: FormInstance;
   fields: FormFieldsDto;
+  scrollContainerRef?: RefObject<HTMLDivElement | null>;
   classNames?: GenericFieldsClassNames;
 }
 

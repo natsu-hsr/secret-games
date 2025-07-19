@@ -7,7 +7,8 @@ type AdaptFieldsToSelectFormArgs = {
 }
 
 export const adaptFieldsToSelectForm = ({fields}: AdaptFieldsToSelectFormArgs) => {
-  // по условиям, select на форме всегда один, все остальные с типом select имеют те же основные поля,и: по сути, являются options
+  // по условиям, select на форме всегда один, все остальные с типом select
+  // имеют те же основные поля, и, по сути, являются options
   let select: Select | undefined;
   let selectedOption: string | undefined;
 

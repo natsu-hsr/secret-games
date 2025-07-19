@@ -8,7 +8,7 @@ import type {FormFieldsDto} from '@store/slices/task-slice';
 import {adaptFieldsToSelectForm} from './utils';
 import type {GenericFieldsProps} from '../../generic-fields';
 
-export const SelectFields: FC<GenericFieldsProps> = ({fields}) => {
+export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, fields}) => {
   const [textFields, setTextFields] = useState<FormFieldsDto>(() => fields.filter(f => f.type === 'text'));
 
   const {
@@ -52,6 +52,7 @@ export const SelectFields: FC<GenericFieldsProps> = ({fields}) => {
           <Select
             options={select.options}
             onChange={handleSelectOptionChange}
+            getPopupContainer={() => scrollContainerRef?.current ?? document.body}
           />
         </FormItem>  
       )}

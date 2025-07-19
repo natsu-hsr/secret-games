@@ -1,5 +1,4 @@
-import {useEffect, useMemo} from 'react';
-import {useParams} from 'react-router-dom';
+import {useMemo} from 'react';
 import {
   ResponsiveContainer,
   LineChart,
@@ -11,43 +10,17 @@ import {
 } from 'recharts'
 
 import {Loadable} from '@components/loadable';
-import {useUserId} from '@shared/hooks';
-import {useAppDispatch, useAppSelector} from '@store/config/hooks';
-import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
-import {selectTaskChartData, loadChartDataByRowId, selectTaskCommonData} from '@store/slices/task-slice';
 
 import styles from './styles.module.scss';
+import {useChartDataLoader} from './use-chart-data-loader';
 
 export const LinearChart = () => {
-  const dispatch = useAppDispatch();
-  const {scriptId, stageId} = useParams();
-  const {userId} = useUserId();
-
-  const chartData = useAppSelector(selectTaskChartData);
-  const isLoading = useAppSelector(s => selectIsThunkPending(s, loadChartDataByRowId.typePrefix));
-  const hasError = useAppSelector(s => selectIsThunkRejected(s, loadChartDataByRowId.typePrefix));
-  const {tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
+  const {data: chartData, isLoading, hasError} = useChartDataLoader();
 
   const lineDataKeys = useMemo(
     () => Object.keys(chartData?.[0] ?? {}).filter(k => k !== 'name'),
     [chartData],
   );
-
-  useEffect(() => {
-    if (!tableRowId || !scriptId || !stageId || !userId) {
-      console.error('Один из параметров tableRowId || scriptId || stageId || userId '
-        + 'не найден, загрузка графика невозможна');
-      return;
-    }
-
-    dispatch(loadChartDataByRowId({
-      userId,
-      scriptId,
-      stageId,
-      rowId: tableRowId,
-    }));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId, scriptId, stageId, tableRowId]);
 
   return (
     <Loadable

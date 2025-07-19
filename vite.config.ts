@@ -28,6 +28,10 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api\.php/, '/api.php'),
       },
+      '/save.php': {
+        target: 'http://2.59.41.201',
+        changeOrigin: true,
+      },
     },
   },
 })

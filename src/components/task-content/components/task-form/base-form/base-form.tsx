@@ -1,15 +1,15 @@
 import {notification, Button} from 'antd';
 import Form, {useForm} from 'antd/es/form/Form';
 import type {AxiosError} from 'axios';
+import {useRef} from 'react';
 import {useParams} from 'react-router-dom';
 
 import {useUserId} from '@shared/hooks';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {
-  selectTableSelectedRowId,
-  selectSelectedTileId,
   submitFormData,
   type TypedFormData,
+  selectTaskCommonData,
 } from '@store/slices/task-slice';
 
 import {GenericFields} from './generic-fields';
@@ -21,11 +21,11 @@ interface BaseFormProps {
 export const BaseForm: React.FC<BaseFormProps> = ({formData}) => {
   const dispatch = useAppDispatch();
   const [form] = useForm();
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   const {userId} = useUserId();
   const {scriptId, stageId} = useParams();
-  const productId = useAppSelector(selectTableSelectedRowId);
-  const cardHeaderId = useAppSelector(selectSelectedTileId);
+  const {tableRowId, tileId} = useAppSelector(selectTaskCommonData) ?? {};
   
   const {type, fields} = formData
 
@@ -34,8 +34,8 @@ export const BaseForm: React.FC<BaseFormProps> = ({formData}) => {
       userId: userId ?? '',
       scriptId: scriptId ?? '',
       stageId: stageId ?? '',
-      productId: productId ?? '',
-      cardHeaderId: cardHeaderId ?? '',
+      productId: tableRowId ?? '',
+      cardHeaderId: tileId ?? '',
     }
 
     const valuesToSubmit = {
@@ -61,7 +61,7 @@ export const BaseForm: React.FC<BaseFormProps> = ({formData}) => {
   const FieldsComponent = GenericFields[type]
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={scrollContainerRef}>
       {FieldsComponent ? (
         <>
           <Form
@@ -69,7 +69,11 @@ export const BaseForm: React.FC<BaseFormProps> = ({formData}) => {
             layout='vertical'
             onFinish={handleFormSubmit}
           >
-            <FieldsComponent form={form} fields={fields} />
+            <FieldsComponent
+              form={form}
+              fields={fields}
+              scrollContainerRef={scrollContainerRef}
+            />
           </Form>
           <div className={styles['submit-btn-container']}>
             <Button

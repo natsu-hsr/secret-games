@@ -6,30 +6,23 @@ import {useParams} from 'react-router-dom';
 import {Loadable} from '@components/loadable';
 import {useUserId} from '@shared/hooks';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
-import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
-import {
-  type TileDto,
-  loadTilesDataByRowId,
-  selectTaskCommonData,
-  selectTaskTilesData,
-  taskSliceActions,
-} from '@store/slices/task-slice';
+import {type TileDto, selectTaskCommonData, taskSliceActions} from '@store/slices/task-slice';
 
 import styles from './styles.module.scss';
 import {useCustomTiles} from './use-custom-tiles';
+import {useTilesDataLoader} from './use-tiles-data-loader';
 
 export const CustomTiles = () => {
   const dispatch = useAppDispatch();
   const {scriptId, stageId} = useParams();
   const {userId} = useUserId();
 
-  const tilesData = useAppSelector(selectTaskTilesData);
-  const {tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
-  const isLoading = useAppSelector(s => selectIsThunkPending(s, loadTilesDataByRowId.typePrefix));
-  const hasError = useAppSelector(s => selectIsThunkRejected(s, loadTilesDataByRowId.typePrefix));
-
   const [selectedTile, setSelectedTile] = useState<TileDto | undefined>();
   const [hoveredTileId, setHoveredTileId] = useState<string | null>(null);
+
+  const {tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
+  
+  const {data: tilesData, isLoading, hasError} = useTilesDataLoader();
 
   const {grid} = useCustomTiles({tilesData});
 
@@ -40,25 +33,6 @@ export const CustomTiles = () => {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tableRowId]);
-
-  useEffect(() => {
-    // если этих параметров нету, то все нормально, просто не время загружать данные
-    if (!tableRowId) {
-      return;
-    }
-    if (!scriptId || !stageId || !userId) {
-      console.error('Один из параметров scriptId || stageId || userId не найден, загрузка графика невозможна');
-      return;
-    }
-
-    dispatch(loadTilesDataByRowId({
-      userId,
-      scriptId,
-      stageId,
-      rowId: tableRowId,
-    }));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tableRowId, scriptId, stageId, userId]);
 
   const handleClick = (tile: TileDto) => {
     if (!tile || !stageId || !scriptId || !userId) {

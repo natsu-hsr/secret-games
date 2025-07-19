@@ -1,3 +1,6 @@
+export {
+  manuallyFetchFormDataByTileParams,
+} from './task-slice-api';
 export type {
   ChartDataDto,
   TTaskInfo,
@@ -39,7 +42,6 @@ export {
   loadTableData,
   loadMapDataByTileId,
   loadTilesDataByRowId,
-  // loadFormDataByTileParams,
   loadChartDataByRowId,
   submitFormData,
   submitTask,
