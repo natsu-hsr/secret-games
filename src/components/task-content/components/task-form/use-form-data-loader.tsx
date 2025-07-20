@@ -5,7 +5,7 @@ import {useParams} from 'react-router-dom';
 import {useUserId} from '@shared/hooks';
 import {useAppSelector} from '@store/config/hooks';
 import {selectTaskCommonData, type TypedFormData} from '@store/slices/task-slice';
-import {manuallyFetchFormDataByTileParams} from '@store/slices/task-slice';
+import {loadFormDataByTileParams} from '@store/slices/task-slice';
 
 export const useFormDataLoader = () => {
   const {scriptId, stageId} = useParams();
@@ -31,7 +31,7 @@ export const useFormDataLoader = () => {
 
     setLoading(true);
 
-    manuallyFetchFormDataByTileParams({
+    loadFormDataByTileParams({
       stageId,
       scriptId,
       apiName: tileApiName,

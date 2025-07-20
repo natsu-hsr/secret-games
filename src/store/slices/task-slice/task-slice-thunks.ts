@@ -105,30 +105,6 @@ export const loadMapDataByTileId = createAsyncThunk<MapDataDto, FetchMapDataByTi
   },
 );
 
-// TODO: вынести в redux-query
-// export const loadFormDataByTileParams = createAsyncThunk<TypedRawFormFields, FetchFormDataByTileParamsArgs>(
-//   `${taskSliceName}/loadFormDataByTileParams`,
-//   async (args, {rejectWithValue}) => {
-//     try {
-//       const response = await fetchFormDataByTileParams(args);
-//       const {data} = response;
-
-//       const formType = getFormType({rawFormFields: data});
-
-//       return {
-//         type: formType,
-//         rawFields: data,
-//       };
-
-//       // const convertedData = convertRawFormFields({rawFormFields: data});
-
-//       // return convertedData;
-//     } catch (e) {
-//       return rejectWithValue(e);
-//     }
-//   },
-// );
-
 /* ============== submit thunks  ============== */
 
 export const submitFormData = createAsyncThunk<string, PostFormDataArgs>(

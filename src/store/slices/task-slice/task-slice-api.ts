@@ -2,9 +2,12 @@ import axios from 'axios';
 
 import {API_PREFIX, FETCH_API_PATH, POST_API_PATH} from './task-slice-constants';
 import type {
-  RawChartDataDto, RawFormFieldsDto, RawMapDataDto, RawTableDataDto, RawTilesDto, TypedFormData,
+  RawChartDataDto,
+  RawFormFieldsDto,
+  RawMapDataDto,
+  RawTableDataDto,
+  RawTilesDto,
 } from './task-slice-types';
-import {convertRawField, getFormType} from './task-slice-utils';
 
 // common
 type UserInfoArgs = {
@@ -110,32 +113,6 @@ export const fetchFormDataByTileParams = ({
       },
     }
   )
-}
-
-// TODO: заменить этот и родительский методы на redux-query
-export const manuallyFetchFormDataByTileParams = ({
-  stageId, scriptId, apiName, tileId, rowId, userId,
-}: FetchFormDataByTileParamsArgs): Promise<TypedFormData>=> {
-  return axios.get<RawFormFieldsDto>(
-    API_PREFIX.fetch,
-    {
-      params: {
-        user_id: userId,
-        api_id: apiName,
-        script_id: scriptId,
-        stage_id: stageId,
-        product_id: rowId,
-        card_header_id: tileId,
-      },
-    }
-  ).then(response => {
-    const {data} = response;
-
-    return {
-      type: getFormType({rawFields: data}),
-      fields: data?.map(raw => convertRawField({rawField: raw})),
-    }
-  })
 }
 
 export type PostFormDataArgs = TaskInfoArgs & UserInfoArgs & {
