@@ -64,7 +64,7 @@ export type RawTileDto = {
   Column_End: number;
   Row_Start: number;
   Row_End: number;
-  Cell_Color: string;
+  Card_Color: string;
 }
 export type TileDto = {
   id: string;

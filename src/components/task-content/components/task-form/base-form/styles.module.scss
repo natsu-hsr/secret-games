@@ -48,3 +48,11 @@
   width: 100%;
   background-color: $white;
 }
+
+.empty {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}

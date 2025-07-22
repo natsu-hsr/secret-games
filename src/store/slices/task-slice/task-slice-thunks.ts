@@ -70,7 +70,7 @@ export const loadTilesDataByRowId = createAsyncThunk<TilesDataDto, FetchDataByRo
         columnEnd: t.Column_End,
         rowStart: t.Row_Start,
         rowEnd: t.Row_End,
-        color: t.Cell_Color,
+        color: t.Card_Color,
       }));
 
       return {

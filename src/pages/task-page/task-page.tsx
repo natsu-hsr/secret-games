@@ -1,16 +1,14 @@
 import {Skeleton, Popover} from 'antd';
 import Paragraph from 'antd/es/typography/Paragraph';
 import Title from 'antd/es/typography/Title';
-import {useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom'
+import {useState} from 'react';
+import {Link} from 'react-router-dom'
 
 import QuestionCircleOutlined from '@ant-design/icons/QuestionCircleOutlined'
 import {TaskContent} from '@components/task-content';
-import {useUserId} from '@shared/hooks';
-import {useAppDispatch} from '@store/config/hooks';
-import {loadMapDataByTileId, loadTableData} from '@store/slices/task-slice';
 
 import styles from './styles.module.scss';
+import {useTaskPageDataLoader} from './use-task-page-data-loader';
 
 import errorImage from '@assets/robot-error.webp';
 
@@ -48,59 +46,7 @@ const ErrorPanel: React.FC<ErrorPanelProps> = ({error}) => {
 }
 
 export const TaskPage = () => {
-  const dispatch = useAppDispatch();
-
-  // const task = useAppSelector(selectTask)
-
-  const [isLoading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | undefined>();
-  
-  const {userId} = useUserId();
-  const {scriptId, stageId} = useParams();
-
-  useEffect(() => {
-    if (!stageId) {
-      console.error('Id задачи не найден');
-      setError('Идентификатор задачи (stageId) не найден');
-      return;
-    }
-    if (!scriptId) {
-      console.error('Id группы не найден');
-      setError('Идентификатор сценария (scriptId) не найден');
-      return;
-    }
-    if (!userId) {
-      console.error('UserId не найден');
-      setError('Идентификатор пользователя не найден');
-      return;
-    }
-
-    const loadTaskAction = async () => {
-      setLoading(true);
-      try {
-        // симулируем задержку
-        await new Promise(resolve => setTimeout(resolve, 2000));
-  
-        await dispatch(loadTableData({userId, scriptId, stageId}))
-          .unwrap();
-        await dispatch(loadMapDataByTileId({
-          userId,
-          scriptId,
-          stageId,
-          tileId: '',
-        })).unwrap();
-        setError(undefined);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (e : any) {
-        console.error('Во время загрузки задания произошла ошибка', e);
-        setError(e?.data ?? 'Ошибка при загрузке задания');
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    loadTaskAction();
-  }, [scriptId, stageId, userId]);
+  const {isLoading, error} = useTaskPageDataLoader();
 
   return (
     <Skeleton

@@ -11,6 +11,7 @@ import LockOutlined from '@ant-design/icons/lib/icons/LockOutlined';
 import {PageLayout} from '@components/page-layout';
 import {useUserId} from '@shared/hooks';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
+import type {User} from '@store/slices/auth-slice';
 import {selectIsThunkPending} from '@store/slices/loading-state-slice';
 import {loadTasksByUserId, selectTasks, type ScriptDto} from '@store/slices/tasks-slice';
 
@@ -18,11 +19,9 @@ import styles from './styles.module.scss';
 
 interface TaskScriptProps {
   script: ScriptDto;
+  userId: User['userId'];
 }
-const TaskScript = ({script}: TaskScriptProps) => {
-  const {userId} = useUserId();
-
-  return (
+const TaskScript = ({script, userId}: TaskScriptProps) => (
     <Card className={styles.group}>
       <Title level={4}>{script.name}</Title>
       <ul className={styles.tasks}>
@@ -38,7 +37,9 @@ const TaskScript = ({script}: TaskScriptProps) => {
                 {stage.hasResults && (
                   <Link
                     className={styles.link}
-                    to={`${window.location.origin}/graph.php?user_id=${userId}&script_id=${script.id}&stage_id=${stage.id}`}
+                    to={
+                      `${window.location.origin}/graph.php?user_id=${userId}&script_id=${script.id}&stage_id=${stage.id}`
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -57,7 +58,6 @@ const TaskScript = ({script}: TaskScriptProps) => {
       </ul>
     </Card>
   )
-}
 
 export const TasksPage = () => {
   const dispatch = useAppDispatch();
@@ -70,11 +70,13 @@ export const TasksPage = () => {
     if (userId) {
       dispatch(loadTasksByUserId({userId}))
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   return (
     <PageLayout fullSize>
-      <Skeleton loading={isLoading}>
+      {userId ? (
+        <Skeleton loading={isLoading}>
         <Title level={3} className={styles.title}>Список заданий</Title>
         {tasks?.length ? (
           <Row gutter={[16, 16]}>
@@ -86,7 +88,7 @@ export const TasksPage = () => {
                 lg={12}
                 xxl={8}
               >
-                <TaskScript script={script} />
+                <TaskScript userId={userId} script={script} />
               </Col>
             ))}
           </Row>
@@ -94,6 +96,9 @@ export const TasksPage = () => {
           <Empty description='Заданий нет' />
         )}
       </Skeleton>
+      ) : (
+        <div>Идентификатор пользователя не найден</div>
+      )}
     </PageLayout>
   )
 }

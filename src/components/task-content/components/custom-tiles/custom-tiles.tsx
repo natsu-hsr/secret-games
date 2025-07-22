@@ -1,60 +1,18 @@
-import Title from 'antd/es/typography/Title'
-import cn from 'classnames';
-import {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import type {FC} from 'react';
 
 import {Loadable} from '@components/loadable';
-import {useUserId} from '@shared/hooks';
-import {useAppDispatch, useAppSelector} from '@store/config/hooks';
-import {type TileDto, selectTaskCommonData, taskSliceActions} from '@store/slices/task-slice';
 
-import styles from './styles.module.scss';
-import {useCustomTiles} from './use-custom-tiles';
+import {GridCards} from './grid-cards';
 import {useTilesDataLoader} from './use-tiles-data-loader';
 
-export const CustomTiles = () => {
-  const dispatch = useAppDispatch();
-  const {scriptId, stageId} = useParams();
-  const {userId} = useUserId();
-
-  const [selectedTile, setSelectedTile] = useState<TileDto | undefined>();
-  const [hoveredTileId, setHoveredTileId] = useState<string | null>(null);
-
-  const {tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
-  
+export const CustomTiles: FC = () => {
   const {data: tilesData, isLoading, hasError} = useTilesDataLoader();
-
-  const {grid} = useCustomTiles({tilesData});
-
-  useEffect(() => {
-    // сбрасываем выбранную плитку при изменении выбранной строки
-    if (selectedTile) {
-      setSelectedTile(undefined);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tableRowId]);
-
-  const handleClick = (tile: TileDto) => {
-    if (!tile || !stageId || !scriptId || !userId) {
-      console.error('Не наден один или несколько идентификаторов tile || stageId || scriptId || userId');
-      return;
-    }
-    
-    setSelectedTile(tile);
-
-    const {id: tileId, apiName} = tile;
-
-    dispatch(taskSliceActions.setTilesCommonData({
-      tileId,
-      tileApiName: apiName,
-    }));
-  };
 
   return (
     <Loadable
       emptyProps={{
         isEmpty: !tilesData?.length,
-        emptyMessage: 'Данные плиток не заданы',
+        emptyMessage: 'Блоки не найдены',
       }}
       loadingProps={{
         isLoading,
@@ -63,87 +21,7 @@ export const CustomTiles = () => {
         hasError,
       }}
     >
-      <div className={styles.container}>
-        {selectedTile?.name && (
-          <Title className={styles.title} level={4}>
-            Блок: {selectedTile.name}
-          </Title>
-        )}
-        <div className={styles.grid}>
-          {grid.map((row, rowIndex) => (
-            <div key={rowIndex} className={styles.row}>
-              {row.map((cell, colIndex) => {
-                const currentTile = cell;
-
-                const isLeftEdge =
-                  currentTile && colIndex + 1 === currentTile.columnStart;
-                const isRightEdge =
-                  currentTile && colIndex + 1 === currentTile.columnEnd;
-                const isTopEdge =
-                  currentTile && rowIndex + 1 === currentTile.rowStart;
-                const isBottomEdge =
-                  currentTile && rowIndex + 1 === currentTile.rowEnd;
-
-                const isHovered = currentTile?.id === hoveredTileId;
-                const isSelected = currentTile?.id === selectedTile?.id;
-
-                const borders = currentTile
-                  ? {
-                      borderLeft: isLeftEdge ? '1px solid #d9d9d9' : 'none',
-                      borderRight: isRightEdge ? '1px solid #d9d9d9' : 'none',
-                      borderTop: isTopEdge ? '1px solid #d9d9d9' : 'none',
-                      borderBottom: isBottomEdge ? '1px solid #d9d9d9' : 'none',
-                    }
-                  : {
-                      border: '1px solid #d9d9d9',
-                    };
-                  
-                const isTopLeftCorner =
-                  currentTile &&
-                  rowIndex + 1 === currentTile.rowStart &&
-                  colIndex + 1 === currentTile.columnStart;
-
-                return (
-                  <div
-                    key={colIndex}
-                    className={cn(
-                      styles.cell, 
-                      currentTile && styles.tileCell,
-                      isHovered && styles.hovered,
-                      isSelected && styles.selected,
-                      isTopLeftCorner && styles.topCell
-                    )}
-                    style={{
-                      backgroundColor: currentTile?.color ?? '#fff',
-                      ...borders,
-                    }}
-                    onMouseEnter={() => currentTile && setHoveredTileId(currentTile.id)}
-                    onMouseLeave={() => setHoveredTileId(null)}
-                    onClick={() => currentTile && handleClick(currentTile)}
-                    title={currentTile?.name}
-                  >
-                    {isTopLeftCorner && (
-                      <div
-                        className={cn(
-                          styles['tile-name'],
-                          isSelected && styles.selected,
-                          isHovered && styles.hovered,
-                        )}
-                        style={{
-                          width: `${(currentTile.columnEnd - currentTile.columnStart + 1) * 100}%`,
-                          height: `${(currentTile.rowEnd - currentTile.rowStart + 1) * 100}%`,
-                        }}
-                      >
-                        {currentTile.name}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-      </div>
+      <GridCards tiles={tilesData} />
     </Loadable>
   )
-}
+};

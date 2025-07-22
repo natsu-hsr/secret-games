@@ -86,7 +86,9 @@ export const BaseForm: React.FC<BaseFormProps> = ({formData}) => {
           </div>
         </>
       ) : (
-        <div>Форма для данного типа полей не найдена</div> // TODO: стилизовать сообщение
+        <div className={styles.empty}>
+          Форма для данного типа полей не найдена
+        </div>
       )}
     </div>
   )

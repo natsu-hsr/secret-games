@@ -15,10 +15,10 @@ export const RadioFields: FC<GenericFieldsProps> = ({fields}) => {
     <>
       <FormItem
         name="radioValue"
+        initialValue={checkedValueName}
       >
         <Radio.Group
           className={styles['radio-group']}
-          defaultValue={checkedValueName}
           options={radioGroups.map(group => ({
             value: group.name,
             label: (
