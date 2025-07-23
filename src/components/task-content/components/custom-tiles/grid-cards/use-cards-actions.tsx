@@ -1,0 +1,46 @@
+import {useCallback, useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
+
+import {useUserId} from '@shared/hooks';
+import {useAppDispatch, useAppSelector} from '@store/config/hooks';
+import {type TileDto, selectTaskCommonData, taskSliceActions} from '@store/slices/task-slice';
+
+export const useCardsActions = () => {
+  const dispatch = useAppDispatch();
+  const {scriptId, stageId} = useParams();
+  const {userId} = useUserId();
+
+  const [selectedTile, setSelectedTile] = useState<TileDto | undefined>();
+  
+  const {tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
+
+
+  useEffect(() => {
+    // сбрасываем выбранную плитку при изменении выбранной строки
+    if (selectedTile) {
+      setSelectedTile(undefined);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tableRowId]);
+
+  const handleClick = useCallback((tile: TileDto) => {
+    if (!tile || !stageId || !scriptId || !userId) {
+      console.error('Не наден один или несколько идентификаторов (tile || stageId || scriptId || userId)');
+      return;
+    }
+      
+    setSelectedTile(tile);
+  
+    const {id: tileId, apiName} = tile;
+  
+    dispatch(taskSliceActions.setTilesCommonData({
+      tileId,
+      tileApiName: apiName,
+    }));
+  }, [stageId, scriptId, userId]);
+
+  return {
+    selectedTile,
+    handleClick,
+  }
+}

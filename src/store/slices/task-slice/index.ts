@@ -8,6 +8,7 @@ export type {
   TableColumn,
   TilesDto,
   TileDto,
+  TransportConnector,
   FormType,
   RawFieldType,
   FieldDependentField,

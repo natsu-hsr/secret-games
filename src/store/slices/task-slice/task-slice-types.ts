@@ -79,6 +79,16 @@ export type TileDto = {
   color: string;
 }
 
+/**
+ * Описывает связь между двумя карточками.
+ */
+export interface TransportConnector {
+  /** ID карточки-источника */
+  from: string;
+  /** ID карточки-приёмника */
+  to: string;
+}
+
 export type RawTilesDto = RawTileDto[];
 export type TilesDto = TileDto[];
 
