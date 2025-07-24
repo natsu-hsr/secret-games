@@ -1,4 +1,4 @@
-import {Empty} from 'antd';
+import {Empty, Skeleton} from 'antd';
 import Paragraph from 'antd/es/typography/Paragraph';
 import cn from 'classnames';
 import type {ReactNode} from 'react';
@@ -28,6 +28,7 @@ interface LoadableProps {
   loadingProps: LoadingProps;
   errorProps: ErrorProps;
   emptyProps: EmptyProps;
+  skeleton?: boolean;
 }
 
 export const Loadable: React.FC<LoadableProps> = ({
@@ -35,6 +36,7 @@ export const Loadable: React.FC<LoadableProps> = ({
   loadingProps,
   errorProps,
   emptyProps,
+  skeleton = false,
 }) => {
   const {
     isLoading,
@@ -49,6 +51,41 @@ export const Loadable: React.FC<LoadableProps> = ({
     emptyMessage = 'Данные не найдены'
   } = emptyProps;
 
+  if (skeleton) {
+    return (
+      <Skeleton
+        className={styles.skeleton}
+        active={isLoading}
+        loading={isLoading}
+        title
+        paragraph={{rows: 8}}
+      >
+        {(() => {
+          if (hasError) {
+            return (
+              <div className={styles['error-container']}>
+                <ErrorSvg className={styles['error-icon']} />
+                <Paragraph className={styles['error-message']}>
+                  {errorMessage}
+                </Paragraph>
+              </div>
+            )
+          }
+
+          if (isEmpty && !isLoading) {
+            return (
+              <Empty
+                className={cn('fh', 'flex-col-center')}
+                description={emptyMessage}
+              />
+            );
+          }
+
+          return children;
+        })()}
+      </Skeleton>
+    );
+  }
 
   return (
     <LayoutSpin spinning={isLoading} tip={loadingMessage}>
@@ -64,7 +101,7 @@ export const Loadable: React.FC<LoadableProps> = ({
           )
         }
 
-        if (isEmpty) {
+        if (isEmpty && !isLoading) {
           return (
             <Empty
               className={cn('fh', 'flex-col-center')}

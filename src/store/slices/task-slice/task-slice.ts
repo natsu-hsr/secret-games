@@ -2,17 +2,14 @@ import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 
 import {taskSliceName} from './task-slice-constants';
 import {
-  loadChartDataByRowId,
   loadMapDataByTileId,
   loadTableData,
   loadTilesDataByRowId,
 } from './task-slice-thunks';
 import type {
-  ChartDataDto,
   MapDataDto,
   TTaskSliceState,
   TableDataDto,
-  FormFieldsDto,
   TilesDataDto,
   TaskCommonData,
 } from './task-slice-types';
@@ -37,11 +34,6 @@ export const taskSlice = createSlice({
         }
       }
     },
-    setRegularFormFields(state, {payload}: PayloadAction<FormFieldsDto>) {
-      if (state.formConfig?.regularFields) {
-        state.formConfig.regularFields = payload;
-      }
-    },
     setTilesCommonData(state, {payload}: PayloadAction<Required<Pick<TaskCommonData, 'tileId' | 'tileApiName'>>>) {
       state.commonData = {
         ...state?.commonData,
@@ -53,9 +45,6 @@ export const taskSlice = createSlice({
       state.commonData = {
         tableRowId: payload.tableRowId,
       };
-    },
-    resetFormFields(state) {
-      state.formConfig = undefined;
     },
     resetMapData(state) {
       state.mapData = undefined;
@@ -76,12 +65,6 @@ export const taskSlice = createSlice({
     builder.addCase(loadTilesDataByRowId.fulfilled, (state, {payload}: PayloadAction<TilesDataDto>) => {
       state.tilesData = payload;
     });
-    builder.addCase(loadChartDataByRowId.fulfilled, (state, {payload}: PayloadAction<ChartDataDto>) => {
-      state.chartData = payload;
-    });
-    // builder.addCase(loadFormDataByTileParams.fulfilled, (state, {payload}: PayloadAction<SortedFormFieldsDto>) => {
-    //   state.formConfig = payload;
-    // });
   },
 });
 

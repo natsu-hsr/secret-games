@@ -11,10 +11,7 @@ import type {GenericFieldsProps} from '../../generic-fields';
 export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, fields}) => {
   const [textFields, setTextFields] = useState<FormFieldsDto>(() => fields.filter(f => f.type === 'text'));
 
-  const {
-    select,
-    selectedOption,
-  } = adaptFieldsToSelectForm({fields});
+  const {select, selectedOption} = adaptFieldsToSelectForm({fields});
 
   const handleSelectOptionChange = (value: string) => {
     const selectedOptionControls = select?.options?.find(o => o.value === value)?.controls;

@@ -1,8 +1,11 @@
 import type {
+  ChartLines,
+  ChartPoint,
   FieldControls,
   FormFieldDto,
   FormFieldsDto,
   FormType,
+  RawChartPoints,
   RawFormFieldDto,
   RawFormFieldsDto,
   RawTableDataDto,
@@ -187,3 +190,55 @@ export const getFormType = ({rawFields}: GetFormTypeArgs): FormType => {
 
   return 'default';
 }
+
+
+type ConvertRawChartDataArgs = {
+  data: RawChartPoints;
+}
+/**
+ * Преобразует «сырые» данные по точкам графика в данные, готовые для отрисовки библиотекой recharts.
+ * 
+ * Грязные данные - массив объектов с данными по оси `y` для точки в `x` по каждой линии отдельно.
+ * 
+ * На выходе нужно отдавать объедененный объект по точке `x`, который содержит все значения `y` доступный линий
+ * 
+ * Функция объединяет все записи с одинаковым `Time_Value` (значение по оси `x`) в одну сущеность точки (`ChartPoint`), 
+ * добавляя в неё поля со значениями для оси `y` для каждой линии (ключом для y служит id линии).
+ * 
+ * @param {ConvertRawChartDataArgs} args - аргументы функции
+ * @param {RawChartPoints} args.data - массив сырых данных с точками графика по каждой линии
+ * @returns {ChartLines} — объект с двумя полями:
+ *   - `lineIds: string[]` — список всех уникальных идентификаторов линий.
+ *   - `data: ChartPoint[]` — массив объединённых точек:
+ *      каждая точка содержит свойство `name` (значение по X)
+ *      и динамические свойства с ключами из `lineIds`, значениями Y.
+ */
+export const convertRawChartData = ({data}: ConvertRawChartDataArgs): ChartLines => {
+  const lineIds = new Set<string>();
+  const combinedChartPoints: Record<string, ChartPoint> = {};
+
+  data.forEach(rf => {
+    // id кривой
+    const id = rf.Knot_ID;
+    // значение по x
+    const name = String(rf.Time_Value);
+    // значение по y
+    const yValue = +rf.Demand;
+
+    lineIds.add(id);
+
+    if (!combinedChartPoints?.[name]) {
+      combinedChartPoints[name] = {
+        name,
+        [id]: yValue,
+      } as ChartPoint;
+    } else if (!combinedChartPoints[name]?.[id]) { // точка есть, но значения по графику с {id} в ней еще нет
+      combinedChartPoints[name][id] = yValue;
+    }
+  });
+
+  return {
+    lineIds: [...lineIds],
+    data: Object.values(combinedChartPoints),
+  };
+};

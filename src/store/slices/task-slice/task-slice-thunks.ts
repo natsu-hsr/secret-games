@@ -7,7 +7,6 @@ import {
   type FetchTableDataArgs,
   fetchTilesDataByRowId,
   type FetchDataByRowIdArgs,
-  fetchChartDataByRowId,
   postFormData,
   type PostFormDataArgs,
   postTask,
@@ -15,7 +14,6 @@ import {
 } from './task-slice-api';
 import {taskSliceName} from './task-slice-constants';
 import type {
-  ChartDataDto,
   MapDataDto,
   TableDataDto,
   TilesDataDto,
@@ -30,23 +28,6 @@ export const loadTableData = createAsyncThunk<TableDataDto | undefined, FetchTab
       const {data} = response;
 
       return convertRawTableData({rawData: data});
-    } catch (e) {
-      return rejectWithValue(e);
-    }
-  },
-);
-
-export const loadChartDataByRowId = createAsyncThunk<ChartDataDto, FetchDataByRowIdArgs>(
-  `${taskSliceName}/loadChartDataByRowId`,
-  async (args, {rejectWithValue}) => {
-    try {
-      const response = await fetchChartDataByRowId(args);
-      const {data} = response;
-
-      return data.map(d => ({
-        name: String(d.Time_Value),
-        y: +d.Demand,
-      }));
     } catch (e) {
       return rejectWithValue(e);
     }

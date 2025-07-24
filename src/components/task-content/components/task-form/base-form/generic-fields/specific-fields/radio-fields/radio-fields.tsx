@@ -22,14 +22,9 @@ export const RadioFields: FC<GenericFieldsProps> = ({fields}) => {
           options={radioGroups.map(group => ({
             value: group.name,
             label: (
-              <div
-                className={styles['radio-label']}
-              >
+              <div className={styles['radio-label']}>
                 {group.labels.map(label => (
-                  <div
-                    key={label}
-                    className={styles['radio-label-text']}
-                  >
+                  <div key={label} className={styles['radio-label-text']}>
                     {label}
                   </div>
                 ))}

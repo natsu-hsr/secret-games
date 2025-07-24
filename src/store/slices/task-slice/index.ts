@@ -1,5 +1,7 @@
 export type {
-  ChartDataDto,
+  ChartPoint,
+  ChartPoints,
+  ChartLines,
   TTaskInfo,
   MapMarkerDto,
   MapDataDto,
@@ -31,8 +33,6 @@ export {
   selectTaskTableData,
   selectTaskTilesData,
   selectSelectedTileId,
-  selectTaskChartData,
-  selectFormConfigData,
   selectTableSelectedRowId,
   selectTaskCommonData,
 } from './task-slice-selectors';
@@ -40,12 +40,12 @@ export {
   loadTableData,
   loadMapDataByTileId,
   loadTilesDataByRowId,
-  loadChartDataByRowId,
   submitFormData,
   submitTask,
 } from './task-slice-thunks';
 export {
-  loadFormDataByTileParams
+  loadFormDataByTileParams,
+  loadChartDataByRowId,
 } from './task-slice-services';
 export {
   taskSliceReducer,

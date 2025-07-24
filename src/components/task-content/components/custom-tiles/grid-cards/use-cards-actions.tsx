@@ -25,7 +25,9 @@ export const useCardsActions = () => {
 
   const handleClick = useCallback((tile: TileDto) => {
     if (!tile || !stageId || !scriptId || !userId) {
-      console.error('Не наден один или несколько идентификаторов (tile || stageId || scriptId || userId)');
+      console.error(
+        'Не найден один или несколько параметров, ' +
+         + 'загрузка плиток невозможна (tile || stageId || scriptId || userId)');
       return;
     }
       
@@ -37,6 +39,7 @@ export const useCardsActions = () => {
       tileId,
       tileApiName: apiName,
     }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stageId, scriptId, userId]);
 
   return {

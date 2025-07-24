@@ -26,15 +26,15 @@ export const TaskTitle = () => {
       stageId: stageId ?? '',
     }))
       .unwrap()
-      .then(data => {
-        notification.success({message: data?.length ? data : 'Результаты успешно отправлены'});
+      .then(() => {
+        notification.success({message: 'Поздравляем, вы завершили задание!'});
         navigate('/tasks', {replace: true});
       })
       .catch((e: AxiosError) => {
         const errorMessage = e?.response?.data;
         console.error('Ошибка при завершении задачи=', errorMessage);
         notification.error({
-          message: `При завершении задачи произошла ошибка${errorMessage ? ` :${errorMessage}` : ''}`
+          message: `При завершении задания произошла ошибка${errorMessage ? ` :${errorMessage}` : ''}`
         });
       });
   }
@@ -47,7 +47,7 @@ export const TaskTitle = () => {
         type='primary'
         onClick={handleClick}
       >
-        Завершить выполнение
+        Завершить
       </Button>
     </div>
   )

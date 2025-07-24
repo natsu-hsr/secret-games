@@ -30,16 +30,6 @@ export const selectSelectedTileId = createSelector(
   ({tilesData}) => tilesData?.options?.selectedTileId,
 );
 
-export const selectTaskChartData = createSelector(
-  selectTaskSliceState,
-  ({chartData}) => chartData,
-);
-
-export const selectFormConfigData = createSelector(
-  selectTaskSliceState,
-  ({formConfig}) => formConfig,
-);
-
 export const selectTaskCommonData = createSelector(
   selectTaskSliceState,
   ({commonData}) => commonData,

@@ -30,6 +30,7 @@ export const useFormDataLoader = () => {
     }
 
     setLoading(true);
+    setFormData(undefined);
 
     loadFormDataByTileParams({
       stageId,
@@ -50,7 +51,7 @@ export const useFormDataLoader = () => {
 
   useEffect(() => {
     // если активной плитки нет, но старые данные по форме остались, стираем их
-    if ((!tileId || !tileApiName) && formData?.fields?.length && formData?.fields?.length > 0) {
+    if ((!tileId || !tileApiName) && formData) {
       setFormData(undefined);
       setError(false);
       setLoading(false);

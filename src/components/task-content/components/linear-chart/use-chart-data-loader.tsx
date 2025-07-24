@@ -1,20 +1,18 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 
 import {useUserId} from '@shared/hooks';
-import {useAppDispatch, useAppSelector} from '@store/config/hooks';
-import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
-import {loadChartDataByRowId, selectTaskChartData, selectTaskCommonData} from '@store/slices/task-slice';
+import {useAppSelector} from '@store/config/hooks';
+import {loadChartDataByRowId, selectTaskCommonData, type ChartLines} from '@store/slices/task-slice';
 
 export const useChartDataLoader = () => {
-  const dispatch = useAppDispatch();
   const {scriptId, stageId} = useParams();
   const {userId} = useUserId();
   const {tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
 
-  const chartData = useAppSelector(selectTaskChartData);
-  const isLoading = useAppSelector(s => selectIsThunkPending(s, loadChartDataByRowId.typePrefix));
-  const hasError = useAppSelector(s => selectIsThunkRejected(s, loadChartDataByRowId.typePrefix));
+  const [data, setData] = useState<ChartLines>();
+  const [isLoading, setLoading] = useState(false);
+  const [hasError, setError] = useState(false);
 
   useEffect(() => {
     if (!tableRowId || !scriptId || !stageId || !userId) {
@@ -23,17 +21,22 @@ export const useChartDataLoader = () => {
       return;
     }
 
-    dispatch(loadChartDataByRowId({
+    loadChartDataByRowId({
       userId,
       scriptId,
       stageId,
       rowId: tableRowId,
-    }));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    })
+      .then(d => {
+        setData(d);
+        setError(false);
+      })
+      .catch(() => setError(true))
+      .finally(() => setLoading(false))
   }, [userId, scriptId, stageId, tableRowId]);
 
   return {
-    data: chartData,
+    data,
     isLoading,
     hasError,
   }

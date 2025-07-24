@@ -26,17 +26,23 @@ export type RawMapDataDto = RawMapMarkerDto[];
 export type MapDataDto = MapMarkerDto[];
 
 // ======= chart =======
-export type RawChartDotDto = {
+export type RawChartPoint = {
   Time_Value: number;
   Demand: string;
+  Knot_ID: string;
 };
-export type RawChartDataDto = RawChartDotDto[];
+export type RawChartPoints = RawChartPoint[];
 
-export type ChartDotDto = {
+export type ChartPoint = {
   name: string;
   [key: string]: number | string;
 };
-export type ChartDataDto = ChartDotDto[];
+export type ChartPoints = ChartPoint[];
+
+export type ChartLines = {
+  lineIds: string[];
+  data: ChartPoints;
+};
 
 // ======= table =======
 export type TableColumn = {
@@ -175,10 +181,8 @@ export type TTask  = {
   id: number;
   info: TTaskInfo;
   mapData: MapDataDto;
-  chartData: ChartDataDto;
   tableData: TableDataDto;
   tilesData: TilesDataDto;
-  formConfig: SortedFormFieldsDto | undefined;
   commonData: TaskCommonData | undefined;
 }
 

@@ -10,6 +10,11 @@ export const selectAuthorizedStatus = createSelector(
   ({isAuthorized}) => isAuthorized,
 );
 
+export const selectUser = createSelector(
+  selectAuthSliceState,
+  ({user}) => user,
+);
+
 export const selectAuthMessage = createSelector(
   selectAuthSliceState,
   ({message}) => message,

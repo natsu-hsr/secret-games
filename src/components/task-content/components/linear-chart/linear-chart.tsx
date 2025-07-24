@@ -1,4 +1,3 @@
-import {useMemo} from 'react';
 import {
   ResponsiveContainer,
   LineChart,
@@ -14,13 +13,17 @@ import {Loadable} from '@components/loadable';
 import styles from './styles.module.scss';
 import {useChartDataLoader} from './use-chart-data-loader';
 
-export const LinearChart = () => {
-  const {data: chartData, isLoading, hasError} = useChartDataLoader();
+const colors = [
+  '#8884d8',
+  '#84d8a7ff',
+  '#b8924bff',
+  '#d88484ff',
+]
 
-  const lineDataKeys = useMemo(
-    () => Object.keys(chartData?.[0] ?? {}).filter(k => k !== 'name'),
-    [chartData],
-  );
+export const LinearChart = () => {
+  const {data, isLoading, hasError} = useChartDataLoader();
+
+  const {lineIds, data: chartData} = data ?? {};
 
   return (
     <Loadable
@@ -40,14 +43,14 @@ export const LinearChart = () => {
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
-            <YAxis dataKey="y" />
+            <YAxis />
             <Tooltip />
-            {lineDataKeys?.map(lineKey => (
+            {lineIds?.map((id, idx) => (
               <Line
-                key={lineKey}
-                dataKey={lineKey}
+                key={id}
+                dataKey={id}
                 type="monotone"
-                stroke="#8884d8"
+                stroke={colors?.[idx] ?? '#8884d8'}
                 strokeWidth={2}
                 dot={false}
               />

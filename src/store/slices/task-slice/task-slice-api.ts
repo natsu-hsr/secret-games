@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import {API_PREFIX, FETCH_API_PATH, POST_API_PATH} from './task-slice-constants';
 import type {
-  RawChartDataDto,
+  RawChartPoints,
   RawFormFieldsDto,
   RawMapDataDto,
   RawTableDataDto,
@@ -60,7 +60,7 @@ export const fetchTilesDataByRowId = ({stageId, scriptId, rowId, userId}: FetchD
 }
 
 export const fetchChartDataByRowId = ({stageId, scriptId, rowId, userId}: FetchDataByRowIdArgs) => {
-  return axios.get<RawChartDataDto>(
+  return axios.get<RawChartPoints>(
     API_PREFIX.fetch,
     {
       params: {

@@ -6,10 +6,9 @@ import {useFormDataLoader} from './use-form-data-loader';
 export const TaskForm = () => {
   const {data: formData, isLoading, hasError} = useFormDataLoader();
 
-  console.log('formData=', formData);
-
   return (
     <Loadable
+      skeleton
       emptyProps={{
         isEmpty: !formData?.fields?.length,
         emptyMessage: 'Поля не заданы',
@@ -21,7 +20,9 @@ export const TaskForm = () => {
         hasError,
       }}
     >
-      {formData && <BaseForm formData={formData} />}
+      <div style={{height: '100%', width: '100%',}}>
+        {formData && <BaseForm formData={formData} />}
+      </div>
     </Loadable>
   )
 }

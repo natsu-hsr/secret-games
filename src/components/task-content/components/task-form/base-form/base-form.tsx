@@ -27,7 +27,7 @@ export const BaseForm: React.FC<BaseFormProps> = ({formData}) => {
   const {scriptId, stageId} = useParams();
   const {tableRowId, tileId} = useAppSelector(selectTaskCommonData) ?? {};
   
-  const {type, fields} = formData
+  const {type, fields} = formData;
 
   const handleFormSubmit = (values: Record<string, unknown>) => {
     const globalParams = {

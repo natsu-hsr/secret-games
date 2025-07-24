@@ -1,5 +1,9 @@
 export {authSliceName} from './auth-slice-constants';
-export {selectAuthMessage, selectAuthorizedStatus} from './auth-slice-selectors';
+export {
+  selectAuthMessage,
+  selectAuthorizedStatus,
+  selectUser,
+} from './auth-slice-selectors';
 export type {
   TAuthForm,
   TAuthSliceState,
