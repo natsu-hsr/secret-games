@@ -5,6 +5,7 @@ import type {FormFieldsDto, FormType} from '@store/slices/task-slice';
 
 import {RadioFields} from './specific-fields/radio-fields';
 import {SelectFields} from './specific-fields/select-fields';
+import {ProportionsFields} from './specific-fields/proportions-fields';
 
 type GenericFieldsClassNames = Partial<{
   wrapperClassName: string;
@@ -17,8 +18,8 @@ export type GenericFieldsProps = {
   classNames?: GenericFieldsClassNames;
 }
 
-export const GenericFields: Record<FormType, FC<GenericFieldsProps> | null> = {
+export const GenericFields: Record<FormType, FC<GenericFieldsProps>> = {
   select: SelectFields,
   radio: RadioFields,
-  default: null,
+  proportions: ProportionsFields,
 };

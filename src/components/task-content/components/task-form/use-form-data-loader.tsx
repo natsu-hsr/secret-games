@@ -30,7 +30,7 @@ export const useFormDataLoader = () => {
     }
 
     setLoading(true);
-    setFormData(undefined);
+    // setFormData(undefined);
 
     loadFormDataByTileParams({
       stageId,

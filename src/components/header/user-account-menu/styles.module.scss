@@ -1,0 +1,40 @@
+@use '/src/shared/styles/colors.scss' as *;
+@use '/src/shared/styles/common.scss' as *;
+
+.wrapper {
+  cursor: pointer;
+  color: $secondary-color;
+}
+
+.avatar {
+  background-color: $primary-color;
+  width: 26px;
+  height: 26px;
+}
+
+.divider {
+  border-color: $secondary-color;
+  margin-top: 4px;
+  margin-inline: 4px;
+  height: 14px;
+}
+
+.item.important {
+  color: $danger-color !important;
+}
+
+.logo {
+  width: 18px;
+  height: 18px;
+}
+
+.logout {
+  path {
+    stroke: $danger-color;
+  }
+}
+
+.dropdown-logo {
+  width: 12px;
+  height: 12px;
+}

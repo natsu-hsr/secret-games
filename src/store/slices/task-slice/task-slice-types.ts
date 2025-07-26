@@ -109,7 +109,7 @@ export type TilesDataDto = {
 export type RawFieldType = 'text' | 'radio' | 'select';
 export type FieldType = RawFieldType;
 
-export type FormType = 'radio' | 'select' | 'default';
+export type FormType = 'radio' | 'select' | 'proportions';
 
 export type FieldControl = {
   value?: string;
@@ -123,7 +123,9 @@ export type RawFormFieldDto = {
   HTML_Label: string;
   HTML_type: RawFieldType;
   HTML_value: number | string;
-  HTML_enable: '0' | '1' | 'selected';
+  HTML_enable: '0' | '1' | 'selected' | 'disable' | 'enable';
+  /** техническое поле для группировки полей */ 
+  Parent_ID: string; 
 } & Record<string, string>;
 
 export type FieldDependentField = {
@@ -142,10 +144,11 @@ export type FormFieldDto = {
   optionLabel?: string[];
   controls?: FieldControls;
   // TODO: убрать как бэк положет selected в другое поле
-  // специальное поле под селект для значения HTML_enable = 'selected'
+  /** специальное поле под селект для значения HTML_enable = 'selected' */
   selected?: boolean;
-  // массив зависимых полей: значение value интерпретируется в зависимости от типа поля
+  /** массив зависимых полей: значение value интерпретируется в зависимости от типа поля */
   dependentFields?: FieldDependentField[]
+  parentId?: string;
 }
 
 export type RawFormFieldsDto = RawFormFieldDto[];

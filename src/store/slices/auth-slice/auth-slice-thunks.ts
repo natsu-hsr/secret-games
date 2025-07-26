@@ -20,6 +20,7 @@ export const authorize = createAsyncThunk<UserWithAuthorizedFlag, AuthorizeArgs>
       } else {
         dispatch(authSliceActions.setMessage('Логин или пароль не совпадают или не найдены'))
         localStorage.removeItem('userId');
+        localStorage.removeItem('user');
       }
 
       return {
@@ -37,6 +38,7 @@ export const logout = createAsyncThunk(
   '${authSliceName}/logout',
   async (_, {dispatch}) => {
     localStorage.removeItem('userId');
+    localStorage.removeItem('user');
     dispatch(authSliceActions.setAuthorized(false));
   }
 );

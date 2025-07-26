@@ -1,12 +1,15 @@
+@use '/src/shared/styles/colors.scss' as *;
+
 .radio-group {
+  width: 100%;
   :global {
     .ant-radio-wrapper {
       display: flex;
       align-items: flex-start;
 
-      padding-bottom: 8px;
-      margin-bottom: 8px;
-      border-bottom: 1px solid #ccc;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba($secondary-color, 0.2);
 
       &:last-child {
         border-bottom: none;
@@ -24,7 +27,7 @@
 
 
   &-text {
-    color: gray;
+    color: $secondary-color;
     white-space: nowrap;
   }
 }

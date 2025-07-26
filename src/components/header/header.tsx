@@ -1,14 +1,12 @@
-import {Flex, Tooltip} from 'antd';
+import {Flex} from 'antd';
 import cn from 'classnames';
+import type {FC} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-
-import {useAppDispatch} from '@store/config/hooks';
-import {logout} from '@store/slices/auth-slice';
 
 import styles from './styles.module.scss';
 
 import LogoSvg from '@assets/logo.svg?react';
-import LogoutSvg from '@assets/logout.svg?react';
+import {UserAccountMenu} from './user-account-menu';
 
 
 type NavMenu = {
@@ -20,14 +18,9 @@ const navMenus: NavMenu[] = [
   {title: 'Задачи', path: '/tasks'}
 ]
 
-export const Header = () => {
-  const dispatch = useAppDispatch();
+export const Header: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    dispatch(logout())
-  }
 
   const handleTitleClick = () => {
     navigate('/');
@@ -53,13 +46,7 @@ export const Header = () => {
           >{m.title}
           </div>
         ))}
-        <Tooltip
-          className={styles.tooltip} 
-          title='Выйти'
-          placement='bottomLeft'
-        >
-          <LogoutSvg onClick={handleLogout} className={styles['logout-icon']} />
-        </Tooltip>
+        <UserAccountMenu />
       </Flex>
     </nav>
   )

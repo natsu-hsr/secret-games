@@ -16,8 +16,14 @@ import {useChartDataLoader} from './use-chart-data-loader';
 const colors = [
   '#8884d8',
   '#84d8a7ff',
-  '#b8924bff',
-  '#d88484ff',
+  '#eca114ff',
+  '#da5050ff',
+  '#51aaf3ff',
+  '#95d884ff',
+  '#d184d8ff',
+  '#3f0088ff',
+  '#035658ff',
+  '#00c569ff',
 ]
 
 export const LinearChart = () => {

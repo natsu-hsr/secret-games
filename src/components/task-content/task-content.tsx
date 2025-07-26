@@ -42,7 +42,7 @@ export const TaskContent = () => (
         </Card>
       </Col>
       <Col xs={24} lg={12}>
-        <Card className={cn(styles.card, styles['min-h'])}>
+        <Card className={cn(styles.card, styles['form-card'], styles['min-h'])}>
           <TaskForm />
         </Card>
       </Col>

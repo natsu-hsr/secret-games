@@ -27,7 +27,6 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors, onConnectorCli
 
   const {containerStyle, minCol, minRow} = useGridDimensions(tiles);
 
-  // const positions = useCardPositions(tiles, wrapperRef, cardRefs);
   const connectorPositions = useConnectorPositions(connectors, wrapperRef, cardRefs);
 
   const {selectedTile, handleClick} = useCardsActions();
@@ -85,7 +84,7 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors, onConnectorCli
                 ref={el => (cardRefs.current[tile.id] = el)}
                 className={cn(
                   styles.card,
-                  selectedId === tile.id ? styles.selected : styles.inactive
+                  selectedTile?.id === tile.id ? styles.selected : styles.inactive
                 )}
                 onClick={() => handleClick?.(tile)}
                 style={{

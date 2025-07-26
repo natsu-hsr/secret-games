@@ -13,12 +13,8 @@ export const TaskForm = () => {
         isEmpty: !formData?.fields?.length,
         emptyMessage: 'Поля не заданы',
       }}
-      loadingProps={{
-        isLoading,
-      }}
-      errorProps={{
-        hasError,
-      }}
+      loadingProps={{isLoading}}
+      errorProps={{hasError}}
     >
       <div style={{height: '100%', width: '100%',}}>
         {formData && <BaseForm formData={formData} />}

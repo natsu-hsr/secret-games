@@ -1,3 +1,5 @@
+@use '/src/shared/styles/colors.scss' as *;
+
 .table {
   :global {
     .ant-table-row {
@@ -16,5 +18,16 @@
 }
 
 .selected-row {
-  font-weight: bold;
+  font-weight: 600;
+  background-color: rgba($primary-color, 0.3);
+
+  &:hover {
+    :global {
+      .ant-table-cell-row-hover {
+        background-color: rgba($primary-color, 0.31) !important;
+
+      }
+    }
+    
+  }
 }

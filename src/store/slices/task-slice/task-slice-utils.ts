@@ -55,8 +55,9 @@ export const convertRawField = ({rawField}: ConvertRawFieldArgs): FormFieldDto =
     label: rawField.HTML_Label,
     type: rawField.HTML_type ?? 'text',
     defaultValue: rawField.HTML_value,
-    disabled: rawField.HTML_enable !== '1',
+    disabled: rawField.HTML_enable === '0' || rawField.HTML_enable === 'disable', // TODO: когда бэк определится со значениями, убрать лишний вариант
     selected: rawField.HTML_enable === 'selected',
+    parentId: rawField?.Parent_ID,
     dependentFields: [],
   }
 
@@ -188,7 +189,7 @@ export const getFormType = ({rawFields}: GetFormTypeArgs): FormType => {
   if (rawFields.some(f => f.HTML_type === 'radio')) return 'radio';
   if (rawFields.some(f => f.HTML_type === 'select')) return 'select';
 
-  return 'default';
+  return 'proportions';
 }
 
 

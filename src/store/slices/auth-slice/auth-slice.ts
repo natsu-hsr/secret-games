@@ -4,9 +4,12 @@ import {authSliceName} from './auth-slice-constants';
 import {authorize} from './auth-slice-thunks';
 import type {TAuthSliceState, UserWithAuthorizedFlag} from './auth-slice-types';
 
+const savedUserJson = localStorage.getItem('user');
+const savedUser = savedUserJson ? JSON.parse(savedUserJson) : null;
+
 export const authSliceInitialState: TAuthSliceState = {
   isAuthorized: !!localStorage.getItem('userId'),
-  user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') ?? '') : null,
+  user: savedUser,
   message: '',
 }
 
