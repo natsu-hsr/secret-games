@@ -186,6 +186,7 @@ export type TTask  = {
   mapData: MapDataDto;
   tableData: TableDataDto;
   tilesData: TilesDataDto;
+  formData: TypedFormData;
   commonData: TaskCommonData | undefined;
 }
 

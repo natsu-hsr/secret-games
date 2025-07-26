@@ -11,14 +11,17 @@ import {
   type PostFormDataArgs,
   postTask,
   type PostTaskArgs,
+  type FetchFormDataByTileParamsArgs,
+  fetchFormDataByTileParams,
 } from './task-slice-api';
 import {taskSliceName} from './task-slice-constants';
 import type {
   MapDataDto,
   TableDataDto,
   TilesDataDto,
+  TypedFormData,
 } from './task-slice-types';
-import {convertRawTableData} from './task-slice-utils';
+import {convertRawField, convertRawTableData, getFormType} from './task-slice-utils';
 
 export const loadTableData = createAsyncThunk<TableDataDto | undefined, FetchTableDataArgs>(
   `${taskSliceName}/loadTableData`,
@@ -60,6 +63,25 @@ export const loadTilesDataByRowId = createAsyncThunk<TilesDataDto, FetchDataByRo
           selectedTileId: undefined,
         }
       }
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+
+export const loadFormDataByTileParams = createAsyncThunk<TypedFormData, FetchFormDataByTileParamsArgs>(
+  `${taskSliceName}/loadFormDataByTileParams`,
+  async (args, {rejectWithValue}) => {
+    try {
+      const response = await fetchFormDataByTileParams(args);
+      const {data} = response;
+
+      const formType = getFormType({rawFields: data});
+
+      return {
+        type: formType,
+        fields: data?.map(raw => convertRawField({rawField: raw})) ?? [],
+      };
     } catch (e) {
       return rejectWithValue(e);
     }

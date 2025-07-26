@@ -34,3 +34,8 @@ export const selectTaskCommonData = createSelector(
   selectTaskSliceState,
   ({commonData}) => commonData,
 );
+
+export const selectFormData = createSelector(
+  selectTaskSliceState,
+  ({formData}) => formData,
+);

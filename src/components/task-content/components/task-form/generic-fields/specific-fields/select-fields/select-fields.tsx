@@ -3,17 +3,23 @@ import Input from 'antd/es/input';
 import Select from 'antd/es/select';
 import {useState, type FC} from 'react';
 
-import type {FormFieldsDto} from '@store/slices/task-slice';
+import {taskSliceActions, type FormFieldsDto} from '@store/slices/task-slice';
 
 import {adaptFieldsToSelectForm} from './utils';
 import type {GenericFieldsProps} from '../../generic-fields';
+import {useAppDispatch} from '@store/config/hooks';
 
 export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, fields}) => {
-  const [textFields, setTextFields] = useState<FormFieldsDto>(() => fields.filter(f => f.type === 'text'));
-
+  const dispatch = useAppDispatch();
   const {select, selectedOption} = adaptFieldsToSelectForm({fields});
 
+  // const [selectValue, setSelectValue] = useState<string | undefined>(selectedOption)
+
+  const textFields = fields.filter(f => f.type === 'text');
+
   const handleSelectOptionChange = (value: string) => {
+    // setSelectValue(value);
+
     const selectedOptionControls = select?.options?.find(o => o.value === value)?.controls;
   
     if (!selectedOptionControls) {
@@ -35,7 +41,7 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, fields
       })
     });
 
-    setTextFields(updatedFields);
+    dispatch(taskSliceActions.updateFormFields(updatedFields));
   }
 
   return (
@@ -44,9 +50,12 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, fields
         <FormItem
           name={select.name}
           label={select.label}
+          // initialValue={selectValue}
           initialValue={selectedOption}
+          shouldUpdate
         >
           <Select
+            // value={selectValue}
             options={select.options}
             onChange={handleSelectOptionChange}
             getPopupContainer={() => scrollContainerRef?.current ?? document.body}
@@ -59,6 +68,7 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, fields
           name={f.name}
           label={f.label}
           initialValue={f.defaultValue}
+          shouldUpdate
         >
           <Input
             placeholder={`Введите ${f.label.toLowerCase()}`}

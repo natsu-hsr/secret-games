@@ -35,6 +35,7 @@ export {
   selectSelectedTileId,
   selectTableSelectedRowId,
   selectTaskCommonData,
+  selectFormData,
 } from './task-slice-selectors';
 export {
   loadTableData,
@@ -42,9 +43,9 @@ export {
   loadTilesDataByRowId,
   submitFormData,
   submitTask,
+  loadFormDataByTileParams,
 } from './task-slice-thunks';
 export {
-  loadFormDataByTileParams,
   loadChartDataByRowId,
 } from './task-slice-services';
 export {

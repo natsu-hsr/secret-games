@@ -6,7 +6,6 @@ import styles from './styles.module.scss';
 import {convertFieldsToRadios} from './utils';
 import type {GenericFieldsProps} from '../../generic-fields';
 
-
 export const RadioFields: FC<GenericFieldsProps> = ({fields}) => {
   const radioGroups =  convertFieldsToRadios({fields});
   const checkedValueName = radioGroups.find(group => group.checked)?.name ?? '';

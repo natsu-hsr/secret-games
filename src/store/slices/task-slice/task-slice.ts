@@ -2,6 +2,7 @@ import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 
 import {taskSliceName} from './task-slice-constants';
 import {
+  loadFormDataByTileParams,
   loadMapDataByTileId,
   loadTableData,
   loadTilesDataByRowId,
@@ -12,6 +13,8 @@ import type {
   TableDataDto,
   TilesDataDto,
   TaskCommonData,
+  TypedFormData,
+  FormFieldsDto,
 } from './task-slice-types';
 
 export const taskSliceInitialState: TTaskSliceState = {}
@@ -45,6 +48,24 @@ export const taskSlice = createSlice({
       state.commonData = {
         tableRowId: payload.tableRowId,
       };
+      state.formData = undefined;
+    },
+    updateFormFields(state, {payload}: PayloadAction<FormFieldsDto>) {
+      if (!state.formData?.fields) {
+        return;
+      }
+
+      state.formData.fields = state.formData.fields.map(old => {
+        const updated = payload.find(updated => updated.name === old.name);
+        if (!updated) {
+          return old;
+        };
+
+        return updated;
+      });
+    },
+    resetFormData(state) {
+      state.formData = undefined;
     },
     resetMapData(state) {
       state.mapData = undefined;
@@ -64,6 +85,9 @@ export const taskSlice = createSlice({
     });
     builder.addCase(loadTilesDataByRowId.fulfilled, (state, {payload}: PayloadAction<TilesDataDto>) => {
       state.tilesData = payload;
+    });
+    builder.addCase(loadFormDataByTileParams.fulfilled, (state, {payload}: PayloadAction<TypedFormData>) => {
+      state.formData = payload;
     });
   },
 });
