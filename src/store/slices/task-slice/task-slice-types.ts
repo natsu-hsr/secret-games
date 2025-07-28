@@ -22,6 +22,11 @@ export type MapMarkerDto = {
   draggable: boolean;
 }
 
+export type MapConnection = {
+  fromId: string;
+  toId: string;
+}
+
 export type RawMapDataDto = RawMapMarkerDto[];
 export type MapDataDto = MapMarkerDto[];
 

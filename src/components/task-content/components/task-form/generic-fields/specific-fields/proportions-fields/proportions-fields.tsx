@@ -2,8 +2,6 @@ import {Divider, InputNumber, Typography} from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import  {type FC} from 'react';
 
-import {ExclamationCircleFilled} from '@ant-design/icons';
-
 import styles from './styles.module.scss';
 import {convertFieldsToProportions} from './utils';
 import type {GenericFieldsProps} from '../../generic-fields';
@@ -13,10 +11,35 @@ export const ProportionsFields: FC<GenericFieldsProps> = ({form, fields, setVali
 
   return (
     <>
-      <Typography.Text type="secondary">
-        <ExclamationCircleFilled className={styles['warning-icon']} />
-        Сумма по всем узлам должна составлять 1
-      </Typography.Text>
+      {/* Суммарная подсказка */}
+      <FormItem className={styles.hint} shouldUpdate>
+        {() => {
+          const vals: Record<string, unknown> = form.getFieldsValue();
+          const sum: number = Object.values(vals)
+          .reduce((s: number, v: unknown) => {
+            if (typeof v !== 'number') {
+              return s;
+            }
+            return s + v;
+          }, 0);
+
+          const isValid = sum <= 1;
+
+          if (isValid) {
+            setValid?.(true);
+          } else {
+            setValid?.(false);
+          }
+
+          return !isValid
+            ? (<Typography.Text type="danger">
+              Сумма по всем узлам должна быть меньше или равна 1 (текущая: {sum.toFixed(1)})
+            </Typography.Text>)
+            : (<Typography.Text type='success'>
+              Текущая сумма: {sum.toFixed(1)}
+            </Typography.Text>);
+        }}
+      </FormItem>
       <Divider className={styles.divider} />
       {proportionsFields?.map(pf => (
         <FormItem
@@ -36,35 +59,6 @@ export const ProportionsFields: FC<GenericFieldsProps> = ({form, fields, setVali
           <InputNumber type='number' step={0.1} />
         </FormItem>
       ))}
-      {/* Суммарная подсказка */}
-      <FormItem shouldUpdate>
-        {() => {
-          const vals: Record<string, unknown> = form.getFieldsValue();
-          const sum: number = Object.values(vals)
-          .reduce((s: number, v: unknown) => {
-            if (typeof v !== 'number') {
-              return s;
-            }
-            return s + v;
-          }, 0);
-
-          const isValid = sum === 1;
-
-          if (isValid) {
-            setValid?.(true);
-          } else {
-            setValid?.(false);
-          }
-
-          return !isValid
-            ? (<Typography.Text type="danger">
-              Сумма по всем узлам должна быть равна 1 (текущая: {sum.toFixed(1)})
-            </Typography.Text>)
-            : (<Typography.Text type='success'>
-              Текущая сумма: {sum.toFixed(1)}
-            </Typography.Text>);
-        }}
-      </FormItem>
     </>
   )
 }

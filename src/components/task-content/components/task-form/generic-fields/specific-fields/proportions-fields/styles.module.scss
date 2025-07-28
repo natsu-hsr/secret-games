@@ -5,14 +5,14 @@
   margin-top: $margin-base;
 }
 
-.warning-icon {
-  color: $warning;
-  margin-right: $margin-sm;
+.hint {
+  font-weight: 600;
+  margin-bottom: 0;
 }
 
 .divider {
   border-color: rgba($secondary-color, 0.5);
-  margin: $margin-base 0;
+  margin: 4px 0 $margin-base 0;
 }
 
 .pre-label {

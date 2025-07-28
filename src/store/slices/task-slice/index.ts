@@ -5,6 +5,7 @@ export type {
   TTaskInfo,
   MapMarkerDto,
   MapDataDto,
+  MapConnection,
   RawTableDataDto,
   TableDataDto,
   TableColumn,

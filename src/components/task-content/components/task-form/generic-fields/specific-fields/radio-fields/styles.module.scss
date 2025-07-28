@@ -7,27 +7,24 @@
       display: flex;
       align-items: flex-start;
 
-      padding-bottom: 12px;
       margin-bottom: 12px;
-      border-bottom: 1px solid rgba($secondary-color, 0.2);
+      margin-right: 0;
+      border: 1px solid rgba($secondary-color, 0.1);
+      border-radius: 6px;
+      padding: 8px 6px;
+    }
 
-      &:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-      }
+    .ant-radio-wrapper-checked {
+      border-color: rgba($primary-color, 0.3);
     }
   }
 }
 
-.radio-label {
+.label-wrapper {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
 
-
-  &-text {
-    color: $secondary-color;
-    white-space: nowrap;
-  }
+  color: $secondary-color;
+  white-space: nowrap;
 }

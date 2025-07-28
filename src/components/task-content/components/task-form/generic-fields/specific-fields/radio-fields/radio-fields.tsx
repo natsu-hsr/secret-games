@@ -16,21 +16,23 @@ export const RadioFields: FC<GenericFieldsProps> = ({fields}) => {
         name="radioValue"
         initialValue={checkedValueName}
       >
-        <Radio.Group
-          className={styles['radio-group']}
-          options={radioGroups.map(group => ({
-            value: group.name,
-            label: (
-              <div className={styles['radio-label']}>
-                {group.labels.map(label => (
-                  <div key={label} className={styles['radio-label-text']}>
-                    {label}
+        <Radio.Group className={styles['radio-group']}>
+          {radioGroups.map(group => (
+            <Radio
+              key={group.name}
+              value={group.name}
+              className={styles.radio}
+            >
+              <div className={styles['label-wrapper']}>
+                {group.labels.map((label, idx) => (
+                  <div key={idx} className={styles.label}>
+                    {label};
                   </div>
                 ))}
               </div>
-            ),
-          }))}
-        />
+            </Radio>
+          ))}
+        </Radio.Group>
       </FormItem>    
     </>
   )

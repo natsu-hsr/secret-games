@@ -25,7 +25,7 @@ export const TaskForm = () => {
       skeleton
       emptyProps={{
         isEmpty: !formData?.fields?.length,
-        emptyMessage: 'Поля не заданы',
+        emptyMessage: tileId ? 'Поля не заданы' : 'Выберите активный блок',
       }}
       loadingProps={{isLoading}}
       errorProps={{hasError}}

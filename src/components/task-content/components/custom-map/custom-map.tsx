@@ -11,7 +11,14 @@ export const CustomMap = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   const {data: mapData, isLoading, hasError} = useMapDataLoader();
-  const {error: yaMapError} = useYandexMapLoader({mapData, mapRef});
+  // const connections: MapConnection[] = useMemo(() => [
+  //   {
+  //     fromId: 'Knot_WH2',
+  //     toId: 'Knot_WH1',
+  //   },
+  // ], []);
+
+  const {error: yaMapError, isLoaded: isMapLoaded} = useYandexMapLoader({mapData, mapRef, connections: undefined});
 
   // TODO: вынести в Loadable ниже
   if (yaMapError) {
@@ -29,7 +36,7 @@ export const CustomMap = () => {
         emptyMessage: 'Координаты не заданы',
       }}
       loadingProps={{
-        isLoading,
+        isLoading: isLoading || !isMapLoaded,
       }}
       errorProps={{
         hasError,

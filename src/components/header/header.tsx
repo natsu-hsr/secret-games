@@ -4,10 +4,9 @@ import type {FC} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 
 import styles from './styles.module.scss';
-
-import LogoSvg from '@assets/logo.svg?react';
 import {UserAccountMenu} from './user-account-menu';
 
+import LogoSvg from '@assets/logo.svg?react';
 
 type NavMenu = {
   title: string,

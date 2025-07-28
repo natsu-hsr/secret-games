@@ -4,6 +4,7 @@ import Flex from 'antd/lib/flex';
 import type {FC} from 'react';
 
 
+import {UserOutlined} from '@ant-design/icons';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {logout, selectUser} from '@store/slices/auth-slice';
 
@@ -47,9 +48,7 @@ export const UserAccountMenu: FC = () => {
       <Dropdown menu={{items: getItems({onLogout: handleLogout})}}>
       <Flex className={styles.wrapper} align='center' gap={8}>
         {username}
-        <Avatar className={styles.avatar}>
-          {username?.[0] ?? 'U'}
-        </Avatar>
+        <Avatar className={styles.avatar} icon={<UserOutlined />} />
       </Flex>
     </Dropdown>
     </>
