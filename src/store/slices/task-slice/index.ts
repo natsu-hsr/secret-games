@@ -25,6 +25,7 @@ export type {
   TypedFormData,
   SortedFormFieldsDto,
   TaskCommonData,
+  TilesMarkerCoordinates,
   TTaskSliceState,
   TTask,
 } from './task-slice-types';
@@ -37,6 +38,7 @@ export {
   selectTableSelectedRowId,
   selectTaskCommonData,
   selectFormData,
+  selectTilesMarkerCoordinates,
 } from './task-slice-selectors';
 export {
   loadTableData,

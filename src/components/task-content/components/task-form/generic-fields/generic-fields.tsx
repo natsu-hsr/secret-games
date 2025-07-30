@@ -1,5 +1,5 @@
 import type {FormInstance} from 'antd/lib/form';
-import type {Dispatch, FC, RefObject, SetStateAction} from 'react';
+import type {FC, RefObject} from 'react';
 
 import type {FormFieldsDto, FormType} from '@store/slices/task-slice';
 
@@ -16,7 +16,6 @@ export type GenericFieldsProps = {
   fields: FormFieldsDto;
   scrollContainerRef?: RefObject<HTMLDivElement | null>;
   classNames?: GenericFieldsClassNames;
-  setValid?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const GenericFields: Record<FormType, FC<GenericFieldsProps>> = {

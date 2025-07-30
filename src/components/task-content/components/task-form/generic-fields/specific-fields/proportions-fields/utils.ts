@@ -13,8 +13,10 @@ export const convertFieldsToProportions = (fields: FormFieldsDto): ProportionFor
     if (!acc[parentId]) {
       acc[parentId] = {...cur};
     }
+
+    const isNotLabel = isNaN(Number(cur.defaultValue));
     
-    if (cur.disabled) { // поле техническое, в форму попасть не должно, выводим его как preLabel
+    if (isNotLabel) { // поле техническое, в форму попасть не должно, выводим его как preLabel
       acc[parentId].preLabel = {
         label: cur.label,
         value: String(cur.defaultValue),

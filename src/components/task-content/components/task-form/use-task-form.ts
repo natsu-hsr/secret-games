@@ -31,6 +31,8 @@ export const useTaskForm = (form: FormInstance) => {
       return;
     }
 
+    setValid(true);
+
     dispatch(loadFormDataByTileParams({
       stageId,
       scriptId,
@@ -64,6 +66,18 @@ export const useTaskForm = (form: FormInstance) => {
       notification.error({message: 'Ошибка при сохранении данных'});
     }
   }
+
+  const handleValuesChange = (_: unknown, allValues: Record<string, unknown>) => {
+    if (formData?.type !== 'proportions') {
+      return;
+    }
+    
+    const proportionsFieldsSum = Object.values(allValues)
+      .map(val => Number(val || 0))
+      .reduce((acc, cur) => acc += cur, 0)
+
+    setValid(proportionsFieldsSum <= 1)
+  }
   
   return {
     tileId,
@@ -71,6 +85,7 @@ export const useTaskForm = (form: FormInstance) => {
     isLoading,
     hasError,
     handleSubmit,
+    handleValuesChange,
     isValid,
     setValid,
   }

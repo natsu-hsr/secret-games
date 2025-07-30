@@ -101,6 +101,7 @@ export const loadMapDataByTileId = createAsyncThunk<MapDataDto, FetchMapDataByTi
         coordinates: [+(m.Knot_Latitude.replace(',', '.')), +m.Knot_Longitude.replace(',', '.')],
         labelType: m.label_type,
         draggable: m.draggable === 'true',
+        tileId: m.HTML_ID,
       }));
     } catch (e) {
       return rejectWithValue(e);

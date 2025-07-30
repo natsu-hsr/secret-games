@@ -55,8 +55,8 @@ export const convertRawField = ({rawField}: ConvertRawFieldArgs): FormFieldDto =
     label: rawField.HTML_Label,
     type: rawField.HTML_type ?? 'text',
     defaultValue: rawField.HTML_value,
-    disabled: rawField.HTML_enable === '0' || rawField.HTML_enable === 'disable', // TODO: когда бэк определится со значениями, убрать лишний вариант
-    selected: rawField.HTML_enable === 'selected',
+    disabled: !rawField.HTML_enable,
+    selected: rawField.HTML_selected,
     parentId: rawField?.Parent_ID,
     dependentFields: [],
   }
@@ -74,7 +74,7 @@ export const convertRawField = ({rawField}: ConvertRawFieldArgs): FormFieldDto =
 
         convertedField.dependentFields?.push(({
           name: key,
-          disabled: v === 'readonly',
+          disabled: !v,
         }))
       });
   }
@@ -98,7 +98,7 @@ export const convertRawFormFields = ({rawFormFields}: ConvertRawFormFieldsArgs):
   // обработка select
   rawFormFields.forEach(rf => {
     if (rf.HTML_type === 'select') {
-      if (rf.HTML_enable === 'selected') {
+      if (rf.HTML_enable) {
         selectedSelect = String(rf.HTML_value); // TODO: 
       }
       if (!select) {
@@ -107,7 +107,7 @@ export const convertRawFormFields = ({rawFormFields}: ConvertRawFormFieldsArgs):
           label: rf.HTML_Label,
           type: rf.HTML_type ?? 'text',
           defaultValue: rf.HTML_value,
-          disabled: rf.HTML_enable !== '1',
+          disabled: !rf.HTML_enable,
           options: [],
           controls: {},
         };

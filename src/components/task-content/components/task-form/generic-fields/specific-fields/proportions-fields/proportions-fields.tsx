@@ -6,38 +6,24 @@ import styles from './styles.module.scss';
 import {convertFieldsToProportions} from './utils';
 import type {GenericFieldsProps} from '../../generic-fields';
 
-export const ProportionsFields: FC<GenericFieldsProps> = ({form, fields, setValid}) => {
+export const ProportionsFields: FC<GenericFieldsProps> = ({form, fields}) => {
   const proportionsFields = convertFieldsToProportions(fields);
+  const names = proportionsFields.map(pf => pf.name);
 
   return (
     <>
       {/* Суммарная подсказка */}
       <FormItem className={styles.hint} shouldUpdate>
         {() => {
-          const vals: Record<string, unknown> = form.getFieldsValue();
-          const sum: number = Object.values(vals)
-          .reduce((s: number, v: unknown) => {
-            if (typeof v !== 'number') {
-              return s;
-            }
-            return s + v;
-          }, 0);
+          const sum = names
+            .map(name => Number(form.getFieldValue(name) || 0))
+            .reduce((a, b) => a + b, 0);
 
-          const isValid = sum <= 1;
-
-          if (isValid) {
-            setValid?.(true);
-          } else {
-            setValid?.(false);
-          }
-
-          return !isValid
-            ? (<Typography.Text type="danger">
-              Сумма по всем узлам должна быть меньше или равна 1 (текущая: {sum.toFixed(1)})
-            </Typography.Text>)
-            : (<Typography.Text type='success'>
-              Текущая сумма: {sum.toFixed(1)}
-            </Typography.Text>);
+          return sum <= 1 && sum > 0
+            ? <Typography.Text type="success">Сумма: {sum.toFixed(1)}</Typography.Text>
+            : <Typography.Text type="danger">
+              Сумма по всем узлам должна быть ≤1 (текущая: {sum.toFixed(1)})
+            </Typography.Text>;
         }}
       </FormItem>
       <Divider className={styles.divider} />

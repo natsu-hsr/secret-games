@@ -1,19 +1,63 @@
+import Flex from 'antd/es/flex';
 import FormItem from 'antd/es/form/FormItem';
 import Input from 'antd/es/input';
 import Select from 'antd/es/select';
-import {type FC} from 'react';
+import {useEffect, type FC} from 'react';
 
-import {useAppDispatch} from '@store/config/hooks';
-import {taskSliceActions, type FormFieldsDto} from '@store/slices/task-slice';
+import {useAppDispatch, useAppSelector} from '@store/config/hooks';
+import {
+  selectTaskCommonData,
+  selectTilesMarkerCoordinates,
+  taskSliceActions,
+  type FormFieldDto,
+  type FormFieldsDto,
+} from '@store/slices/task-slice';
 
 import {adaptFieldsToSelectForm} from './utils';
 import type {GenericFieldsProps} from '../../generic-fields';
 
-export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, fields}) => {
+export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, fields}) => {
   const dispatch = useAppDispatch();
   const {select, selectedOption} = adaptFieldsToSelectForm({fields});
 
   const textFields = fields.filter(f => f.type === 'text');
+
+  const {tileId} = useAppSelector(selectTaskCommonData) ?? {};
+  const tilesMarkerCoordinates = useAppSelector(selectTilesMarkerCoordinates);
+
+  const coordinatesFields = fields
+    .filter(f => f.type === 'coordinates')
+    .reduce((acc, cur) => {
+      if (cur.name.endsWith('latitude')) {
+        acc.latitude = cur;
+        return acc;
+      }
+
+      if (cur.name.endsWith('longitude')) {
+        acc.longitude = cur;
+        return acc;
+      }
+
+      return acc;
+    }, {} as Record<'latitude' | 'longitude', FormFieldDto>);
+
+  useEffect(() => {
+    if (!tileId) {
+      return;
+    }
+
+    if (Object.values(coordinatesFields)?.length < 1) {
+      return;
+    }
+
+    const [latitude, longitude] = tilesMarkerCoordinates?.[tileId] ?? [];
+
+    if (latitude && longitude) {
+      form.setFieldValue(coordinatesFields.latitude.name, latitude)
+      form.setFieldValue(coordinatesFields.longitude.name, longitude)
+    }
+
+  }, [tilesMarkerCoordinates, tileId, coordinatesFields, form])
 
   const handleSelectOptionChange = (value: string) => {
     const selectedOptionControls = select?.options?.find(o => o.value === value)?.controls;
@@ -42,12 +86,39 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, fields
 
   return (
     <>
+      {Object.values(coordinatesFields)?.length > 0 && (
+        <Flex gap={16}>
+          {coordinatesFields.latitude && (
+            <FormItem
+              name={coordinatesFields.latitude.name}
+              label={coordinatesFields.latitude.label}
+              initialValue={coordinatesFields.latitude.defaultValue}
+              style={{maxWidth: '80px'}}
+            >
+              <Input
+                disabled={coordinatesFields.latitude.disabled}
+              />
+            </FormItem>
+          )}
+          {coordinatesFields.longitude && (
+            <FormItem
+              name={coordinatesFields.longitude.name}
+              label={coordinatesFields.longitude.label}
+              initialValue={coordinatesFields.longitude.defaultValue}
+              style={{maxWidth: '80px'}}
+            >
+              <Input
+                disabled={coordinatesFields.longitude.disabled}
+              />
+            </FormItem>
+          )}
+        </Flex>
+      )}
       {select && (
         <FormItem
           name={select.name}
           label={select.label}
           initialValue={selectedOption}
-          shouldUpdate
         >
           <Select
             options={select.options}

@@ -13,7 +13,7 @@ export const TaskForm = () => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   
   const {
-    tileId, formData, isLoading, hasError, handleSubmit, isValid, setValid,
+    tileId, formData, isLoading, hasError, handleSubmit, isValid, handleValuesChange,
   } = useTaskForm(form);
   
   const {type, fields} = formData ?? {};
@@ -36,15 +36,15 @@ export const TaskForm = () => {
           <Form
             key={tileId}
             form={form}
+            preserve={false}
             layout='vertical'
             onFinish={handleSubmit}
-            preserve={false}
+            onValuesChange={handleValuesChange}
           >
             <FieldsComponent
               form={form}
               fields={fields}
               scrollContainerRef={scrollContainerRef}
-              setValid={setValid}
             />
           </Form>
           <div className={styles['submit-btn-container']}>

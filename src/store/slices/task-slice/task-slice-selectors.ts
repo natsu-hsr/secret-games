@@ -39,3 +39,8 @@ export const selectFormData = createSelector(
   selectTaskSliceState,
   ({formData}) => formData,
 );
+
+export const selectTilesMarkerCoordinates = createSelector(
+  selectTaskSliceState,
+  ({tilesMarkerCoordinates}) => tilesMarkerCoordinates,
+);

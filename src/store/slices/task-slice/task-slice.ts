@@ -70,6 +70,20 @@ export const taskSlice = createSlice({
     resetMapData(state) {
       state.mapData = undefined;
     },
+    /** ====== TilesMarkerCoordinates ====== */
+    setTilesMarkerCoordinates(state, {payload}: PayloadAction<Record<string, [number, number]>>) {
+      state.tilesMarkerCoordinates = payload;
+    },
+    addTileMarkerCoordinates(state, {payload}: PayloadAction<{tileId: string, coordinates: [number, number]}>) {
+      const {tileId, coordinates} = payload;
+      state.tilesMarkerCoordinates = {
+        ...state.tilesMarkerCoordinates,
+        [tileId]: coordinates,
+      };
+    },
+    resetTilesMarkerCoordinates(state) {
+      state.tilesMarkerCoordinates = undefined;
+    },
   },
   extraReducers(builder) {
     builder.addCase(loadMapDataByTileId.fulfilled, (state, {payload}: PayloadAction<MapDataDto>) => {

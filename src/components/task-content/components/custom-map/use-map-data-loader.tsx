@@ -4,7 +4,7 @@ import {useParams} from 'react-router-dom';
 import {useUserId} from '@shared/hooks';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
-import {loadMapDataByTileId, selectTaskCommonData, selectTaskMapData} from '@store/slices/task-slice';
+import {loadMapDataByTileId, selectTaskCommonData, selectTaskMapData, taskSliceActions} from '@store/slices/task-slice';
 
 export const useMapDataLoader = () => {
   const dispatch = useAppDispatch();
@@ -27,6 +27,8 @@ export const useMapDataLoader = () => {
       console.error('Один из параметров scriptId || stageId || userId не найден, загрузка графика невозможна');
       return;
     }
+
+    dispatch(taskSliceActions.resetTilesMarkerCoordinates());
   
     dispatch(loadMapDataByTileId({
       userId,

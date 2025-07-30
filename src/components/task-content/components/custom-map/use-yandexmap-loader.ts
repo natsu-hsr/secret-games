@@ -1,7 +1,8 @@
 import {useEffect, useRef, useState, type MutableRefObject} from 'react';
 import type {Polyline, Map as YMap, Placemark as YPlacemark} from 'yandex-maps';
 
-import type {MapConnection, MapDataDto} from '@store/slices/task-slice';
+import {useAppDispatch} from '@store/config/hooks';
+import {taskSliceActions, type MapConnection, type MapDataDto} from '@store/slices/task-slice';
 
 interface UseYandexMapLoaderArgs {
   mapRef: MutableRefObject<HTMLDivElement | null>;
@@ -10,6 +11,7 @@ interface UseYandexMapLoaderArgs {
 }
 
 export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapLoaderArgs) => {
+  const dispatch = useAppDispatch();
   const mapInstanceRef = useRef<YMap | null>(null); // карта
   const geoObjectsRef = useRef<YPlacemark[]>([]); // метки
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,7 +21,7 @@ export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapL
   const [error, setError] = useState<Error | null>(null);
   const [ymaps, setYmaps] = useState<typeof window.ymaps | null>(null);
 
-  // // Загрузка карты
+  // Загрузка карты
   useEffect(() => {
     const loadYandexMap = () => {
       return new Promise<void>((resolve, reject) => {
@@ -102,6 +104,13 @@ export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapL
         }
       );
 
+      if (p.draggable && p.tileId) {
+        placemark.events.add('dragend', () => {
+          const coords = placemark.geometry?.getCoordinates() as [number, number];
+          dispatch(taskSliceActions.addTileMarkerCoordinates({tileId: p.tileId!, coordinates: coords}))
+        })
+      }
+
       map.geoObjects.add(placemark);
       geoObjectsRef.current.push(placemark);
     });
@@ -115,6 +124,7 @@ export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapL
         map.setBounds(bounds, {checkZoomRange: true});
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapData, isLoaded, ymaps]);
 
   // маршруты

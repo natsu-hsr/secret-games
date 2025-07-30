@@ -13,6 +13,7 @@ export type RawMapMarkerDto = {
   Knot_Longitude: string
   label_type: string;
   draggable: string;
+  HTML_ID: string | null; // для передачи координат при drag-действии в зависимую плитку
 }
 export type MapMarkerDto = {
   id: string;
@@ -20,6 +21,7 @@ export type MapMarkerDto = {
   coordinates: [number, number];
   labelType: string;
   draggable: boolean;
+  tileId: string | null; // для передачи координат при drag-действии в зависимую плитку
 }
 
 export type MapConnection = {
@@ -111,7 +113,7 @@ export type TilesDataDto = {
 };
 
 // ======= form =======
-export type RawFieldType = 'text' | 'radio' | 'select';
+export type RawFieldType = 'text' | 'radio' | 'select' | 'coordinates';
 export type FieldType = RawFieldType;
 
 export type FormType = 'radio' | 'select' | 'proportions';
@@ -128,7 +130,8 @@ export type RawFormFieldDto = {
   HTML_Label: string;
   HTML_type: RawFieldType;
   HTML_value: number | string;
-  HTML_enable: '0' | '1' | 'selected' | 'disable' | 'enable';
+  HTML_enable: boolean;
+  HTML_selected: boolean;
   /** техническое поле для группировки полей */ 
   Parent_ID: string; 
 } & Record<string, string>;
@@ -184,6 +187,21 @@ export type TaskCommonData = Partial<{
   tileApiName: string;
 }>;
 
+/**
+ * Описывает связь между координатами маркера на карте и связанной карточки (tile)
+ */
+// export type TileMarkerCoordinates = {
+//   /** ID карточки-источника */
+//   tileId: string;
+//   /** ID карточки-приёмника */
+//   coordinates: ;
+// }
+
+/**
+ * Описывает связь между координатами маркера на карте и связанной карточки (tile)
+ */
+export type TilesMarkerCoordinates = Record<string, [number, number]>
+
 export type TTask  = {
   groupId: number;
   id: number;
@@ -193,6 +211,7 @@ export type TTask  = {
   tilesData: TilesDataDto;
   formData: TypedFormData;
   commonData: TaskCommonData | undefined;
+  tilesMarkerCoordinates: TilesMarkerCoordinates | undefined;
 }
 
 export type TTaskSliceState = Partial<TTask>
