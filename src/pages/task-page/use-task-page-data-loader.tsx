@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 
 import {useUserId} from '@shared/hooks';
 import {useAppDispatch} from '@store/config/hooks';
-import {loadTableData, loadMapDataByTileId} from '@store/slices/task-slice';
+import {loadTableData} from '@store/slices/task-slice';
 
 export const useTaskPageDataLoader = () => {
   const dispatch = useAppDispatch();
@@ -37,14 +37,7 @@ export const useTaskPageDataLoader = () => {
         // симулируем задержку
         await new Promise(resolve => setTimeout(resolve, 2000));
   
-        await dispatch(loadTableData({userId, scriptId, stageId}))
-          .unwrap();
-        await dispatch(loadMapDataByTileId({
-          userId,
-          scriptId,
-          stageId,
-          tileId: '',
-        })).unwrap();
+        await dispatch(loadTableData({userId, scriptId, stageId}));
         setError(undefined);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e : any) {

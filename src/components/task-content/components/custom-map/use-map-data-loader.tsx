@@ -11,7 +11,7 @@ export const useMapDataLoader = () => {
   const {scriptId, stageId} = useParams();
   const {userId} = useUserId();
   
-  const {tileId} = useAppSelector(selectTaskCommonData) ?? {};
+  const {tileId, tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
 
   const mapData = useAppSelector(selectTaskMapData);
   const isLoading = useAppSelector(s => selectIsThunkPending(s, loadMapDataByTileId.typePrefix));
@@ -19,8 +19,8 @@ export const useMapDataLoader = () => {
 
   useEffect(() => {
     // если этих параметров нету, то все нормально, просто не время загружать данные
-    // но при этом, в компоненте таблицы идет изначальная загрузка данных карты без tileId!
-    if (!tileId) {
+    // но при этом, идет изначальная загрузка данных карты без tileId
+    if (!tableRowId) {
       return;
     }
     if (!scriptId || !stageId || !userId) {
@@ -34,10 +34,11 @@ export const useMapDataLoader = () => {
       userId,
       scriptId,
       stageId,
-      tileId,
+      tileId: tileId ?? '',
+      productId: tableRowId,
     }));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tileId, scriptId, stageId, userId])
+  }, [tileId, scriptId, stageId, userId, tableRowId])
 
   return {
     data: mapData,

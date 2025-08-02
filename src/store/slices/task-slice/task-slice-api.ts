@@ -80,8 +80,10 @@ type TileParams = {
   apiName: string;
 }
 
-export type FetchMapDataByTileIdArgs = TaskInfoArgs & UserInfoArgs & Pick<TileParams, 'tileId'>;
-export const fetchMapDataByTileId = ({stageId, scriptId, tileId, userId}: FetchMapDataByTileIdArgs) => {
+export type FetchMapDataByTileIdArgs = TaskInfoArgs & UserInfoArgs & Pick<TileParams, 'tileId'> & {
+  productId: string;
+};
+export const fetchMapDataByTileId = ({stageId, scriptId, tileId, userId, productId}: FetchMapDataByTileIdArgs) => {
   return axios.get<RawMapDataDto>(
     API_PREFIX.fetch,
     {
@@ -90,7 +92,8 @@ export const fetchMapDataByTileId = ({stageId, scriptId, tileId, userId}: FetchM
         api_id: FETCH_API_PATH.map,
         script_id: scriptId,
         stage_id: stageId,
-        tileId: tileId,
+        tile_id: tileId,
+        product_id: productId,
       },
     }
   )
