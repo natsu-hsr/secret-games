@@ -88,6 +88,7 @@ export type RawTileDto = {
   Row_Start: number;
   Row_End: number;
   Card_Color: string;
+  is_active: boolean;
 }
 export type TileDto = {
   id: string;
@@ -100,6 +101,7 @@ export type TileDto = {
   rowStart: number;
   rowEnd: number;
   color: string;
+  disabled: boolean;
 }
 
 /**

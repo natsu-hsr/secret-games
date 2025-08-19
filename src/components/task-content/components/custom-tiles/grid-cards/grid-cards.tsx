@@ -84,7 +84,8 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors, onConnectorCli
                 ref={el => (cardRefs.current[tile.id] = el)}
                 className={cn(
                   styles.card,
-                  selectedTile?.id === tile.id ? styles.selected : styles.inactive
+                  selectedTile?.id === tile.id ? styles.selected : styles.inactive,
+                  tile.disabled && styles.disabled,
                 )}
                 onClick={() => handleClick?.(tile)}
                 style={{
