@@ -16,12 +16,12 @@ import {
 } from './task-slice-api';
 import {taskSliceName} from './task-slice-constants';
 import type {
-  MapDataDto,
+  MapData,
   TableDataDto,
   TilesDataDto,
   TypedFormData,
 } from './task-slice-types';
-import {convertRawField, convertRawTableData, getFormType} from './task-slice-utils';
+import {convertRawField, convertRawMapData, convertRawTableData, getFormType} from './task-slice-utils';
 
 export const loadTableData = createAsyncThunk<TableDataDto | undefined, FetchTableDataArgs>(
   `${taskSliceName}/loadTableData`,
@@ -88,27 +88,21 @@ export const loadFormDataByTileParams = createAsyncThunk<TypedFormData, FetchFor
   },
 );
 
-export const loadMapDataByTileId = createAsyncThunk<MapDataDto, FetchMapDataByTileIdArgs>(
+export const loadMapDataByTileId = createAsyncThunk<MapData, FetchMapDataByTileIdArgs>(
   `${taskSliceName}/loadMapDataByTileId`,
   async (args, {rejectWithValue}) => {
     try {
       const response = await fetchMapDataByTileId(args);
       const {data} = response;
 
-      return data.map(m => ({
-        id: m.Knot_ID,
-        name: m.Knot_Name,
-        coordinates: [+(m.Knot_Latitude.replace(',', '.')), +m.Knot_Longitude.replace(',', '.')],
-        labelType: m.label_type,
-        draggable: m.draggable === 'true',
-        tileId: m.HTML_ID,
-      }));
+      return convertRawMapData(data);
     } catch (e) {
       return rejectWithValue(e);
     }
   },
 );
 
+// TODO: перенести в services, think`и не нужны
 /* ============== submit thunks  ============== */
 
 export const submitFormData = createAsyncThunk<string, PostFormDataArgs>(

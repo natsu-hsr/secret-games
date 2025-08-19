@@ -4,7 +4,7 @@ import {API_PREFIX, FETCH_API_PATH, POST_API_PATH} from './task-slice-constants'
 import type {
   RawChartPoints,
   RawFormFieldsDto,
-  RawMapDataDto,
+  RawMapPlacemarks,
   RawTableDataDto,
   RawTilesDto,
 } from './task-slice-types';
@@ -84,7 +84,7 @@ export type FetchMapDataByTileIdArgs = TaskInfoArgs & UserInfoArgs & Pick<TilePa
   productId: string;
 };
 export const fetchMapDataByTileId = ({stageId, scriptId, tileId, userId, productId}: FetchMapDataByTileIdArgs) => {
-  return axios.get<RawMapDataDto>(
+  return axios.get<RawMapPlacemarks>(
     API_PREFIX.fetch,
     {
       params: {

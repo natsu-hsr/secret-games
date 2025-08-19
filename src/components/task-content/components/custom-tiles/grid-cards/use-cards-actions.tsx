@@ -38,6 +38,9 @@ export const useCardsActions = () => {
     dispatch(taskSliceActions.setTilesCommonData({
       tileId,
       tileApiName: apiName,
+      // todo: заменить на поле placemarkId, как только бэк добавит его 
+      // selectedPlacemarkId: (tileId === 'CardHeader10') ? 'Supplier3' : (tileId === 'CardHeader6') ? 'Knot_WH1' : '',
+      selectedPlacemarkId: '',
     }));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stageId, scriptId, userId]);

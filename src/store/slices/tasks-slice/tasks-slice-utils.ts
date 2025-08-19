@@ -19,6 +19,7 @@ export const convertRawTasks = ({rawTasks}: ConvertRawTasksArgs): TasksDto => {
           name: rt.Stage_Name,
           active: rt.Stage_Active_Flag,
           hasResults: !!rt.Result_Flag,
+          hasExtendedResults: !!rt.ExtendedResults,
         }],
       })
     } else {
@@ -33,6 +34,7 @@ export const convertRawTasks = ({rawTasks}: ConvertRawTasksArgs): TasksDto => {
             name: rt.Stage_Name,
             active: rt.Stage_Active_Flag,
             hasResults: !!rt.Result_Flag,
+            hasExtendedResults: !!rt.ExtendedResults,
           }
         ]
       }

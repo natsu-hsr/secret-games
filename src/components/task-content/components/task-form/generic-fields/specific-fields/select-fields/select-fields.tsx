@@ -124,6 +124,7 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
             options={select.options}
             onChange={handleSelectOptionChange}
             getPopupContainer={() => scrollContainerRef?.current ?? document.body}
+            disabled={select.disabled}
           />
         </FormItem>  
       )}

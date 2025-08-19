@@ -14,4 +14,5 @@ export type Select = {
   name: string;
   label: string;
   options: Option[];
+  disabled?: boolean;
 }

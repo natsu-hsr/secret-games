@@ -8,13 +8,13 @@ import {
   loadTilesDataByRowId,
 } from './task-slice-thunks';
 import type {
-  MapDataDto,
   TTaskSliceState,
   TableDataDto,
   TilesDataDto,
   TaskCommonData,
   TypedFormData,
   FormFieldsDto,
+  MapData,
 } from './task-slice-types';
 
 export const taskSliceInitialState: TTaskSliceState = {}
@@ -23,25 +23,16 @@ export const taskSlice = createSlice({
   initialState: taskSliceInitialState,
   name: taskSliceName,
   reducers: {
-    setSelectedTableRowId(state, {payload}: PayloadAction<string>) {
-      if (state.tableData?.options) {
-        state.tableData.options = {
-          selectedRowId: payload,
-        }
-      }
-    },
-    setSelectedTileId(state, {payload}: PayloadAction<string>) {
-      if (state.tilesData?.options) {
-        state.tilesData.options = {
-          selectedTileId: payload,
-        }
-      }
-    },
-    setTilesCommonData(state, {payload}: PayloadAction<Required<Pick<TaskCommonData, 'tileId' | 'tileApiName'>>>) {
+    /** ====== Common data ====== */
+    setTilesCommonData(
+      state,
+      {payload}: PayloadAction<Required<Pick<TaskCommonData, 'tileId' | 'tileApiName' | 'selectedPlacemarkId'>>>
+    ) {
       state.commonData = {
         ...state?.commonData,
         tileId: payload.tileId,
         tileApiName: payload.tileApiName,
+        selectedPlacemarkId: payload.selectedPlacemarkId,
       };
     },
     setTableCommonDataWithReset(state, {payload}: PayloadAction<Required<Pick<TaskCommonData, 'tableRowId'>>>) {
@@ -70,6 +61,7 @@ export const taskSlice = createSlice({
     resetMapData(state) {
       state.mapData = undefined;
     },
+
     /** ====== TilesMarkerCoordinates ====== */
     setTilesMarkerCoordinates(state, {payload}: PayloadAction<Record<string, [number, number]>>) {
       state.tilesMarkerCoordinates = payload;
@@ -86,7 +78,7 @@ export const taskSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(loadMapDataByTileId.fulfilled, (state, {payload}: PayloadAction<MapDataDto>) => {
+    builder.addCase(loadMapDataByTileId.fulfilled, (state, {payload}: PayloadAction<MapData>) => {
       state.mapData = payload;
     });
     builder.addCase(loadTableData.fulfilled, (state, {payload}: PayloadAction<TableDataDto | undefined>) => {

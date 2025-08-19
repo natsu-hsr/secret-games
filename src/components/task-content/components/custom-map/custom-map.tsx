@@ -11,14 +11,8 @@ export const CustomMap = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   const {data: mapData, isLoading, hasError} = useMapDataLoader();
-  // const connections: MapConnection[] = useMemo(() => [
-  //   {
-  //     fromId: 'Knot_WH2',
-  //     toId: 'Knot_WH1',
-  //   },
-  // ], []);
 
-  const {error: yaMapError, isLoaded: isMapLoaded} = useYandexMapLoader({mapData, mapRef, connections: undefined});
+  const {error: yaMapError, isLoaded: isMapLoaded} = useYandexMapLoader({mapData, mapRef});
 
   // TODO: вынести в Loadable ниже
   if (yaMapError) {
@@ -32,15 +26,11 @@ export const CustomMap = () => {
   return (
     <Loadable
       emptyProps={{
-        isEmpty: !mapData?.length,
+        isEmpty: !mapData?.placemarks?.length,
         emptyMessage: 'Координаты не заданы',
       }}
-      loadingProps={{
-        isLoading: isLoading || !isMapLoaded,
-      }}
-      errorProps={{
-        hasError,
-      }}
+      loadingProps={{isLoading: isLoading || !isMapLoaded}}
+      errorProps={{hasError}}
     >
       <div ref={mapRef} className={styles.map} />
     </Loadable>

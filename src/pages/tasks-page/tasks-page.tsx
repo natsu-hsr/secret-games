@@ -23,7 +23,7 @@ interface TaskScriptProps {
 }
 const TaskScript = ({script, userId}: TaskScriptProps) => (
     <Card className={styles.group}>
-      <Title level={4}>{script.name}</Title>
+      <Title level={4} className={styles['script-name']}>{script.name}</Title>
       <ul className={styles.tasks}>
         {script.stages.map(stage => (
           <li key={stage.id} className={cn(styles.subtask, !stage.active && styles.disabled)}>
@@ -44,6 +44,19 @@ const TaskScript = ({script, userId}: TaskScriptProps) => (
                     rel="noopener noreferrer"
                   >
                     Результаты
+                  </Link>
+                )}
+                {stage.hasExtendedResults && (
+                  <Link
+                    className={styles.link}
+                    to={
+                      `${window.location.origin}/graph.php?user_id=${userId}
+                      &script_id=${script.id}&stage_id=${stage.id}&data_type=ext`
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Сводные результаты
                   </Link>
                 )}
               </>
@@ -77,7 +90,7 @@ export const TasksPage = () => {
     <PageLayout fullSize>
       {userId ? (
         <Skeleton loading={isLoading}>
-        <Title level={3} className={styles.title}>Список заданий</Title>
+        <Title level={3} className={styles.title}>Список сценариев</Title>
         {tasks?.length ? (
           <Row gutter={[16, 16]}>
             {tasks.map(script => (

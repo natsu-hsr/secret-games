@@ -20,17 +20,20 @@ export type StageDto = {
   name: string;
   active: boolean;
   hasResults: boolean;
+  hasExtendedResults: boolean;
 }
 
 export type RawTaskDto = {
   Script_ID: string;
   Script_Name: string;
   Script_Active_Flag: boolean;
-  Result_Flag: boolean;
   //
   Stage_ID: string;
   Stage_Name: string;
   Stage_Active_Flag: boolean;
+  //
+  ExtendedResults: boolean;
+  Result_Flag: boolean;
 }
 
 export type RawTasksDto = RawTaskDto[]

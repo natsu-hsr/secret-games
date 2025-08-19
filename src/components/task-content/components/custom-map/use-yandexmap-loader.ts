@@ -1,16 +1,18 @@
 import {useEffect, useRef, useState, type MutableRefObject} from 'react';
 import type {Polyline, Map as YMap, Placemark as YPlacemark} from 'yandex-maps';
 
-import {useAppDispatch} from '@store/config/hooks';
-import {taskSliceActions, type MapConnection, type MapDataDto} from '@store/slices/task-slice';
+import {useAppDispatch, useAppSelector} from '@store/config/hooks';
+import {selectTaskCommonData, taskSliceActions, type MapData} from '@store/slices/task-slice';
+
+const ACTIVE_PLACEMARK_PRESET = 'islands#yellowIcon';
+const ACTIVE_PLACEMARK_STRETCHY_PRESET = 'islands#yellowStretchyIcon';
 
 interface UseYandexMapLoaderArgs {
   mapRef: MutableRefObject<HTMLDivElement | null>;
-  mapData: MapDataDto | undefined;
-  connections: MapConnection[] | undefined;
+  mapData: MapData | undefined;
 }
 
-export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapLoaderArgs) => {
+export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) => {
   const dispatch = useAppDispatch();
   const mapInstanceRef = useRef<YMap | null>(null); // карта
   const geoObjectsRef = useRef<YPlacemark[]>([]); // метки
@@ -20,6 +22,10 @@ export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapL
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [ymaps, setYmaps] = useState<typeof window.ymaps | null>(null);
+
+  const {selectedPlacemarkId} = useAppSelector(selectTaskCommonData) ?? {};
+
+  const {placemarks, connections} = mapData ?? {};
 
   // Загрузка карты
   useEffect(() => {
@@ -65,9 +71,9 @@ export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapL
   // Иниицализируем карту, добавляем центральную точку
   useEffect(() => {
     if (!isLoaded || !ymaps || !mapRef.current || mapInstanceRef.current) return;
-    if (!mapData?.length) return;
+    if (!placemarks?.length) return;
 
-    const center = mapData?.[0]?.coordinates;
+    const center = placemarks?.[0]?.coordinates;
 
     if (!center) {
       console.error('Центральная точка не найдена')
@@ -79,7 +85,7 @@ export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapL
       zoom: 3,
       controls: ['zoomControl'],
     });
-  }, [isLoaded, mapData, ymaps, mapRef]);
+  }, [isLoaded, placemarks, ymaps, mapRef]);
 
   // маркеры
   useEffect(() => {
@@ -90,8 +96,16 @@ export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapL
 
     geoObjectsRef.current = [];
 
-    mapData.forEach(p => {
-      const placemark = new ymaps.Placemark(
+    placemarks?.forEach(p => {
+      const currentPreset = (() => {
+        if (p.id !== selectedPlacemarkId) {
+          return p.labelType;
+        }
+
+        return p.labelType?.includes('Stretchy') ? ACTIVE_PLACEMARK_STRETCHY_PRESET : ACTIVE_PLACEMARK_PRESET;
+      })();
+
+      const yaPlacemark = new ymaps.Placemark(
         p.coordinates,
         {
           id: p.id,
@@ -100,19 +114,19 @@ export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapL
         },
         {
           draggable: p.draggable,
-          preset: p.labelType,
+          preset: currentPreset,
         }
       );
 
       if (p.draggable && p.tileId) {
-        placemark.events.add('dragend', () => {
-          const coords = placemark.geometry?.getCoordinates() as [number, number];
+        yaPlacemark.events.add('dragend', () => {
+          const coords = yaPlacemark.geometry?.getCoordinates() as [number, number];
           dispatch(taskSliceActions.addTileMarkerCoordinates({tileId: p.tileId!, coordinates: coords}))
         })
       }
 
-      map.geoObjects.add(placemark);
-      geoObjectsRef.current.push(placemark);
+      map.geoObjects.add(yaPlacemark);
+      geoObjectsRef.current.push(yaPlacemark);
     });
 
     // автоцентрирование
@@ -125,11 +139,12 @@ export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapL
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapData, isLoaded, ymaps]);
+  }, [mapData, selectedPlacemarkId, isLoaded, ymaps]);
 
   // маршруты
   useEffect(() => {
-    if (!isLoaded || !mapData || !mapInstanceRef.current || !ymaps || !connections) return;
+    if (!isLoaded || !mapInstanceRef.current || !ymaps || !connections) return;
+    if (!placemarks?.length) return;
 
     routeObjects.current.forEach(obj => mapInstanceRef.current!.geoObjects.remove(obj));
     routeObjects.current = [];
@@ -137,7 +152,7 @@ export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapL
     const map = mapInstanceRef.current!;
     // lookup id → coords
     const coordById = Object.fromEntries(
-      mapData.map(p => [p.id, p.coordinates] as const)
+      placemarks.map(p => [p.id, p.coordinates] as const)
     );
 
     connections.forEach(conn => {
@@ -167,7 +182,6 @@ export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapL
       map.geoObjects.add(multiRoute);
       routeObjects.current.push(multiRoute);
 
-      // находим сами метки
       const placemarkFrom = geoObjectsRef.current.find(p => String(p.properties.get('id')) === conn.fromId);
       const placemarkTo = geoObjectsRef.current.find(p => String(p.properties.get('id')) === conn.toId);
 
@@ -189,7 +203,7 @@ export const useYandexMapLoader = ({mapData, mapRef, connections}: UseYandexMapL
         });
 
     });
-  }, [connections, mapData, ymaps, isLoaded]);
+  }, [connections, placemarks, ymaps, isLoaded]);
 
   return {
     isLoaded,

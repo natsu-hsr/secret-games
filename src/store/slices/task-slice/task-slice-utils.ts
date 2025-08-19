@@ -5,9 +5,13 @@ import type {
   FormFieldDto,
   FormFieldsDto,
   FormType,
+  MapConnection,
+  MapData,
+  MapPlacemark,
   RawChartPoints,
   RawFormFieldDto,
   RawFormFieldsDto,
+  RawMapPlacemark,
   RawTableDataDto,
   SortedFormFieldsDto,
   TableDataDto,
@@ -218,28 +222,80 @@ export const convertRawChartData = ({data}: ConvertRawChartDataArgs): ChartLines
   const lineIds = new Set<string>();
   const combinedChartPoints: Record<string, ChartPoint> = {};
 
-  data.forEach(rf => {
-    // id кривой
-    const id = rf.Knot_ID;
-    // значение по x
-    const name = String(rf.Time_Value);
-    // значение по y
-    const yValue = +rf.Demand;
+  const TOTAL_ID = 'Total';
 
-    lineIds.add(id);
-
-    if (!combinedChartPoints?.[name]) {
-      combinedChartPoints[name] = {
-        name,
-        [id]: yValue,
-      } as ChartPoint;
-    } else if (!combinedChartPoints[name]?.[id]) { // точка есть, но значения по графику с {id} в ней еще нет
-      combinedChartPoints[name][id] = yValue;
+  const hasFewCharts = (() => {
+    const s = new Set<string>();
+    for (const {Knot_ID} of data) {
+      s.add(String(Knot_ID));
+      if (s.size >= 2) return true;   // ранний выход
     }
-  });
+    return false;
+  })();
+
+  // добавляем суммирующую кривую
+  if (hasFewCharts) {
+    lineIds.add(TOTAL_ID);
+  }
+
+  data
+    .filter(rf => rf.Knot_ID !== TOTAL_ID)
+    .forEach(rf => {
+      // id кривой
+      const id = rf.Knot_ID;
+      // значение по x
+      const name = String(rf.Time_Value);
+      // значение по y
+      const yValue = +rf.Demand;
+
+      lineIds.add(id);
+
+      if (!combinedChartPoints?.[name]) {
+        combinedChartPoints[name] = {
+          name,
+          [id]: yValue,
+        } as ChartPoint;
+      } else if (!combinedChartPoints[name]?.[id]) { // точка есть, но значения по графику с {id} в ней еще нет
+        combinedChartPoints[name][id] = yValue;
+      }
+
+      // и добавляем к суммарной кривой, если есть хотя бы 2 кривых
+      if (hasFewCharts) {
+        const currentTotalValue = Number(combinedChartPoints[name][TOTAL_ID]);
+        const prevValue = isNaN(currentTotalValue) ? 0 : currentTotalValue;
+
+        combinedChartPoints[name][TOTAL_ID] = prevValue + yValue;
+      }
+    });
 
   return {
     lineIds: [...lineIds],
     data: Object.values(combinedChartPoints),
   };
 };
+
+export const convertRawMapData = (rawMapData: RawMapPlacemark[]): MapData => {
+  const connections: MapConnection[] = [];
+
+  const placemarks: MapPlacemark[] = rawMapData.map(rm => {
+
+    if (rm?.Parent_Knot_ID) {
+      rm.Parent_Knot_ID.split(',')
+        .forEach(toId => connections.push({fromId: rm.Knot_ID, toId}));
+    }
+
+    return {
+      id: rm.Knot_ID,
+      name: rm.Knot_Name,
+      coordinates: [+(rm.Knot_Latitude.replace(',', '.')), +rm.Knot_Longitude.replace(',', '.')],
+      labelType: rm.label_type,
+      draggable: rm.draggable === 'true',
+      tileId: rm.HTML_ID,
+    }
+  });
+
+  return {
+    placemarks,
+    connections,
+  }
+}

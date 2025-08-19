@@ -17,6 +17,8 @@
   border-color: rgba(#000, .1);
 
   transition: box-shadow .4s;
+  
+  box-shadow: 0 2px 5px rgba($primary-color, .1);
 
   &:hover {
     box-shadow: 0 4px 10px rgba($primary-color, .2);
@@ -59,4 +61,8 @@
     color: $primary-color;
     border-color: $primary-color;
   }
+}
+
+.script-name {
+  margin-top: 0;
 }

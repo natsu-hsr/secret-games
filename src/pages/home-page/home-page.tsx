@@ -40,7 +40,7 @@ export const HomePage = () => {
           onClick={() => navigate('/tasks')}
           icon={<PlayCircleOutlined />}
         >
-          Перейти к заданиям
+          Перейти к сценариям
         </Button>
       </Flex>
     </PageLayout>

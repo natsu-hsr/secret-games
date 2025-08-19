@@ -20,6 +20,7 @@ export const adaptFieldsToSelectForm = ({fields}: AdaptFieldsToSelectFormArgs) =
         label,
         defaultValue,
         dependentFields,
+        disabled,
       } = f;
 
       // инициализируем впервые, все остальное с типом select будет интерпретироваться как select.options
@@ -28,6 +29,7 @@ export const adaptFieldsToSelectForm = ({fields}: AdaptFieldsToSelectFormArgs) =
           name,
           label,
           options: [],
+          disabled,
         };
       }
 

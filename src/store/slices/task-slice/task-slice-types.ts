@@ -6,22 +6,26 @@ export type TTaskInfo = {
 }
 
 // ======= map =======
-export type RawMapMarkerDto = {
+export type RawMapPlacemark = {
   Knot_ID: string;
   Knot_Name: string;
   Knot_Latitude: string
   Knot_Longitude: string
   label_type: string;
   draggable: string;
-  HTML_ID: string | null; // для передачи координат при drag-действии в зависимую плитку
+  /** для передачи координат при drag-действии в зависимую плитку */
+  HTML_ID: string | null; 
+  /** id другого маркера, до которого от текущего должен прокладываться маршрут. Преобразуется в MapConnection в utils */
+  Parent_Knot_ID?: string;
 }
-export type MapMarkerDto = {
+export type MapPlacemark = {
   id: string;
   name: string;
   coordinates: [number, number];
   labelType: string;
   draggable: boolean;
-  tileId: string | null; // для передачи координат при drag-действии в зависимую плитку
+  /** для передачи координат при drag-действии в зависимую плитку */
+  tileId: string | null;
 }
 
 export type MapConnection = {
@@ -29,8 +33,14 @@ export type MapConnection = {
   toId: string;
 }
 
-export type RawMapDataDto = RawMapMarkerDto[];
-export type MapDataDto = MapMarkerDto[];
+export type RawMapPlacemarks = RawMapPlacemark[];
+export type MapPlacemarks = MapPlacemark[];
+export type MapConnections = MapConnection[];
+
+export type MapData = {
+  placemarks: MapPlacemark[];
+  connections: MapConnection[];
+}
 
 // ======= chart =======
 export type RawChartPoint = {
@@ -182,6 +192,7 @@ export type TypedFormData = {
 // ---------------------
 
 export type TaskCommonData = Partial<{
+  selectedPlacemarkId: string;
   tableRowId: string;
   tileId: string;
   tileApiName: string;
@@ -206,7 +217,7 @@ export type TTask  = {
   groupId: number;
   id: number;
   info: TTaskInfo;
-  mapData: MapDataDto;
+  mapData: MapData;
   tableData: TableDataDto;
   tilesData: TilesDataDto;
   formData: TypedFormData;
