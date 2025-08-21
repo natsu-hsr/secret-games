@@ -37,12 +37,25 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  gap: $gap-base;
+  gap: $gap-sm;
 }
 
 .disabled {
   color: $text-dark;
   opacity: .5;
+}
+
+.pending {
+  color: $warning;
+}
+
+.reload {
+  margin-left: $margin-sm;
+
+  &:hover {
+    color: $warning !important;
+    border-color: $warning !important;
+  }
 }
 
 .link {

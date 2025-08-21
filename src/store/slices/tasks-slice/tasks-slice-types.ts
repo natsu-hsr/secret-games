@@ -18,7 +18,8 @@ export type RawStageDto = {
 export type StageDto = {
   id: string;
   name: string;
-  active: boolean;
+  disabled: boolean;
+  pending: boolean;
   hasResults: boolean;
   hasExtendedResults: boolean;
 }
@@ -34,7 +35,18 @@ export type RawTaskDto = {
   //
   ExtendedResults: boolean;
   Result_Flag: boolean;
+  /**
+   * 0 - заблокирована
+   * 1 - открыта
+   * 2 - завершена, ожидает расчета
+   * 3 - завершена, расчет готов
+   */
+  stage_status: 0 | 1 | 2 | 3;
 }
+
+export type UpdatedTaskStatus = {
+  stage_status: RawTaskDto['stage_status'],
+};
 
 export type RawTasksDto = RawTaskDto[]
 export type TasksDto = ScriptDto[]

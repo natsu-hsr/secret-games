@@ -1,7 +1,7 @@
 import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 
 import {tasksSliceName} from './tasks-slice-constants';
-import {loadTasksByUserId} from './tasks-slice-thunks';
+import {loadTaskStatus, loadTasksByUserId} from './tasks-slice-thunks';
 import type {TasksDto, TasksSliceState} from './tasks-slice-types';
 
 export const tasksSliceInitialState: TasksSliceState = {
@@ -16,6 +16,21 @@ export const tasksSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(loadTasksByUserId.fulfilled, (state, {payload}: PayloadAction<TasksDto>) => {
       state.tasks = payload;
+    });
+    builder.addCase(loadTaskStatus.fulfilled, (state, action) => {
+      const {scriptId, stageId} = action.meta.arg;
+      const newStatus = action.payload;
+
+      const existedScript = state.tasks
+        ?.find(sc => sc.id === scriptId)
+        ?.stages?.find(st => st.id === stageId);
+
+      if (existedScript) {
+        existedScript.disabled = newStatus === 0;
+        existedScript.pending = newStatus === 2;
+        existedScript.hasResults = newStatus === 3;
+      }
+
     });
   },
 });

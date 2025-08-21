@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import type {RawTasksDto} from './tasks-slice-types';
+import type {RawTasksDto, UpdatedTaskStatus} from './tasks-slice-types';
 
 export type UserIdArgs = {
   userId: string;
@@ -17,4 +17,22 @@ export const fetchTasksByUserId = ({userId}: FetchTasksByUserIdArgs) => {
       }
     }
   );
+}
+
+export type FetchTaskStatusArgs = UserIdArgs & {
+  stageId: string;
+  scriptId: string;
+};
+export const fetchTaskStatus = ({userId, stageId, scriptId}: FetchTaskStatusArgs) => {
+  return axios.get<UpdatedTaskStatus[]>(
+    'api.php',
+    {
+      params: {
+        api_id: 'stage_status',
+        user_id: userId,
+        script_id: scriptId,
+        stage_id: stageId,
+      }
+    }
+  )
 }
