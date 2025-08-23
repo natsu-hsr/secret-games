@@ -215,6 +215,18 @@ export type TaskCommonData = Partial<{
  */
 export type TilesMarkerCoordinates = Record<string, [number, number]>
 
+export type TileMarkerRoute = {
+  toId: string;
+  distance: number;
+};
+
+export type TileMarkerData = {
+  coordinates: [number, number];
+  routes: TileMarkerRoute[];
+}
+
+export type TilesMarkerData = Record<string, TileMarkerData>
+
 export type TTask  = {
   groupId: number;
   id: number;
@@ -224,7 +236,7 @@ export type TTask  = {
   tilesData: TilesDataDto;
   formData: TypedFormData;
   commonData: TaskCommonData | undefined;
-  tilesMarkerCoordinates: TilesMarkerCoordinates | undefined;
+  tilesMarkerData: TilesMarkerData | undefined;
 }
 
 export type TTaskSliceState = Partial<TTask>

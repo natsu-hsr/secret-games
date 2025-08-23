@@ -7,7 +7,7 @@ import {useEffect, type FC} from 'react';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {
   selectTaskCommonData,
-  selectTilesMarkerCoordinates,
+  selectTilesMarkerData,
   taskSliceActions,
   type FormFieldDto,
   type FormFieldsDto,
@@ -23,7 +23,7 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
   const textFields = fields.filter(f => f.type === 'text');
 
   const {tileId} = useAppSelector(selectTaskCommonData) ?? {};
-  const tilesMarkerCoordinates = useAppSelector(selectTilesMarkerCoordinates);
+  const tilesMarkerData = useAppSelector(selectTilesMarkerData);
 
   const coordinatesFields = fields
     .filter(f => f.type === 'coordinates')
@@ -50,14 +50,14 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
       return;
     }
 
-    const [latitude, longitude] = tilesMarkerCoordinates?.[tileId] ?? [];
+    const [latitude, longitude] = tilesMarkerData?.[tileId]?.coordinates ?? [];
 
     if (latitude && longitude) {
       form.setFieldValue(coordinatesFields.latitude.name, latitude)
       form.setFieldValue(coordinatesFields.longitude.name, longitude)
     }
 
-  }, [tilesMarkerCoordinates, tileId, coordinatesFields, form])
+  }, [tilesMarkerData, tileId, coordinatesFields, form])
 
   const handleSelectOptionChange = (value: string) => {
     const selectedOptionControls = select?.options?.find(o => o.value === value)?.controls;

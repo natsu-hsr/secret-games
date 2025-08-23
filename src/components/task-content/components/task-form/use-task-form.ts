@@ -5,7 +5,13 @@ import {useParams} from 'react-router-dom';
 import {useUserId} from '@shared/hooks';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
-import {selectTaskCommonData, selectFormData, loadFormDataByTileParams, submitFormData} from '@store/slices/task-slice';
+import {
+  selectTaskCommonData,
+  selectFormData,
+  loadFormDataByTileParams,
+  submitFormData,
+  selectTilesMarkerData,
+} from '@store/slices/task-slice';
 
 export const useTaskForm = (form: FormInstance) => {
   const dispatch = useAppDispatch();
@@ -13,7 +19,8 @@ export const useTaskForm = (form: FormInstance) => {
   const {userId} = useUserId();
     
   const {tileId, tileApiName, tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
-
+  
+  const tilesMarkerData = useAppSelector(selectTilesMarkerData);
   const formData = useAppSelector(selectFormData);
   const isLoading = useAppSelector(s => selectIsThunkPending(s, loadFormDataByTileParams.typePrefix));
   const hasError = useAppSelector(s => selectIsThunkRejected(s, loadFormDataByTileParams.typePrefix));
@@ -55,9 +62,23 @@ export const useTaskForm = (form: FormInstance) => {
         cardHeaderId: tileId ?? '',
       }
 
+      let routesMarkerData: string = '';
+
+      if (
+        tileId 
+          && tilesMarkerData?.[tileId]?.routes 
+          && tilesMarkerData[tileId].routes.length > 0
+      ) {
+        tilesMarkerData[tileId].routes.forEach(r => {
+          routesMarkerData += `${r.toId}:${r.distance},`
+        })
+        routesMarkerData = routesMarkerData?.slice(0, -1);
+      }
+
       const valuesToSubmit = {
         ...globalParams,
         ...values,
+        ...(routesMarkerData.length > 0 ? {[`${tileId}_arc_distance_straight`]: routesMarkerData} : {})
       };
 
       await dispatch(submitFormData(valuesToSubmit)).unwrap();

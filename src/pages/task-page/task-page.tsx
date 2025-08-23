@@ -1,11 +1,13 @@
 import {Skeleton, Popover} from 'antd';
 import Paragraph from 'antd/es/typography/Paragraph';
 import Title from 'antd/es/typography/Title';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom'
 
 import QuestionCircleOutlined from '@ant-design/icons/QuestionCircleOutlined'
 import {TaskContent} from '@components/task-content';
+import {useAppDispatch} from '@store/config/hooks';
+import {taskSliceActions} from '@store/slices/task-slice';
 
 import styles from './styles.module.scss';
 import {useTaskPageDataLoader} from './use-task-page-data-loader';
@@ -46,7 +48,14 @@ const ErrorPanel: React.FC<ErrorPanelProps> = ({error}) => {
 }
 
 export const TaskPage = () => {
+  const dispatch = useAppDispatch()
   const {isLoading, error} = useTaskPageDataLoader();
+
+  useEffect(
+    () => () => void dispatch(taskSliceActions.resetTaskData()),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   return (
     <Skeleton

@@ -4,6 +4,8 @@ import type {Polyline, Map as YMap, Placemark as YPlacemark} from 'yandex-maps';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {selectTaskCommonData, taskSliceActions, type MapData} from '@store/slices/task-slice';
 
+type YMetric = {text: string; value: number};
+
 const ACTIVE_PLACEMARK_PRESET = 'islands#yellowIcon';
 const ACTIVE_PLACEMARK_STRETCHY_PRESET = 'islands#yellowStretchyIcon';
 
@@ -109,6 +111,7 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
         p.coordinates,
         {
           id: p.id,
+          tileId: p?.tileId ?? undefined,
           iconCaption: p.name,
           iconContent: p.labelType.includes('Stretchy') ? p.name : undefined,
         },
@@ -185,6 +188,25 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
       const placemarkFrom = geoObjectsRef.current.find(p => String(p.properties.get('id')) === conn.fromId);
       const placemarkTo = geoObjectsRef.current.find(p => String(p.properties.get('id')) === conn.toId);
 
+      const pointTileId = placemarkFrom?.properties.get('tileId');
+      const pointToId = placemarkTo?.properties.get('id');
+
+      if (pointTileId && pointToId) {
+        multiRoute.model.events.add('requestsuccess', () => {
+          const route = multiRoute.getActiveRoute();
+          if (!route) return;
+
+          const distValue = route.properties.get('distance', {text: '', value: 0}) as YMetric | undefined;;
+
+          const distConverted =  +(((distValue?.value ?? 0) / 1000).toFixed(0));
+
+          dispatch(taskSliceActions.addTileMarkerRoutes({
+            tileId: String(pointTileId),
+            route: {distance: distConverted, toId: String(pointToId)}
+          }));
+        });
+      }
+
       // если метки draggable, добавляем слушатель
       [{pm: placemarkFrom, isFrom: true}, {pm: placemarkTo, isFrom: false}]
         .forEach(({pm, isFrom}) => {
@@ -203,6 +225,7 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
         });
 
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connections, placemarks, ymaps, isLoaded]);
 
   return {

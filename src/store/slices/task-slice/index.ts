@@ -39,7 +39,7 @@ export {
   selectTableSelectedRowId,
   selectTaskCommonData,
   selectFormData,
-  selectTilesMarkerCoordinates,
+  selectTilesMarkerData,
 } from './task-slice-selectors';
 export {
   loadTableData,

@@ -15,6 +15,7 @@ import type {
   TypedFormData,
   FormFieldsDto,
   MapData,
+  TileMarkerRoute,
 } from './task-slice-types';
 
 export const taskSliceInitialState: TTaskSliceState = {}
@@ -23,6 +24,9 @@ export const taskSlice = createSlice({
   initialState: taskSliceInitialState,
   name: taskSliceName,
   reducers: {
+    resetTaskData() {
+      return taskSliceInitialState;
+    },
     /** ====== Common data ====== */
     setTilesCommonData(
       state,
@@ -41,6 +45,7 @@ export const taskSlice = createSlice({
       };
       state.formData = undefined;
     },
+    /** ====== common data end ====== */
     updateFormFields(state, {payload}: PayloadAction<FormFieldsDto>) {
       if (!state.formData?.fields) {
         return;
@@ -62,19 +67,48 @@ export const taskSlice = createSlice({
       state.mapData = undefined;
     },
 
-    /** ====== TilesMarkerCoordinates ====== */
-    setTilesMarkerCoordinates(state, {payload}: PayloadAction<Record<string, [number, number]>>) {
-      state.tilesMarkerCoordinates = payload;
-    },
+    /** ====== TilesMarkerData ====== */
     addTileMarkerCoordinates(state, {payload}: PayloadAction<{tileId: string, coordinates: [number, number]}>) {
       const {tileId, coordinates} = payload;
-      state.tilesMarkerCoordinates = {
-        ...state.tilesMarkerCoordinates,
-        [tileId]: coordinates,
+      const currentTileData = state.tilesMarkerData?.[tileId];
+
+      state.tilesMarkerData = {
+        ...state.tilesMarkerData,
+        [tileId]: {
+          coordinates,
+          routes: currentTileData?.routes ?? [],
+        },
+      };
+    },
+    addTileMarkerRoutes(state, {payload}: PayloadAction<{tileId: string, route: TileMarkerRoute}>) {
+      const {tileId, route} = payload;
+      const currentTileData = state.tilesMarkerData?.[tileId];
+
+      const updatedRoutes = currentTileData?.routes?.map<TileMarkerRoute>(r => {
+        if (r.toId === route.toId) {
+          return {
+            distance: route.distance,
+            toId: route.toId,
+          };
+        }
+        return r;
+      }) ?? [];
+
+
+      if (!updatedRoutes.find(ur => ur.toId === route.toId)) {
+        updatedRoutes?.push(route);
+      }
+
+      state.tilesMarkerData = {
+        ...state.tilesMarkerData,
+        [tileId]: {
+          coordinates: currentTileData?.coordinates ?? [0, 0],
+          routes: updatedRoutes ?? [],
+        },
       };
     },
     resetTilesMarkerCoordinates(state) {
-      state.tilesMarkerCoordinates = undefined;
+      state.tilesMarkerData = undefined;
     },
   },
   extraReducers(builder) {
