@@ -22,6 +22,7 @@ export type StageDto = {
   pending: boolean;
   hasResults: boolean;
   hasExtendedResults: boolean;
+  iconName: string;
 }
 
 export type RawTaskDto = {
@@ -42,6 +43,7 @@ export type RawTaskDto = {
    * 3 - завершена, расчет готов
    */
   stage_status: 0 | 1 | 2 | 3;
+  icon_name: string;
 }
 
 export type UpdatedTaskStatus = {

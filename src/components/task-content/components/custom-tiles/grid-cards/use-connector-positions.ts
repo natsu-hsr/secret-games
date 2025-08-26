@@ -21,8 +21,8 @@ export const useConnectorPositions = (
     const wrapRect = wrapper.getBoundingClientRect();
 
     const next: ConnectorPosition[] = connectors.map(conn => {
-      const el1 = cardRefs.current[conn.from];
-      const el2 = cardRefs.current[conn.to];
+      const el1 = cardRefs.current[conn.fromId];
+      const el2 = cardRefs.current[conn.toId];
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (!el1 || !el2) return null as any;
 

@@ -1,4 +1,5 @@
 import Flex from 'antd/es/flex';
+import Form from 'antd/es/form';
 import FormItem from 'antd/es/form/FormItem';
 import Input from 'antd/es/input';
 import Select from 'antd/es/select';
@@ -25,6 +26,8 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
   const {tileId} = useAppSelector(selectTaskCommonData) ?? {};
   const tilesMarkerData = useAppSelector(selectTilesMarkerData);
 
+  const watcher = Form.useWatch(select?.name, form);
+
   const coordinatesFields = fields
     .filter(f => f.type === 'coordinates')
     .reduce((acc, cur) => {
@@ -40,24 +43,6 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
 
       return acc;
     }, {} as Record<'latitude' | 'longitude', FormFieldDto>);
-
-  useEffect(() => {
-    if (!tileId) {
-      return;
-    }
-
-    if (Object.values(coordinatesFields)?.length < 1) {
-      return;
-    }
-
-    const [latitude, longitude] = tilesMarkerData?.[tileId]?.coordinates ?? [];
-
-    if (latitude && longitude) {
-      form.setFieldValue(coordinatesFields.latitude.name, latitude)
-      form.setFieldValue(coordinatesFields.longitude.name, longitude)
-    }
-
-  }, [tilesMarkerData, tileId, coordinatesFields, form])
 
   const handleSelectOptionChange = (value: string) => {
     const selectedOptionControls = select?.options?.find(o => o.value === value)?.controls;
@@ -82,7 +67,33 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
     });
 
     dispatch(taskSliceActions.updateFormFields(updatedFields));
-  }
+  };
+
+  useEffect(() => {
+    if (!tileId) {
+      return;
+    }
+
+    if (Object.values(coordinatesFields)?.length < 1) {
+      return;
+    }
+
+    const [latitude, longitude] = tilesMarkerData?.[tileId]?.coordinates ?? [];
+
+    if (latitude && longitude) {
+      form.setFieldValue(coordinatesFields.latitude.name, latitude)
+      form.setFieldValue(coordinatesFields.longitude.name, longitude)
+    }
+
+  }, [tilesMarkerData, tileId, coordinatesFields, form])
+
+  useEffect(() => {
+    const val = watcher;
+    if (val !== undefined) {
+      handleSelectOptionChange(val);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watcher]);
 
   return (
     <>
@@ -95,9 +106,7 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
               initialValue={coordinatesFields.latitude.defaultValue}
               style={{maxWidth: '80px'}}
             >
-              <Input
-                disabled={coordinatesFields.latitude.disabled}
-              />
+              <Input disabled={coordinatesFields.latitude.disabled} />
             </FormItem>
           )}
           {coordinatesFields.longitude && (
@@ -107,9 +116,7 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
               initialValue={coordinatesFields.longitude.defaultValue}
               style={{maxWidth: '80px'}}
             >
-              <Input
-                disabled={coordinatesFields.longitude.disabled}
-              />
+              <Input disabled={coordinatesFields.longitude.disabled} />
             </FormItem>
           )}
         </Flex>

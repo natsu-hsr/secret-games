@@ -19,8 +19,12 @@ export const CustomTable = () => {
 
   const handleRowClick = (record: Record<string, number | string | boolean >) => {
     if (!record?.id || typeof record.id !== 'string') return;
+    if (!record?.['Product_Name'] || typeof record?.['Product_Name'] !== 'string') return;
 
-    dispatch(taskSliceActions.setTableCommonDataWithReset({tableRowId: record.id}));
+    dispatch(taskSliceActions.setTableCommonDataWithReset({
+      tableRowId: record.id,
+      tableRowName: record['Product_Name'],
+    }));
   }
 
   return (

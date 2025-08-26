@@ -1,8 +1,9 @@
 import Title from 'antd/es/typography/Title';
 import cn from 'classnames';
-import {useRef, useState, type FC} from 'react';
+import {useRef, type FC} from 'react';
 
-import {type TileDto, type TransportConnector} from '@store/slices/task-slice';
+import {useAppSelector} from '@store/config/hooks';
+import {selectTaskCommonData, type TileDto, type TransportConnector} from '@store/slices/task-slice';
 
 import styles from './styles.module.scss';
 import {useCardsActions} from './use-cards-actions';
@@ -14,27 +15,30 @@ import TruckIcon from '@assets/connector-truck.svg?react';
 export interface GridCardsProps {
   tiles: TileDto[];
   connectors: TransportConnector[];
-  onConnectorClick?: (connector: TransportConnector) => void;
 }
 
-export const GridCards: FC<GridCardsProps> = ({tiles, connectors, onConnectorClick}) => {
+export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
-
-  // состояние для hover/selected коннекторов
-  const [hoveredId,  setHoveredId]  = useState<string | null>(null);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const {containerStyle, minCol, minRow} = useGridDimensions(tiles);
 
   const connectorPositions = useConnectorPositions(connectors, wrapperRef, cardRefs);
+  const {tableRowName} = useAppSelector(selectTaskCommonData) ?? {};
 
-  const {selectedTile, handleClick} = useCardsActions();
+  const {
+    selectedTile,
+    handleTileClick,
+    hoveredConnectorId,
+    setHoveredConnectorId,
+    selectedConnectorId,
+    handleConnectorClick,
+  } = useCardsActions();
 
   return (
     <div className={styles.container}>
       <Title className={styles.title} level={4}>
-        {selectedTile?.name ? `Блок: ${selectedTile?.name}` : 'Доступные блоки'}
+        {`Картирование цепочки поставки${tableRowName ? ` для продукта «${tableRowName}»` : ''}`}
       </Title>
       <div
         ref={wrapperRef}
@@ -42,9 +46,9 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors, onConnectorCli
       >
         {/* Иконки над линиями */}
         {connectorPositions?.map(({connector, x, y}) => {
-          const id = `${connector.from}-${connector.to}`;
-          const isHovered  = hoveredId === id;
-          const isSelected = selectedId === id;
+          const id = connector.id;
+          const isHovered  = hoveredConnectorId === id;
+          const isSelected = selectedConnectorId === id;
 
           return (
             <div
@@ -58,12 +62,9 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors, onConnectorCli
                 left: x,
                 top: y,
               }}
-              onMouseEnter={() => setHoveredId(id)}
-              onMouseLeave={() => setHoveredId(null)}
-              onClick={() => {
-                setSelectedId(id);
-                onConnectorClick?.(connector);
-              }}
+              onMouseEnter={() => setHoveredConnectorId(id)}
+              onMouseLeave={() => setHoveredConnectorId(null)}
+              onClick={() => handleConnectorClick(connector)}
             >
               <TruckIcon className={styles['connector-icon']} />
             </div>
@@ -87,7 +88,7 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors, onConnectorCli
                   selectedTile?.id === tile.id ? styles.selected : styles.inactive,
                   tile.disabled && styles.disabled,
                 )}
-                onClick={() => handleClick?.(tile)}
+                onClick={() => handleTileClick(tile)}
                 style={{
                   backgroundColor: tile.color,
                   gridColumn: `${startCol} / ${endCol}`,

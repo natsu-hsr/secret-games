@@ -4,7 +4,7 @@ import {useParams} from 'react-router-dom';
 import {useUserId} from '@shared/hooks';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {selectIsThunkPending, selectIsThunkRejected} from '@store/slices/loading-state-slice';
-import {loadTilesDataByRowId, selectTaskCommonData, selectTaskTilesData} from '@store/slices/task-slice';
+import {loadTilesDataByRowId, selectTaskCommonData, selectTilesData} from '@store/slices/task-slice';
 
 export const useTilesDataLoader = () => {
   const dispatch = useAppDispatch();
@@ -13,7 +13,7 @@ export const useTilesDataLoader = () => {
 
   const {tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
 
-  const tilesData = useAppSelector(selectTaskTilesData);
+  const {tiles, connectors} = useAppSelector(selectTilesData) ?? {};
   const isLoading = useAppSelector(s => selectIsThunkPending(s, loadTilesDataByRowId.typePrefix));
   const hasError = useAppSelector(s => selectIsThunkRejected(s, loadTilesDataByRowId.typePrefix));
 
@@ -37,7 +37,8 @@ export const useTilesDataLoader = () => {
   }, [tableRowId, scriptId, stageId, userId]);
 
   return {
-    data: tilesData,
+    tiles: tiles ?? [],
+    connectors: connectors ?? [],
     isLoading,
     hasError,
   }

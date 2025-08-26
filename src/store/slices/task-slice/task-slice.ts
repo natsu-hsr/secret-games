@@ -39,9 +39,12 @@ export const taskSlice = createSlice({
         selectedPlacemarkId: payload.selectedPlacemarkId,
       };
     },
-    setTableCommonDataWithReset(state, {payload}: PayloadAction<Required<Pick<TaskCommonData, 'tableRowId'>>>) {
+    setTableCommonDataWithReset(
+      state, {payload}: PayloadAction<Required<Pick<TaskCommonData, 'tableRowId' | 'tableRowName'>>>
+    ) {
       state.commonData = {
         tableRowId: payload.tableRowId,
+        tableRowName: payload.tableRowName,
       };
       state.formData = undefined;
     },
@@ -117,9 +120,12 @@ export const taskSlice = createSlice({
     });
     builder.addCase(loadTableData.fulfilled, (state, {payload}: PayloadAction<TableDataDto | undefined>) => {
       const firstRowId = payload?.data?.[0]?.id;
+      const firstRowName = payload?.data?.[0]?.Product_Name;
+
       state.commonData = {
         ...state?.commonData,
         tableRowId: String(firstRowId),
+        tableRowName: firstRowName ? String(firstRowName) : undefined,
       };
       state.tableData = payload;
     });

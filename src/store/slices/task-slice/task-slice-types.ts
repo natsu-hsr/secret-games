@@ -83,6 +83,8 @@ export type RawTileDto = {
   Card_Type_Name: string;
   Card_Type_Description: string;
   Card_Type_API_Name: string;
+  /** ID плитки-приёмника. Если это поле есть, то плитка - транспорт */
+  Card_Header_ID_To: string;
   Column_Start: number;
   Column_End: number;
   Row_Start: number;
@@ -108,10 +110,14 @@ export type TileDto = {
  * Описывает связь между двумя карточками.
  */
 export interface TransportConnector {
-  /** ID карточки-источника */
-  from: string;
-  /** ID карточки-приёмника */
-  to: string;
+  /** ID транспорта */
+  id: string;
+  /** ID плитки-источника */
+  fromId: string;
+  /** ID плитки-приёмника */
+  toId: string;
+  /** Наследуется от родительской плитки, нужен для запроса формы  */
+  apiName: string;
 }
 
 export type RawTilesDto = RawTileDto[];
@@ -119,6 +125,7 @@ export type TilesDto = TileDto[];
 
 export type TilesDataDto = {
   tiles: TilesDto;
+  connectors: TransportConnector[];
   options: {
     selectedTileId: string | undefined;
   };
@@ -195,6 +202,7 @@ export type TypedFormData = {
 
 export type TaskCommonData = Partial<{
   selectedPlacemarkId: string;
+  tableRowName: string;
   tableRowId: string;
   tileId: string;
   tileApiName: string;

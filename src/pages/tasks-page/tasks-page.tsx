@@ -39,6 +39,13 @@ const TaskScript = ({script, userId}: TaskScriptProps) => {
               stage.pending && styles.pending,
             )}
           >
+            {stage?.iconName && (
+              <img
+                className={styles['stage-icon']}
+                src={`src/assets/task-icons/${stage.iconName.replace('.png', '')}.svg`}
+                alt='icon'
+              />
+            )}
             {(() => {
               if (stage.disabled) {
                 return (

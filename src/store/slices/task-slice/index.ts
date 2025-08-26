@@ -34,6 +34,7 @@ export {taskSliceName} from './task-slice-constants';
 export {
   selectTaskMapData,
   selectTaskTableData,
+  selectTilesData,
   selectTaskTilesData,
   selectSelectedTileId,
   selectTableSelectedRowId,

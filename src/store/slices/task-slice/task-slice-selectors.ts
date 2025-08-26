@@ -20,6 +20,11 @@ export const selectTaskMapData = createSelector(
   ({mapData}) => mapData,
 );
 
+export const selectTilesData = createSelector(
+  selectTaskSliceState,
+  ({tilesData}) => tilesData,
+);
+
 export const selectTaskTilesData = createSelector(
   selectTaskSliceState,
   ({tilesData}) => [...(tilesData?.tiles?.length ? tilesData.tiles : [])],

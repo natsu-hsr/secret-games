@@ -21,6 +21,7 @@ export const convertRawTasks = ({rawTasks}: ConvertRawTasksArgs): TasksDto => {
           pending: rt.stage_status === 2,
           hasResults: rt.stage_status === 3,
           hasExtendedResults: !!rt.ExtendedResults,
+          iconName: rt.icon_name,
         }],
       })
     } else {
@@ -37,6 +38,7 @@ export const convertRawTasks = ({rawTasks}: ConvertRawTasksArgs): TasksDto => {
             pending: rt.stage_status === 2,
             hasResults: rt.stage_status === 3,
             hasExtendedResults: !!rt.ExtendedResults,
+            iconName: rt.icon_name,
           }
         ]
       }

@@ -19,6 +19,8 @@ import type {
   MapData,
   TableDataDto,
   TilesDataDto,
+  TilesDto,
+  TransportConnector,
   TypedFormData,
 } from './task-slice-types';
 import {convertRawField, convertRawMapData, convertRawTableData, getFormType} from './task-slice-utils';
@@ -44,22 +46,37 @@ export const loadTilesDataByRowId = createAsyncThunk<TilesDataDto, FetchDataByRo
       const response = await fetchTilesDataByRowId(args);
       const {data} = response;
 
-      const transformedTiles = data.map(t => ({
-        id: t.Card_Header_ID,
-        name: t.Card_Header_Name,
-        typeName: t.Card_Type_Name,
-        apiName: t.Card_Type_API_Name,
-        typeDescription: t.Card_Type_Description,
-        columnStart: t.Column_Start,
-        columnEnd: t.Column_End,
-        rowStart: t.Row_Start,
-        rowEnd: t.Row_End,
-        color: t.Card_Color,
-        disabled: !t.is_active,
-      }));
+      const connectors: TransportConnector[] = [];
+      const tiles: TilesDto = [];
+
+      data.forEach(t => {
+        if (t.Card_Header_ID_To) {
+          connectors.push({
+            id: `${t.Card_Header_ID}-${t.Card_Header_ID_To}`,
+            fromId: t.Card_Header_ID,
+            toId: t.Card_Header_ID_To,
+            apiName: t.Card_Type_API_Name,
+          });
+        }
+
+        tiles.push({
+          id: t.Card_Header_ID,
+          name: t.Card_Header_Name,
+          typeName: t.Card_Type_Name,
+          apiName: t.Card_Type_API_Name,
+          typeDescription: t.Card_Type_Description,
+          columnStart: t.Column_Start,
+          columnEnd: t.Column_End,
+          rowStart: t.Row_Start,
+          rowEnd: t.Row_End,
+          color: t.Card_Color,
+          disabled: !t.is_active,
+        });
+      });
 
       return {
-        tiles: transformedTiles,
+        tiles,
+        connectors,
         options: {
           selectedTileId: undefined,
         }

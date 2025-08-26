@@ -1,9 +1,10 @@
 import {Button, Flex, Form, Input} from 'antd';
 import Card from 'antd/es/card/Card';
+import Checkbox from 'antd/es/checkbox/Checkbox';
 import {useForm} from 'antd/es/form/Form';
 import Title from 'antd/es/typography/Title';
 import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 import CheckCircleOutlined from '@ant-design/icons/lib/icons/CheckCircleOutlined';
 import type {MessageEntity} from '@shared/types';
@@ -93,6 +94,27 @@ export const RegisterPage = () => {
                 name="middlename"
               >
                 <Input placeholder='Введите отчество' />
+              </Form.Item>
+              <Form.Item
+                className={styles.checkbox}
+                name="agreed"
+                valuePropName="checked"
+                rules={[{
+                  validator: (_, v) =>
+                    v ? Promise.resolve() : Promise.reject(new Error('Необходимо дать согласие')),
+                }]}
+              >
+                <Checkbox>
+                  Согласен с&nbsp;
+                  <Link
+                      className={styles.link}
+                      to="https://xn--80afatapvugk.xn--p1ai/privacy/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      политикой обработки персональных данных
+                    </Link>
+                  </Checkbox>
               </Form.Item>
               <div
                 className={styles.link}
