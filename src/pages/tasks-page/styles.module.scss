@@ -78,6 +78,10 @@
 
 .script-name {
   margin-top: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: $gap-sm;
 }
 
 .stage-icon {

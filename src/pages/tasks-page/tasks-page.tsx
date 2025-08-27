@@ -28,7 +28,16 @@ const TaskScript = ({script, userId}: TaskScriptProps) => {
 
   return (
     <Card className={styles.group}>
-      <Title level={4} className={styles['script-name']}>{script.name}</Title>
+      <Title level={4} className={styles['script-name']}>
+        {script?.iconName && (
+          <img
+            className={styles['stage-icon']}
+            src={`src/assets/task-icons/${script.iconName.replace('.png', '')}.svg`}
+            alt='icon'
+          />
+        )}
+        {script.name}
+      </Title>
       <ul className={styles.tasks}>
         {script.stages.map(stage => (
           <li
@@ -39,13 +48,6 @@ const TaskScript = ({script, userId}: TaskScriptProps) => {
               stage.pending && styles.pending,
             )}
           >
-            {stage?.iconName && (
-              <img
-                className={styles['stage-icon']}
-                src={`src/assets/task-icons/${stage.iconName.replace('.png', '')}.svg`}
-                alt='icon'
-              />
-            )}
             {(() => {
               if (stage.disabled) {
                 return (

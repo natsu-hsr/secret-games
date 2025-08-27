@@ -14,6 +14,7 @@ export const convertRawTasks = ({rawTasks}: ConvertRawTasksArgs): TasksDto => {
         id: rt.Script_ID,
         name: rt.Script_Name,
         active: rt.Script_Active_Flag,
+        iconName: rt.icon_name,
         stages: [{
           id: rt.Stage_ID,
           name: rt.Stage_Name,
@@ -21,7 +22,6 @@ export const convertRawTasks = ({rawTasks}: ConvertRawTasksArgs): TasksDto => {
           pending: rt.stage_status === 2,
           hasResults: rt.stage_status === 3,
           hasExtendedResults: !!rt.ExtendedResults,
-          iconName: rt.icon_name,
         }],
       })
     } else {
@@ -38,7 +38,6 @@ export const convertRawTasks = ({rawTasks}: ConvertRawTasksArgs): TasksDto => {
             pending: rt.stage_status === 2,
             hasResults: rt.stage_status === 3,
             hasExtendedResults: !!rt.ExtendedResults,
-            iconName: rt.icon_name,
           }
         ]
       }

@@ -8,6 +8,7 @@ export type ScriptDto = {
   id: string;
   name: string;
   active: boolean;
+  iconName: string;
   stages: StageDto[];
 }
 export type RawStageDto = {
@@ -22,7 +23,6 @@ export type StageDto = {
   pending: boolean;
   hasResults: boolean;
   hasExtendedResults: boolean;
-  iconName: string;
 }
 
 export type RawTaskDto = {
