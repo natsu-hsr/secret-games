@@ -11,7 +11,7 @@ export const useMapDataLoader = () => {
   const {scriptId, stageId} = useParams();
   const {userId} = useUserId();
   
-  const {tileId, tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
+  const {tileId, transportId, tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
 
   const mapData = useAppSelector(selectTaskMapData);
   const isLoading = useAppSelector(s => selectIsThunkPending(s, loadMapDataByTileId.typePrefix));
@@ -29,6 +29,11 @@ export const useMapDataLoader = () => {
     }
 
     dispatch(taskSliceActions.resetTilesMarkerCoordinates());
+
+    // клик по плитке транспорта - загружать карту не нужно
+    if (transportId) {
+      return
+    }
   
     dispatch(loadMapDataByTileId({
       userId,

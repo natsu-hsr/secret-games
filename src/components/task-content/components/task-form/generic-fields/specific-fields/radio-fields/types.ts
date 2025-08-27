@@ -3,6 +3,7 @@ export type RadioGroup = {
   name: string;
   labels: string[];
   value: string;
+  disabled: boolean;
 }
 
 export type RadioGroups = RadioGroup[]

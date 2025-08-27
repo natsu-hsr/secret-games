@@ -204,7 +204,8 @@ export type TaskCommonData = Partial<{
   selectedPlacemarkId: string;
   tableRowName: string;
   tableRowId: string;
-  tileId: string;
+  tileId?: string;
+  transportId?: string;
   tileApiName: string;
 }>;
 

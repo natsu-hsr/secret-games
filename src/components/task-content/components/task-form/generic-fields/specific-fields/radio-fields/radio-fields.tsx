@@ -22,6 +22,7 @@ export const RadioFields: FC<GenericFieldsProps> = ({fields}) => {
               key={group.name}
               value={group.name}
               className={styles.radio}
+              disabled={group.disabled}
             >
               <div className={styles['label-wrapper']}>
                 {group.labels.map((label, idx) => (

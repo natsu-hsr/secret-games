@@ -38,6 +38,7 @@ export const useCardsActions = () => {
     const {id: tileId, apiName} = tile;
   
     dispatch(taskSliceActions.setTilesCommonData({
+      transportId: undefined,
       tileId,
       tileApiName: apiName,
       // todo: заменить на поле placemarkId, как только бэк добавит его 
@@ -55,14 +56,15 @@ export const useCardsActions = () => {
       return;
     }
 
-    const {id, fromId, apiName} = connector;
+    const {id, toId} = connector;
       
     setSelectedConnectorId(id);
   
   
     dispatch(taskSliceActions.setTilesCommonData({
-      tileId: fromId,
-      tileApiName: apiName,
+      transportId: toId,
+      tileId: undefined,
+      tileApiName: 'stage_card_transport',
       // todo: заменить на поле placemarkId, как только бэк добавит его 
       // selectedPlacemarkId: (tileId === 'CardHeader10') ? 'Supplier3' : (tileId === 'CardHeader6') ? 'Knot_WH1' : '',
       selectedPlacemarkId: '',

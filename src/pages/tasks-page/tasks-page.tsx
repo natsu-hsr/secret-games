@@ -29,14 +29,14 @@ const TaskScript = ({script, userId}: TaskScriptProps) => {
   return (
     <Card className={styles.group}>
       <Title level={4} className={styles['script-name']}>
+        {script.name}
         {script?.iconName && (
           <img
             className={styles['stage-icon']}
-            src={`src/assets/task-icons/${script.iconName.replace('.png', '')}.svg`}
+            src={`/task-icons/${script.iconName.replace('.png', '')}.svg`}
             alt='icon'
           />
         )}
-        {script.name}
       </Title>
       <ul className={styles.tasks}>
         {script.stages.map(stage => (

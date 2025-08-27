@@ -18,7 +18,7 @@ export const useTaskForm = (form: FormInstance) => {
   const {scriptId, stageId} = useParams();
   const {userId} = useUserId();
     
-  const {tileId, tileApiName, tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
+  const {tileId, transportId, tileApiName, tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
   
   const tilesMarkerData = useAppSelector(selectTilesMarkerData);
   const formData = useAppSelector(selectFormData);
@@ -28,7 +28,7 @@ export const useTaskForm = (form: FormInstance) => {
 
   useEffect(() => {
     // если этих параметров нету, то все нормально, просто не время загружать данные
-    if (!tileId || !tileApiName || !tableRowId) {
+    if (!(tileId || transportId) || !tileApiName || !tableRowId) {
       return;
     }
 
@@ -44,12 +44,12 @@ export const useTaskForm = (form: FormInstance) => {
       stageId,
       scriptId,
       apiName: tileApiName,
-      tileId,
+      tileId: tileId ?? transportId ?? '',
       rowId: tableRowId,
       userId,
     }));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tileId, tileApiName, tableRowId, userId, scriptId, stageId]);
+  }, [tileId, transportId, tileApiName, tableRowId, userId, scriptId, stageId]);
 
   const handleSubmit = async (values: Record<string, unknown>) => {
     try {

@@ -13,6 +13,7 @@ export const convertFieldsToRadios = ({fields}: ConvertFieldsToRadiosArgs) => {
         checked: f.name.endsWith('Flow_Ratio') && f.defaultValue === '1',
         name: f.name,
         value: f.name,
+        disabled: f.disabled,
         labels: [],
     }));
 
