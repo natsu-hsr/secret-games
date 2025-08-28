@@ -21,7 +21,7 @@ export const RegisterPage = () => {
   const handleSubmit = (values: TRegisterForm) => {
     register(values)
       .then(data => {
-        if (data.data === '1') {
+        if (data.data !== '0') {
           setMessage({
             message: 'Регистрация успешна! Ожидайте письмо с инструкцией на указанный адрес',
             type: 'SUCCESS',
