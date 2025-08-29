@@ -1,4 +1,4 @@
-@use '../../shared/styles/common.scss' as *;
+@use '/src/shared/styles/common.scss' as *;
 
 .container {
   width: 100%;
@@ -45,11 +45,18 @@
       border-radius: $border-radius;
       padding: $padding-base;
     }
+    .ant-card-body {
+      padding: 0;
+    }
   }
 }
 
 .min-h {
   min-height: $min-block-height;
+}
+
+.extended-h {
+  min-height: 700px;
 }
 
 // ===== tiles card =====
@@ -73,13 +80,3 @@
 }
 
 // ===== =====
-
-.map-card {
-  border: none;
-
-  :global {
-    .ant-card-body {
-      padding: 0;
-    }
-  }
-}

@@ -132,6 +132,28 @@ export type TilesDataDto = {
 };
 
 // ======= form =======
+export type Statistic = {
+  label: string;
+  value: string;
+}
+
+export type List = {
+  subtitle: string;
+  statistics: Statistic[]
+}
+
+export type FormInformationSection = {
+  title: string;
+  statistics?: Statistic[]
+  lists?: List[];
+}
+
+export type FormInformation = {
+  title: string;
+  description: string;
+  sections: FormInformationSection[];
+}
+
 export type RawFieldType = 'text' | 'radio' | 'select' | 'coordinates';
 export type FieldType = RawFieldType;
 

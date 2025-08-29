@@ -1,0 +1,53 @@
+@use '/src/shared/styles/colors.scss' as *;
+@use '/src/shared/styles/common.scss' as *;
+
+.wrapper {
+  gap: 12px;
+}
+
+.title {
+  position: relative;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 28px;
+}
+
+.description {
+  color: $text-secondary;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.section-title {
+  margin: 0 !important;
+  font-size: 18px;
+}
+
+.statistic {
+  :global {
+    .ant-statistic-title {
+      margin-bottom: 0;
+    }
+    .ant-statistic-content {
+      font-size: 22px;
+    }
+  }
+}
+
+.list-subtitle {
+  margin: 0 !important;
+}
+
+.list-wrapper {
+  margin-top: 6px;
+}
+
+.list-label {
+  color: $text-secondary;
+}
