@@ -146,6 +146,7 @@ export type FormInformationSection = {
   title: string;
   statistics?: Statistic[]
   lists?: List[];
+  withForm?: boolean;
 }
 
 export type FormInformation = {
@@ -154,7 +155,7 @@ export type FormInformation = {
   sections: FormInformationSection[];
 }
 
-export type RawFieldType = 'text' | 'radio' | 'select' | 'coordinates';
+export type RawFieldType = 'text' | 'float' | 'number' | 'radio' | 'select' | 'coordinates';
 export type FieldType = RawFieldType;
 
 export type FormType = 'radio' | 'select' | 'proportions';

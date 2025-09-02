@@ -3,7 +3,7 @@ import {useMemo, type CSSProperties} from 'react';
 import type {TileDto} from '@store/slices/task-slice';
 
 export const useGridDimensions = (tiles: TileDto[]) => {
-  const {minCol, minRow, colsCount, rowsCount} = useMemo(() => {
+  const {minCol, minRow, maxCol, colsCount, rowsCount} = useMemo(() => {
     const colStarts = tiles.map(t => t.columnStart);
     const colEnds = tiles.map(t => t.columnEnd);
     const rowStarts = tiles.map(t => t.rowStart);
@@ -28,6 +28,7 @@ export const useGridDimensions = (tiles: TileDto[]) => {
   return {
     minCol,
     minRow,
+    maxCol,
     containerStyle,
   };
 };

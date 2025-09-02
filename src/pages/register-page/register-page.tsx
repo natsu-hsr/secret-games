@@ -7,6 +7,7 @@ import {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
 import CheckCircleOutlined from '@ant-design/icons/lib/icons/CheckCircleOutlined';
+import {kiryllicOnly} from '@shared/validation';
 import type {MessageEntity} from '@shared/types';
 import {register, type TRegisterForm} from '@store/slices/auth-slice';
 
@@ -78,20 +79,29 @@ export const RegisterPage = () => {
               <Form.Item
                 label="Фамилия"
                 name="surname"
-                rules={[{required: true, message: 'Необходимо ввести фамилию'}]}
+                rules={[
+                  kiryllicOnly,
+                  {required: true, message: 'Необходимо ввести фамилию'},
+                ]}
               >
                 <Input placeholder='Введите фимилию' />
               </Form.Item>
               <Form.Item
                 label="Имя"
                 name="name"
-                rules={[{required: true, message: 'Необходимо ввести имя'}]}
+                rules={[
+                  kiryllicOnly,
+                  {required: true, message: 'Необходимо ввести имя'},
+                ]}
               >
                 <Input placeholder='Введите имя' />
               </Form.Item>
               <Form.Item
                 label="Отчество"
                 name="middlename"
+                rules={[
+                  kiryllicOnly,
+                ]}
               >
                 <Input placeholder='Введите отчество' />
               </Form.Item>

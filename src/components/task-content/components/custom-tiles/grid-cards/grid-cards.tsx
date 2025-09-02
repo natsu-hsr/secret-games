@@ -21,7 +21,7 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const {containerStyle, minCol, minRow} = useGridDimensions(tiles);
+  const {containerStyle, minCol, maxCol, minRow} = useGridDimensions(tiles);
 
   const connectorPositions = useConnectorPositions(connectors, wrapperRef, cardRefs);
   const {tableRowName} = useAppSelector(selectTaskCommonData) ?? {};
@@ -43,6 +43,9 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
       <div
         ref={wrapperRef}
         className={styles['grid-container']}
+        style={{
+          maxHeight: maxCol > 5 ? undefined : '500px',
+        }}
       >
         {/* Иконки над линиями */}
         {connectorPositions?.map(({connector, x, y}) => {
@@ -88,7 +91,10 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
                   selectedTile?.id === tile.id ? styles.selected : styles.inactive,
                   tile.disabled && styles.disabled,
                 )}
-                onClick={() => handleTileClick(tile)}
+                onClick={() => {
+                  if (tile.disabled) return;
+                  handleTileClick(tile)
+                }}
                 style={{
                   backgroundColor: tile.color,
                   gridColumn: `${startCol} / ${endCol}`,

@@ -1,3 +1,4 @@
+import {InputNumber} from 'antd';
 import Flex from 'antd/es/flex';
 import Form from 'antd/es/form';
 import FormItem from 'antd/es/form/FormItem';
@@ -5,6 +6,7 @@ import Input from 'antd/es/input';
 import Select from 'antd/es/select';
 import {useEffect, type FC} from 'react';
 
+import {FieldNumberLikePrecision, FieldNumberLikeStep, NUMBERLIKE_FIELD_TYPES} from '@shared/constants';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
 import {
   selectTaskCommonData,
@@ -21,7 +23,7 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
   const dispatch = useAppDispatch();
   const {select, selectedOption} = adaptFieldsToSelectForm({fields});
 
-  const textFields = fields.filter(f => f.type === 'text');
+  const textFields = fields.filter(f => f.type !== 'select');
 
   const {tileId} = useAppSelector(selectTaskCommonData) ?? {};
   const tilesMarkerData = useAppSelector(selectTilesMarkerData);
@@ -143,10 +145,20 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
           initialValue={f.defaultValue}
           shouldUpdate
         >
-          <Input
-            placeholder={`Введите ${f.label.toLowerCase()}`}
-            disabled={f.disabled}
-          />
+          {NUMBERLIKE_FIELD_TYPES.includes(f.type) ? (
+            <InputNumber
+              className='fw'
+              placeholder={`Введите ${f.label.toLowerCase()}`}
+              disabled={f.disabled}
+              step={FieldNumberLikeStep[f.type]}
+              precision={FieldNumberLikePrecision[f.type]}
+            />
+          ) : (
+            <Input
+              placeholder={`Введите ${f.label.toLowerCase()}`}
+              disabled={f.disabled}
+            />
+          )}
         </FormItem>
       ))}
     </>

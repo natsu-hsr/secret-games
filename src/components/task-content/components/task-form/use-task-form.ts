@@ -102,6 +102,7 @@ export const useTaskForm = (form: FormInstance) => {
   
   return {
     tileId,
+    tileApiName,
     formData,
     isLoading,
     hasError,
