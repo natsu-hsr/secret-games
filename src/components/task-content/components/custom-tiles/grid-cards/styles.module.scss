@@ -5,6 +5,12 @@
   flex-direction: column;
 }
 
+.grid-title {
+  text-align: center;
+  margin: 0;
+  font-size: 1rem;
+}
+
 .grid-container {
   position: relative;
   width: 100%;
@@ -19,6 +25,9 @@
   gap: 12px;
   width: 100%;
   height: 100%;
+
+  // aspect-ratio: 1 / 1;
+  // margin: 0 auto;
 }
 
 .card {
@@ -64,7 +73,7 @@
   text-align: center;
   margin: 0;
   font-size: 1rem;
-  white-space: nowrap;
+  // white-space: nowrap;
 }
 
 .subtitle {

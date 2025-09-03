@@ -37,7 +37,7 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
 
   return (
     <div className={styles.container}>
-      <Title className={styles.title} level={4}>
+      <Title className={styles['grid-title']} level={4}>
         {`Картирование цепочки поставки${tableRowName ? ` для продукта «${tableRowName}»` : ''}`}
       </Title>
       <div
@@ -99,7 +99,8 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
                   backgroundColor: tile.color,
                   gridColumn: `${startCol} / ${endCol}`,
                   gridRow: `${startRow} / ${endRow}`,
-                  aspectRatio: (endRow - startRow === 1 && endCol - startCol === 1) ? '1' : undefined,
+                  // aspectRatio: (endRow - startRow === 1 && endCol - startCol === 1) ? '1' : undefined,
+                  // aspectRatio: `${endCol - startCol} / ${endRow - startRow}`
                 }}
               >
                 <h3 className={styles.title}>{tile.name}</h3>
