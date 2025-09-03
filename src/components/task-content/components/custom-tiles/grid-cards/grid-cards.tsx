@@ -99,6 +99,7 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
                   backgroundColor: tile.color,
                   gridColumn: `${startCol} / ${endCol}`,
                   gridRow: `${startRow} / ${endRow}`,
+                  aspectRatio: (endRow - startRow === 1 && endCol - startCol === 1) ? '1' : undefined,
                 }}
               >
                 <h3 className={styles.title}>{tile.name}</h3>

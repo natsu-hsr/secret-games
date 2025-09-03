@@ -56,7 +56,7 @@
 }
 
 .card.disabled {
-  cursor: not-allowed !important;
+  cursor: default !important;
   background-color: #cccccc !important;
 }
 
@@ -64,12 +64,14 @@
   text-align: center;
   margin: 0;
   font-size: 1rem;
+  white-space: nowrap;
 }
 
 .subtitle {
   text-align: center;
   opacity: 0.8;
   font-size: 0.75rem;
+  line-height: 110%;
 }
 
 // ============= connectors ============/
