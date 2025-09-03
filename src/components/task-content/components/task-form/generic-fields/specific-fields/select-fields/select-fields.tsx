@@ -23,7 +23,7 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
   const dispatch = useAppDispatch();
   const {select, selectedOption} = adaptFieldsToSelectForm({fields});
 
-  const textFields = fields.filter(f => f.type !== 'select');
+  const textFields = fields.filter(f => f.type !== 'select' && f.type !== 'coordinates');
 
   const {tileId} = useAppSelector(selectTaskCommonData) ?? {};
   const tilesMarkerData = useAppSelector(selectTilesMarkerData);
@@ -108,7 +108,10 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
               initialValue={coordinatesFields.latitude.defaultValue}
               style={{maxWidth: '80px'}}
             >
-              <Input disabled={coordinatesFields.latitude.disabled} />
+              <InputNumber
+                disabled={coordinatesFields.latitude.disabled}
+                precision={2}
+              />
             </FormItem>
           )}
           {coordinatesFields.longitude && (
@@ -118,7 +121,10 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
               initialValue={coordinatesFields.longitude.defaultValue}
               style={{maxWidth: '80px'}}
             >
-              <Input disabled={coordinatesFields.longitude.disabled} />
+              <InputNumber
+                disabled={coordinatesFields.longitude.disabled}  
+                precision={2}
+              />
             </FormItem>
           )}
         </Flex>

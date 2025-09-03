@@ -36,6 +36,9 @@
     }
     .ant-statistic-content {
       font-size: 22px;
+      .ant-statistic-content-value {
+        word-break: break-word;
+      }
     }
   }
 }

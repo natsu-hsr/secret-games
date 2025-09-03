@@ -13,30 +13,27 @@
   justify-content: flex-start;
   gap: 16px;
 
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+  // overflow-y: auto;
+  // scrollbar-width: thin;
+  // scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
 
-  // scroll-отступ
-  padding-right: 6px;
+  // &::-webkit-scrollbar {
+  //   width: 6px;
+  //   height: 6px;
+  // }
 
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
+  // &::-webkit-scrollbar-track {
+  //   background: transparent;
+  // }
 
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
+  // &::-webkit-scrollbar-thumb {
+  //   background-color: rgba(0, 0, 0, 0.3);
+  //   border-radius: 3px;
+  // }
 
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 3px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
+  // &::-webkit-scrollbar-thumb:hover {
+  //   background-color: rgba(0, 0, 0, 0.5);
+  // }
 }
 
 .form-title {
