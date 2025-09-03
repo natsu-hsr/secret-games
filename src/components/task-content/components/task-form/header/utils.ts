@@ -1,23 +1,20 @@
 import type {FormInformation} from '@store/slices/task-slice';
 
-import {defaultInfo, shopInfo, suppliersInfo} from './mock';
+import {distributionInfo, shopInfo, suppliersInfo, warehouseInfo} from './mock';
 
 export const getHeaderInfoByTileApiName = (tileApiName: string): FormInformation | null => {
-
-  console.log('tileApiName=', tileApiName);
   if (tileApiName === 'stage_card_shop') {
     return shopInfo;
   }
-  if (tileApiName === 'stage_card_suppliers') {
+  if (tileApiName === 'stage_card_suppliers' || tileApiName === 'stage_card_supplier') {
     return suppliersInfo;
   }
-  if (tileApiName === '') {
-    return defaultInfo;
+  if (tileApiName === 'stage_card_wh') {
+    return warehouseInfo;
   }
-  if (tileApiName === '') {
-    return defaultInfo;
+  if (tileApiName === 'stage_card_distribution') {
+    return distributionInfo;
   }
-
 
   return null;
 }

@@ -137,30 +137,33 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
           />
         </FormItem>  
       )}
-      {textFields?.map(f => (
-        <FormItem
-          key={f.name + f.label + f.defaultValue + f.disabled + f.type}
-          name={f.name}
-          label={f.label}
-          initialValue={f.defaultValue}
-          shouldUpdate
-        >
-          {NUMBERLIKE_FIELD_TYPES.includes(f.type) ? (
-            <InputNumber
-              className='fw'
-              placeholder={`Введите ${f.label.toLowerCase()}`}
-              disabled={f.disabled}
-              step={FieldNumberLikeStep[f.type]}
-              precision={FieldNumberLikePrecision[f.type]}
-            />
-          ) : (
-            <Input
-              placeholder={`Введите ${f.label.toLowerCase()}`}
-              disabled={f.disabled}
-            />
-          )}
-        </FormItem>
-      ))}
+      {textFields
+        ?.filter(f => !f.disabled || (f.disabled && (f.defaultValue !== null && f.defaultValue !== '')))
+        ?.map(f => (
+          <FormItem
+            key={f.name + f.label + f.defaultValue + f.disabled + f.type}
+            name={f.name}
+            label={f.label}
+            initialValue={f.defaultValue}
+            shouldUpdate
+          >
+            {NUMBERLIKE_FIELD_TYPES.includes(f.type) ? (
+              <InputNumber
+                className='fw'
+                placeholder={`Введите ${f.label.toLowerCase()}`}
+                disabled={f.disabled}
+                step={FieldNumberLikeStep[f.type]}
+                precision={FieldNumberLikePrecision[f.type]}
+              />
+            ) : (
+              <Input
+                placeholder={`Введите ${f.label.toLowerCase()}`}
+                disabled={f.disabled}
+              />
+            )}
+          </FormItem>
+        )
+      )}
     </>
   )
 };

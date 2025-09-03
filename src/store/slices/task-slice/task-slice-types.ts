@@ -230,6 +230,7 @@ export type TaskCommonData = Partial<{
   tileId?: string;
   transportId?: string;
   tileApiName: string;
+  tileName: string;
 }>;
 
 /**

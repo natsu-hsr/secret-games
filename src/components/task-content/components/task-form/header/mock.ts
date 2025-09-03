@@ -1,58 +1,5 @@
 import type {FormInformation} from '@store/slices/task-slice';
 
-export const defaultInfo: FormInformation = {
-  title: 'Настройка политики управления запасами',
-  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere ' +
-    'mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo.',
-  sections: [
-    {
-      title: 'Характеристики элемента',
-      statistics: [
-        {label: 'Локация', value: 'Япония'},
-        {label: 'Тип склада', value: 'Надежный'},
-        {label: 'Площадь склада', value: '50000'},
-        {label: 'Объем склада', value: '123312'},
-        {label: 'Площадь зоны приемки', value: '30000'},
-        {label: 'Площадь зоны отгрузки', value: '20000'},
-      ]
-    },
-    {
-      title: 'Затраты по элементу',
-      lists: [
-        {
-          subtitle: 'Постоянные затраты',
-          statistics: [
-            {label: 'Аренда', value: '330000'},
-            {label: 'Коммунальные платежи', value: '30000'},
-            {label: 'Персонал', value: '200000'},
-            {label: 'Поддержка IT', value: '10000'},
-          ]
-        },
-        {
-          subtitle: 'Переменные затраты',
-          statistics: [
-            {label: 'Тариф на приемку', value: '3000'},
-            {label: 'Тариф на хранение', value: '5500'},
-            {label: 'Тариф на комплектацию', value: '1200'},
-            {label: 'Упаковочные материалы', value: '2000'},
-            {label: 'Резервирование площадей', value: '30000'},
-            {label: 'Площадь зоны отгрузки', value: '100'},
-          ]
-        },
-      ]
-    },
-    {
-      title: 'Параметры материального потока',
-      withForm: true,
-      statistics: [
-        {label: 'Запасы на начало периода', value: '12455'},
-        {label: 'Политика упр. запасами', value: 'Надежная'},
-        {label: 'Параметры политики', value: '3FjnASD'},
-      ]
-    },
-  ]
-};
-
 export const suppliersInfo: FormInformation = {
   title: 'Настройка политики управления запасами',
   description: 'Поставщик - юридическое или физическое лицо, поставляющее товары' +
@@ -132,47 +79,59 @@ export const warehouseInfo: FormInformation = {
     {
       title: 'Характеристики элемента',
       statistics: [
-        {label: 'Тип:', value: 'Распределительный'},
-        {label: 'Класс:', value: 'B+'},
-        {label: 'Тип владения:', value: 'Аутсорсинг услуг'},
-        {label: 'Объем склада', value: '123312'},
-        {label: 'Площадь зоны приемки', value: '30000'},
-        {label: 'Площадь зоны отгрузки', value: '20000'},
+        {label: 'Тип', value: 'Распределительный'},
+        {label: 'Класс', value: 'B+'},
+        {label: 'Тип владения', value: 'Аутсорсинг услуг'},
+        {label: 'Мощность зоны приемки, м3 в день', value: '>>>1'},
+        {label: 'Мощность зоны комплектации, м3 в день', value: '>>>1'},
+        {label: 'Ограничение на объем хранения, м3', value: 'Отсутствует'},
+        {label: 'Уровень сервиса', value: '100%'},
+        {label: 'График приемки товара', value: '24/7/365'},
+        {label: 'Расположение', value: 'Ярославль'},
       ]
     },
     {
-      title: 'Затраты по элементу',
+      title: 'Затраты элемента',
       lists: [
         {
           subtitle: 'Постоянные затраты',
           statistics: [
-            {label: 'Аренда', value: '330000'},
-            {label: 'Коммунальные платежи', value: '30000'},
-            {label: 'Персонал', value: '200000'},
-            {label: 'Поддержка IT', value: '10000'},
+            {label: 'Персонал руб./мес.', value: '0'},
+            {label: 'Аренда помещения, руб./мес.', value: '0'},
+            {label: 'Коммунальные услуги, руб./мес.', value: '0'},
+            {label: 'Прочие затраты, руб./мес.', value: '35000'},
+            {label: 'Материалы для упаковки, руб./м3', value: '0'},
+            {label: 'Резерв площадей, руб./м2', value: '0'},
           ]
         },
         {
           subtitle: 'Переменные затраты',
           statistics: [
-            {label: 'Тариф на приемку', value: '3000'},
-            {label: 'Тариф на хранение', value: '5500'},
-            {label: 'Тариф на комплектацию', value: '1200'},
-            {label: 'Упаковочные материалы', value: '2000'},
-            {label: 'Резервирование площадей', value: '30000'},
-            {label: 'Площадь зоны отгрузки', value: '100'},
+            {label: 'Приемка, руб./м3', value: '700'},
+            {label: 'Хранение, руб./м3', value: '25'},
+            {label: 'Комплектаци и отгрузка, руб./шт.', value: '35'},
+            {label: 'Упаковочные материалы, руб./м3', value: '0'},
+            {label: 'Персонал руб./мес.', value: '0'},
+            {label: '% потерль, краж от запаса', value: '0%'},
           ]
         },
       ]
     },
     {
-      title: 'Параметры материального потока',
+      title: 'Параметры элемента',
       withForm: true,
-      statistics: [
-        {label: 'Запасы на начало периода', value: '12455'},
-        {label: 'Политика упр. запасами', value: 'Надежная'},
-        {label: 'Параметры политики', value: '3FjnASD'},
-      ]
+    },
+  ]
+};
+
+export const distributionInfo: FormInformation = {
+  title: 'Настройка политики управления запасами',
+  description: 'Распределение - распределение входящего материального потока'
+    + ' между возможными источниками снабжения (последующие элементы цепи поставок)',
+  sections: [
+    {
+      title: 'Параметры элемента',
+      withForm: true,
     },
   ]
 };

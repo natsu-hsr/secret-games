@@ -12,16 +12,17 @@ import type {FormInformation} from '@store/slices/task-slice';
 import styles from './styles.module.scss';
 
 interface HeaderProps {
+  title: string;
   info: FormInformation;
   formNode: ReactNode;
 }
 
-export const HeaderGenerator: FC<HeaderProps> = ({info, formNode}) => (
+export const HeaderGenerator: FC<HeaderProps> = ({title, info, formNode}) => (
   <Flex vertical className={styles.wrapper}>
     <Flex vertical>
       <Row justify="space-between" align="middle" >
         <Title level={4} className={styles.title}>
-          {info.title}
+          {title}
           <DropboxOutlined className={styles.icon} />
         </Title>
       </Row>
@@ -30,6 +31,7 @@ export const HeaderGenerator: FC<HeaderProps> = ({info, formNode}) => (
 
     {info?.sections?.map(section => (
       <Collapse
+        key={section.title}
         items={[
           {
             key: '1',
@@ -39,7 +41,7 @@ export const HeaderGenerator: FC<HeaderProps> = ({info, formNode}) => (
                 {section.statistics?.length && (
                   <Row gutter={[8, 8]}>
                     {section.statistics?.map(({label, value}) => (
-                      <Col span={8}>
+                      <Col key={label} span={8}>
                         <Statistic className={styles['statistic']} title={label} value={value} />
                       </Col>
                     ))}
@@ -48,11 +50,11 @@ export const HeaderGenerator: FC<HeaderProps> = ({info, formNode}) => (
                 {section.lists?.length && (
                   <Row gutter={16}>
                     {section.lists?.map(({subtitle, statistics}) => (
-                      <Col span={12}>
+                      <Col key={subtitle} span={12}>
                         <Title level={5} className={styles['list-subtitle']}>{subtitle}</Title>
                         <ul className={styles['list-wrapper']}>
                           {statistics.map(({label, value}) => (
-                            <li>
+                            <li key={label}>
                               <span className={styles['list-label']}>{label}:</span>&nbsp;
                               <span>{value}</span>
                             </li>

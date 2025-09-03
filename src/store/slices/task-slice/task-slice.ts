@@ -30,13 +30,16 @@ export const taskSlice = createSlice({
     /** ====== Common data ====== */
     setTilesCommonData(
       state,
-      {payload}: PayloadAction<Pick<TaskCommonData, 'tileId' | 'transportId' | 'tileApiName' | 'selectedPlacemarkId'>>
+      {payload}: PayloadAction<Pick<
+        TaskCommonData, 'tileId' | 'transportId' | 'tileApiName' | 'tileName' | 'selectedPlacemarkId'
+      >>
     ) {
       state.commonData = {
         ...state?.commonData,
         tileId: payload.tileId,
         tileApiName: payload.tileApiName,
         transportId: payload.transportId,
+        tileName: payload.tileName,
         selectedPlacemarkId: payload.selectedPlacemarkId,
       };
     },

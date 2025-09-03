@@ -63,7 +63,7 @@ export const LoginPage = () => {
           </Form.Item>
           <div
             className={styles.link}
-            onClick={() => navigate('/register')}
+            onClick={() => navigate('/registration')}
           >
             Нет аккаунта? Зарегистрироваться
           </div>

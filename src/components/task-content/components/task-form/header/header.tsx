@@ -1,5 +1,8 @@
 import type {FC, ReactNode} from 'react';
 
+import {useAppSelector} from '@store/config/hooks';
+import {selectTaskCommonData} from '@store/slices/task-slice';
+
 import {HeaderGenerator} from './header-generator';
 import {getHeaderInfoByTileApiName} from './utils';
 
@@ -9,11 +12,12 @@ interface HeaderProps {
 }
 
 export const Header: FC<HeaderProps> = ({tileApiName, formNode}) => {
+  const {tileName} = useAppSelector(selectTaskCommonData) ?? {};
   const infoData = getHeaderInfoByTileApiName(tileApiName);
 
   return (
     <>
-      {infoData && <HeaderGenerator info={infoData} formNode={formNode} />}
+      {infoData && tileName && <HeaderGenerator title={tileName} info={infoData} formNode={formNode} />}
     </>
   );
 }
