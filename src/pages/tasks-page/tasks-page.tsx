@@ -1,4 +1,4 @@
-import {Button, Empty, Skeleton, Tooltip} from 'antd';
+import {Button, Empty, Flex, Skeleton, Tooltip} from 'antd';
 import Card from 'antd/es/card/Card';
 import Col from 'antd/es/grid/col';
 import Row from 'antd/es/grid/row';
@@ -28,8 +28,10 @@ const TaskScript = ({script, userId}: TaskScriptProps) => {
 
   return (
     <Card className={styles.group}>
-      <Title level={4} className={styles['script-name']}>
-        {script.name}
+      <Flex justify='space-between' align='flex-start'>
+        <Title level={4} className={styles['script-name']}>
+          {script.name}
+        </Title>
         {script?.iconName && (
           <img
             className={styles['stage-icon']}
@@ -37,7 +39,8 @@ const TaskScript = ({script, userId}: TaskScriptProps) => {
             alt='icon'
           />
         )}
-      </Title>
+      </Flex>
+      
       <ul className={styles.tasks}>
         {script.stages.map(stage => (
           <li
@@ -76,23 +79,26 @@ const TaskScript = ({script, userId}: TaskScriptProps) => {
 
               return (
                 <>
-                  <Link
-                    to={`/script/${script.id}/stage/${stage.id}?stageName=${encodeURIComponent(stage.name)}`}
-                  >
-                    {stage.name}
-                  </Link>
-                  {stage.hasResults && (
+                  {stage.hasResults ? (
+                    <>
+                      <span>{stage.name}</span>
+                      <Link
+                        className={styles.link}
+                        to={
+                          `${window.location.origin}/graph.php?user_id=${userId}
+                          &script_id=${script.id}&stage_id=${stage.id}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Результаты
+                      </Link>
+                    </>
+                  ) : (
                     <Link
-                      className={styles.link}
-                      to={
-                        `${window.location.origin}/graph.php?user_id=${userId}
-                        &script_id=${script.id}&stage_id=${stage.id}`
-                      }
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Результаты
-                    </Link>
+                        to={`/script/${script.id}/stage/${stage.id}?stageName=${encodeURIComponent(stage.name)}`}>
+                          {stage.name}
+                      </Link>
                   )}
                   {stage.hasExtendedResults && (
                     <Link

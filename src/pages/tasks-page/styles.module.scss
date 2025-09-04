@@ -9,7 +9,6 @@
   margin-bottom: 25px !important;
 }
 
-
 // task script
 .group {
   height: 100%;
@@ -76,6 +75,8 @@
   }
 }
 
+$icon-size: 60px;
+
 .script-name {
   margin-top: 0;
   display: flex;
@@ -83,12 +84,10 @@
   align-items: center;
   gap: $gap-sm;
   position: relative;
+  margin-right: calc($icon-size / 3);
 }
 
 .stage-icon {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 36px;
-  height: 36px;
+  width: $icon-size;
+  height: $icon-size;
 }

@@ -21,7 +21,7 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const {containerStyle, minCol, maxCol, minRow} = useGridDimensions(tiles);
+  const {containerStyle, minCol, minRow, maxRow} = useGridDimensions(tiles);
 
   const connectorPositions = useConnectorPositions(connectors, wrapperRef, cardRefs);
   const {tableRowName} = useAppSelector(selectTaskCommonData) ?? {};
@@ -44,7 +44,8 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
         ref={wrapperRef}
         className={styles['grid-container']}
         style={{
-          maxHeight: maxCol > 5 ? undefined : '500px',
+          //todo: добавить адаптивный алгоритм для фиксации сетки
+          maxHeight: maxRow> 5 ? undefined : '500px',
         }}
       >
         {/* Иконки над линиями */}
