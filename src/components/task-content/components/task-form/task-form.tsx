@@ -32,7 +32,7 @@ export const TaskForm = () => {
     <Loadable
       skeleton
       emptyProps={{
-        isEmpty: !formData?.fields?.length,
+        isEmpty: !formData?.fields?.length && tileApiName !== 'stage_card_transport',
         emptyMessage: tileId ? 'Поля не заданы' : 'Выберите активный блок',
       }}
       loadingProps={{isLoading}}
