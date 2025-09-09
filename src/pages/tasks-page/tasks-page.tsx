@@ -9,7 +9,10 @@ import {Link} from 'react-router-dom';
 
 import LoadingOutlined from '@ant-design/icons/lib/icons/LoadingOutlined';
 import LockOutlined from '@ant-design/icons/lib/icons/LockOutlined';
+import PieChartOutlined from '@ant-design/icons/lib/icons/PieChartOutlined';
+import ProjectOutlined from '@ant-design/icons/lib/icons/ProjectOutlined';
 import ReloadOutlined from '@ant-design/icons/lib/icons/ReloadOutlined';
+import TrophyOutlined from '@ant-design/icons/lib/icons/TrophyOutlined';
 import {PageLayout} from '@components/page-layout';
 import {useUserId} from '@shared/hooks';
 import {useAppDispatch, useAppSelector} from '@store/config/hooks';
@@ -79,7 +82,43 @@ const TaskScript = ({script, userId}: TaskScriptProps) => {
 
               return (
                 <>
-                  {stage.hasResults ? (
+                  <Link
+                      to={`/script/${script.id}/stage/${stage.id}?stageName=${encodeURIComponent(stage.name)}`}
+                    >
+                      {stage.name}
+                  </Link>
+                  {stage.hasResults && (
+                    <>
+                      <Tooltip title='Результаты' placement='topLeft'>
+                        <Link
+                          className={styles.link}
+                          to={
+                            `${window.location.origin}/graph.php?user_id=${userId}
+                            &script_id=${script.id}&stage_id=${stage.id}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <TrophyOutlined />
+                        </Link> 
+                      </Tooltip>
+                      <Tooltip title='Аналитика по попыткам' placement='topLeft'>
+                        <Link
+                          className={styles.link}
+                          to={
+                            `${window.location.origin}/graph.php?user_id=${userId}
+                            &script_id=${script.id}&stage_id=${stage.id}&data_type=all`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <PieChartOutlined />
+                        </Link> 
+                      </Tooltip>
+                    </>
+                  )}
+                  {/* //todo: ниже правильная логика, но временно ссылки показываем всегда */}
+                  {/* {stage.hasResults ? (
                     <>
                       <span>{stage.name}</span>
                       <Link
@@ -96,22 +135,24 @@ const TaskScript = ({script, userId}: TaskScriptProps) => {
                     </>
                   ) : (
                     <Link
-                        to={`/script/${script.id}/stage/${stage.id}?stageName=${encodeURIComponent(stage.name)}`}>
+                        to={`/script/${script.id}/stage/${stage.id}`}>
                           {stage.name}
                       </Link>
-                  )}
+                  )} */}
                   {stage.hasExtendedResults && (
-                    <Link
-                      className={styles.link}
-                      to={
-                        `${window.location.origin}/graph.php?user_id=${userId}
-                        &script_id=${script.id}&stage_id=${stage.id}&data_type=ext`
-                      }
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Сводные результаты
-                    </Link>
+                    <Tooltip title='Сводные результаты' placement='topLeft'>
+                      <Link
+                        className={styles.link}
+                        to={
+                          `${window.location.origin}/graph.php?user_id=${userId}
+                          &script_id=${script.id}&stage_id=${stage.id}&data_type=ext`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ProjectOutlined />
+                      </Link>
+                    </Tooltip>
                   )}
                 </>
               )

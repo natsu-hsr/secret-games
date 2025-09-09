@@ -21,9 +21,9 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const {containerStyle, minCol, minRow, maxRow} = useGridDimensions(tiles);
+  const {containerStyle, cell, minCol, minRow} = useGridDimensions(tiles, wrapperRef);
 
-  const connectorPositions = useConnectorPositions(connectors, wrapperRef, cardRefs);
+  const connectorPositions = useConnectorPositions(connectors, wrapperRef, cardRefs, cell);
   const {tableRowName} = useAppSelector(selectTaskCommonData) ?? {};
 
   const {
@@ -40,15 +40,8 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
       <Title className={styles['grid-title']} level={4}>
         {`Картирование цепочки поставки${tableRowName ? ` для продукта «${tableRowName}»` : ''}`}
       </Title>
-      <div
-        ref={wrapperRef}
-        className={styles['grid-container']}
-        style={{
-          //todo: добавить адаптивный алгоритм для фиксации сетки
-          maxHeight: maxRow> 5 ? undefined : '500px',
-        }}
-      >
-        {/* Иконки над линиями */}
+      <div ref={wrapperRef} className={styles['grid-container']}>
+        {/* Иконки коннекторов */}
         {connectorPositions?.map(({connector, x, y}) => {
           const id = connector.id;
           const isHovered  = hoveredConnectorId === id;
@@ -74,15 +67,13 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
             </div>
         )})}
 
-        <div
-          className={styles.grid}
-          style={containerStyle}
-        >
+        <div className={styles.grid} style={containerStyle}>
           {tiles.map(tile => {
             const startCol = tile.columnStart - minCol + 1;
             const endCol = tile.columnEnd - minCol + 1;
             const startRow = tile.rowStart - minRow + 1;
             const endRow = tile.rowEnd - minRow + 1;
+
             return (
               <div
                 key={tile.id}
@@ -100,8 +91,8 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
                   backgroundColor: tile.color,
                   gridColumn: `${startCol} / ${endCol}`,
                   gridRow: `${startRow} / ${endRow}`,
-                  // aspectRatio: (endRow - startRow === 1 && endCol - startCol === 1) ? '1' : undefined,
-                  // aspectRatio: `${endCol - startCol} / ${endRow - startRow}`
+                  minWidth: 0,
+                  minHeight: 0,
                 }}
               >
                 <h3 className={styles.title}>{tile.name}</h3>

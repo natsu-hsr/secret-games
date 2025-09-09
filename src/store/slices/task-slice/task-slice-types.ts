@@ -1,6 +1,10 @@
 import type {ColumnType} from 'antd/es/table';
 
-export type TTaskInfo = {
+export type RawTaskInfo = {
+  Stage_Name: string;
+  Stage_Description_Long: string;
+}
+export type TaskInfo = {
   title: string;
   description: string;
 }
@@ -169,7 +173,10 @@ export type FieldControls = Record<string, FieldControl>;
 
 export type RawFormFieldDto = {
   HTML_ID: string;
+  /** label для поля */ 
   HTML_Label: string;
+  /** label для значения опции */ 
+  HTML_Label_rus?: string
   HTML_type: RawFieldType;
   HTML_value: number | string;
   HTML_enable: boolean;
@@ -191,11 +198,13 @@ export type FormFieldDto = {
   disabled: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options?: any;
-  optionLabel?: string[];
+  optionLabels?: string[];
   controls?: FieldControls;
   // TODO: убрать как бэк положет selected в другое поле
   /** специальное поле под селект для значения HTML_enable = 'selected' */
   selected?: boolean;
+  /** label для опции */
+  optionLabel?: string;
   /** массив зависимых полей: значение value интерпретируется в зависимости от типа поля */
   dependentFields?: FieldDependentField[]
   parentId?: string;
@@ -263,7 +272,7 @@ export type TilesMarkerData = Record<string, TileMarkerData>
 export type TTask  = {
   groupId: number;
   id: number;
-  info: TTaskInfo;
+  info: TaskInfo;
   mapData: MapData;
   tableData: TableDataDto;
   tilesData: TilesDataDto;

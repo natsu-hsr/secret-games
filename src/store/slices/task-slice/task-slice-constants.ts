@@ -1,6 +1,7 @@
 export const taskSliceName = 'task';
 
 export const FETCH_API_PATH = {
+  info: 'stage_info',
   table: 'product_list',
   tiles: 'stage_tetris',
   chart: 'stage_product_demand',

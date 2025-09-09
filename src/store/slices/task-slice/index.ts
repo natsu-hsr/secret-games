@@ -2,7 +2,7 @@ export type {
   ChartPoint,
   ChartPoints,
   ChartLines,
-  TTaskInfo,
+  TaskInfo,
   MapPlacemark,
   MapPlacemarks,
   MapConnection,
@@ -54,6 +54,7 @@ export {
   loadFormDataByTileParams,
 } from './task-slice-thunks';
 export {
+  loadInfo,
   loadChartDataByRowId,
 } from './task-slice-services';
 export {

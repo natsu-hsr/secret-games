@@ -1,7 +1,6 @@
 import type {FC} from 'react';
 
 import {Loadable} from '@components/loadable';
-// import type {TransportConnector} from '@store/slices/task-slice';
 
 import {GridCards} from './grid-cards';
 import {useTilesDataLoader} from './use-tiles-data-loader';

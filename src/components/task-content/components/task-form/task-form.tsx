@@ -22,6 +22,7 @@ export const TaskForm = () => {
     handleSubmit,
     isValid,
     handleValuesChange,
+    isAllFieldsDisabled,
   } = useTaskForm(form);
   
   const {type, fields} = formData ?? {};
@@ -65,7 +66,7 @@ export const TaskForm = () => {
                         className={styles['submit-btn']}
                         type='primary'
                         onClick={form.submit}
-                        disabled={!isValid}
+                        disabled={!isValid || isAllFieldsDisabled}
                       >
                         Сохранить данные
                       </Button>

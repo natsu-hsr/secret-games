@@ -6,10 +6,11 @@ import type {
   RawFormFieldsDto,
   RawMapPlacemarks,
   RawTableDataDto,
+  RawTaskInfo,
   RawTilesDto,
 } from './task-slice-types';
 
-// common
+//=============== common types ===============//
 type UserInfoArgs = {
   userId: string;
 }
@@ -23,11 +24,20 @@ export type FetchDataByRowIdArgs = TaskInfoArgs & UserInfoArgs & {
   rowId: string;
 };
 
-// export const fetchTaskData = ({scriptId, stageId}: TaskInfo): Promise<{data: TTask}> => {
-//   return Promise.all([
-    
-//   ]);
-// }
+export type FetchInfoArgs = TaskInfoArgs & UserInfoArgs;
+export const fetchInfo = ({scriptId, stageId, userId}: FetchInfoArgs) => {
+  return axios.get<RawTaskInfo[]>( //todo: бэк не умеет возвращать объекты, отсюда приходится оборачивать в массив
+    API_PREFIX.fetch,
+    {
+      params: {
+        user_id: userId,
+        api_id: FETCH_API_PATH.info,
+        script_id: scriptId,
+        stage_id: stageId,
+      }
+    }
+  );
+}
 
 export type FetchTableDataArgs = TaskInfoArgs & UserInfoArgs;
 export const fetchTableData = ({scriptId, stageId, userId}: FetchTableDataArgs) => {

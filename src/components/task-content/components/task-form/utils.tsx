@@ -50,7 +50,7 @@ export const renderRadiosFields = ({radios}: RenderRadiosFieldsArgs) => {
           value: r.name,
           label: (
             <div className={styles['radio-label']}>
-              {r.optionLabel?.map(ol => (
+              {r.optionLabels?.map(ol => (
                 <div
                   key={ol}
                   className={styles['radio-label-text']}>

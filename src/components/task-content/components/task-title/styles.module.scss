@@ -3,11 +3,15 @@
 .container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-wrap: nowrap;
   gap: $gap-base;
 }
 
 .title {
   margin: 0 !important;
+}
+
+.description {
+  font-size: 1.1rem;
 }

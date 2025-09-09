@@ -4,14 +4,15 @@ import type {TransportConnector} from '@store/slices/task-slice';
 
 export interface ConnectorPosition {
   connector: TransportConnector;
-  x: number; // позиция внутри wrapperRef (px)
+  x: number;
   y: number;
 }
 
 export const useConnectorPositions = (
   connectors: TransportConnector[],
   wrapperRef: React.RefObject<HTMLElement>,
-  cardRefs: React.MutableRefObject<Record<string, HTMLElement | null>>
+  cardRefs: React.MutableRefObject<Record<string, HTMLElement | null>>,
+  cell: number
 ): ConnectorPosition[] => {
   const [positions, setPositions] = useState<ConnectorPosition[]>([]);
 
@@ -71,7 +72,7 @@ export const useConnectorPositions = (
     }).filter(Boolean);
 
     setPositions(next);
-  }, [connectors, wrapperRef, cardRefs]);
+  }, [connectors, wrapperRef, cardRefs, cell]);
 
   useLayoutEffect(() => {
     measure();

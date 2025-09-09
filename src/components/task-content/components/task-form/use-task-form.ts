@@ -1,5 +1,5 @@
 import {notification, type FormInstance} from 'antd';
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useParams} from 'react-router-dom';
 
 import {useUserId} from '@shared/hooks';
@@ -25,6 +25,30 @@ export const useTaskForm = (form: FormInstance) => {
   const isLoading = useAppSelector(s => selectIsThunkPending(s, loadFormDataByTileParams.typePrefix));
   const hasError = useAppSelector(s => selectIsThunkRejected(s, loadFormDataByTileParams.typePrefix));
   const [isValid, setValid] = useState<boolean>(true);
+
+  const isAllFieldsDisabled = useMemo(() => {
+    if (!formData) {
+      return false;
+    }
+
+    const {fields, type} = formData;
+
+    switch (type) {
+      case 'radio': {
+        const radios = fields.filter(f => f.type === 'radio');
+        return radios.every(r => r.disabled);
+      }
+      case 'select': {
+        const selects = fields.filter(f => f.type === 'select');
+        return selects.every(s => s.disabled);
+      }
+      case 'proportions': {
+        const proportions = fields.filter(f => !isNaN(Number(f.defaultValue)));
+        return proportions.every(p => p.disabled);
+      }
+      default: return false;
+    }
+  }, [formData])
 
   useEffect(() => {
     // если этих параметров нету, то все нормально, просто не время загружать данные
@@ -110,5 +134,6 @@ export const useTaskForm = (form: FormInstance) => {
     handleValuesChange,
     isValid,
     setValid,
+    isAllFieldsDisabled,
   }
 };

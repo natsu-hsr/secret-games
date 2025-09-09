@@ -18,6 +18,7 @@ export const adaptFieldsToSelectForm = ({fields}: AdaptFieldsToSelectFormArgs) =
       const {
         name,
         label,
+        optionLabel,
         defaultValue,
         dependentFields,
         disabled,
@@ -38,7 +39,7 @@ export const adaptFieldsToSelectForm = ({fields}: AdaptFieldsToSelectFormArgs) =
       }
 
       const option = {
-        label: String(defaultValue),
+        label: String(optionLabel),
         value: String(defaultValue),
         controls: dependentFields ?? [],
       };
