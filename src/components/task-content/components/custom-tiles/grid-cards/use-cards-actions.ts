@@ -34,6 +34,7 @@ export const useCardsActions = () => {
     }
       
     setSelectedTile(tile);
+    setSelectedConnectorId(null);
   
     const {id: tileId, apiName, name} = tile;
   
@@ -60,7 +61,7 @@ export const useCardsActions = () => {
     const {id, toId} = connector;
       
     setSelectedConnectorId(id);
-  
+    setSelectedTile(undefined);
   
     dispatch(taskSliceActions.setTilesCommonData({
       transportId: toId,
@@ -75,10 +76,10 @@ export const useCardsActions = () => {
   }, [stageId, scriptId, userId]);
 
   return {
-    // tiles
+    // === tiles ===
     selectedTile,
     handleTileClick,
-    // connectors
+    // === connectors ===
     hoveredConnectorId,
     setHoveredConnectorId,
     selectedConnectorId,

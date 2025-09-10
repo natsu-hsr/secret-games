@@ -82,10 +82,8 @@ const TaskScript = ({script, userId}: TaskScriptProps) => {
 
               return (
                 <>
-                  <Link
-                      to={`/script/${script.id}/stage/${stage.id}?stageName=${encodeURIComponent(stage.name)}`}
-                    >
-                      {stage.name}
+                  <Link to={`/script/${script.id}/stage/${stage.id}`}>
+                    {stage.name}
                   </Link>
                   {stage.hasResults && (
                     <>

@@ -1,6 +1,6 @@
 import {Radio, Form} from 'antd';
 import type {ColumnType} from 'antd/es/table';
-import {useMemo, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 
 import type {FormFieldsDto} from '@store/slices/task-slice';
 
@@ -9,6 +9,15 @@ export const useTableData = (fields: FormFieldsDto) => {
     selectedOptionName, setSelectedOptionName,
   ] = useState<string | undefined>(() => fields.filter(f => f.type === 'radio').find(f => f.defaultValue === '1')?.name)
   const form = Form.useFormInstance();
+
+  useEffect(() => {
+    if (!selectedOptionName) {
+      return;
+    }
+
+    form.setFieldsValue({radioValue: selectedOptionName})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOptionName]);
 
   const dataSource: Record<string, string | number>[] = [];
   const rowsKeys = new Set<string>();
@@ -25,12 +34,7 @@ export const useTableData = (fields: FormFieldsDto) => {
             <Radio
               defaultChecked={f.defaultValue === '1'}
               checked={f.name === selectedOptionName}
-              onClick={() => {
-                if (f.name !== selectedOptionName) {
-                  form.setFieldsValue({radioValue: f.name})
-                }
-                setSelectedOptionName(f.name);
-              }}
+              onClick={() => setSelectedOptionName(f.name)}
               disabled={f.disabled}
             />
           ),

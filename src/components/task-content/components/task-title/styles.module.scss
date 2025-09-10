@@ -2,10 +2,8 @@
 
 .container {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: nowrap;
-  gap: $gap-base;
+  flex-direction: column;
+  gap: $gap-sm;
 }
 
 .title {
@@ -14,4 +12,5 @@
 
 .description {
   font-size: 1.1rem;
+  text-align: justify;
 }
