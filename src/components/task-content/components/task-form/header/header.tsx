@@ -13,7 +13,8 @@ interface HeaderProps {
 
 export const Header: FC<HeaderProps> = ({tileApiName, formNode}) => {
   const {tileName} = useAppSelector(selectTaskCommonData) ?? {};
-  const infoData = getHeaderInfoByTileApiName(tileApiName);
+  // todo - передача tileName костыль, убрать как бэк добавит разные tileApiName для складов
+  const infoData = getHeaderInfoByTileApiName(tileApiName, tileName);
 
   return (
     <>

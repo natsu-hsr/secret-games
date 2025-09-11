@@ -91,8 +91,8 @@ const TaskScript = ({script, userId}: TaskScriptProps) => {
                         <Link
                           className={styles.link}
                           to={
-                            `${window.location.origin}/graph.php?user_id=${userId}
-                            &script_id=${script.id}&stage_id=${stage.id}`
+                            `${window.location.origin}/graph.php?user_id=${userId}`
+                            + `&script_id=${script.id}&stage_id=${stage.id}`
                           }
                           target="_blank"
                           rel="noopener noreferrer"
@@ -104,8 +104,8 @@ const TaskScript = ({script, userId}: TaskScriptProps) => {
                         <Link
                           className={styles.link}
                           to={
-                            `${window.location.origin}/graph.php?user_id=${userId}
-                            &script_id=${script.id}&stage_id=${stage.id}&data_type=all`
+                            `${window.location.origin}/graph.php?user_id=${userId}`
+                            + `&script_id=${script.id}&stage_id=${stage.id}&data_type=all`
                           }
                           target="_blank"
                           rel="noopener noreferrer"
@@ -142,8 +142,8 @@ const TaskScript = ({script, userId}: TaskScriptProps) => {
                       <Link
                         className={styles.link}
                         to={
-                          `${window.location.origin}/graph.php?user_id=${userId}
-                          &script_id=${script.id}&stage_id=${stage.id}&data_type=ext`
+                          `${window.location.origin}/graph.php?user_id=${userId}`
+                          + `&script_id=${script.id}&stage_id=${stage.id}&data_type=ext`
                         }
                         target="_blank"
                         rel="noopener noreferrer"
