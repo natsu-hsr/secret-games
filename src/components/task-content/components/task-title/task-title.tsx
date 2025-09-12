@@ -53,14 +53,20 @@ export const TaskTitle = () => {
 
   return (
     <div className={styles.container}>
-      <Flex justify='space-between' align='center'>
+      <Flex
+        justify='space-between'
+        align='center'
+        wrap
+        gap={8}
+      >
         <Title className={styles.title} level={2}>{info?.title ?? 'Задание'}</Title>
         <Button
           className={styles.submit}
           type='primary'
           onClick={handleClick}
+          size='large'
         >
-          Завершить
+          Завершить задание
         </Button>
       </Flex>
       {info?.description && (

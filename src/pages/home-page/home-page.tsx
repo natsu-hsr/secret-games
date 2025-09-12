@@ -9,31 +9,29 @@ import {PageLayout} from '@components/page-layout';
 
 import styles from './styles.module.scss';
 
-import logisticsImage from '@assets/logistics_banner.svg';
-
-
 export const HomePage = () => {
   const navigate = useNavigate();
 
   return (
     <PageLayout fullSize>
+      <div className={styles.bg} />
       <Flex
+        className={styles.container}
         vertical
-        align='center'
+        align='start'
         justify='start'
-        gap={8}
+        gap={16}
       >
         <Title level={1} className={styles.title}>
-          Добро пожаловать на сайт <span className={styles.name}>логистигра.ру</span>
+          Добро пожаловать на платформу <span className={styles.name}>ЛогистИгра</span>
         </Title>
         <Paragraph className={styles.subtitle}>
-          Платформа для моделирования логистических сценариев в обучающих целях
+          Инновационная цифровая платформа развития фундаментальных знаний
+           и компетенций в области управления цепями поставок и логистики снабжения
         </Paragraph>
-        <img
-          className={styles.banner}
-          src={logisticsImage}
-          alt="Logistics"
-        />
+        <Paragraph className={styles.attention}>
+          Больше чем игра!
+        </Paragraph>
         <Button
           className={styles.button}
           type="primary"

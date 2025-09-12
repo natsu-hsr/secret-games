@@ -31,6 +31,7 @@ export const convertRawTableData = ({rawData}: ConvertRawTableDataArgs): TableDa
     key: k,
     dataIndex: k,
     title: v,
+    align: 'center',
   }));
 
   const convertedData = rawData.map((rd, i) => ({
@@ -123,8 +124,8 @@ export const convertRawChartData = ({data}: ConvertRawChartDataArgs): ChartLines
 
   const hasFewCharts = (() => {
     const s = new Set<string>();
-    for (const {Knot_ID} of data) {
-      s.add(String(Knot_ID));
+    for (const {Knot_Name} of data) {
+      s.add(String(Knot_Name));
       if (s.size >= 2) return true;   // ранний выход
     }
     return false;
@@ -136,10 +137,10 @@ export const convertRawChartData = ({data}: ConvertRawChartDataArgs): ChartLines
   }
 
   data
-    .filter(rf => rf.Knot_ID !== TOTAL_ID)
+    .filter(rf => rf.Knot_Name !== TOTAL_ID)
     .forEach(rf => {
       // id кривой
-      const id = rf.Knot_ID;
+      const id = rf.Knot_Name;
       // значение по x
       const name = String(rf.Time_Value);
       // значение по y

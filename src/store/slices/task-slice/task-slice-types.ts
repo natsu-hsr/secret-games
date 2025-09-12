@@ -51,6 +51,7 @@ export type RawChartPoint = {
   Time_Value: number;
   Demand: string;
   Knot_ID: string;
+  Knot_Name: string;
 };
 export type RawChartPoints = RawChartPoint[];
 
