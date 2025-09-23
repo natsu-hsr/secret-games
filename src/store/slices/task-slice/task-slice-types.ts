@@ -16,7 +16,7 @@ export type RawMapPlacemark = {
   Knot_Latitude: string
   Knot_Longitude: string
   label_type: string;
-  draggable: string;
+  draggable: boolean;
   /** для передачи координат при drag-действии в зависимую плитку */
   HTML_ID: string | null; 
   /** id другого маркера, до которого от текущего должен прокладываться маршрут. Преобразуется в MapConnection в utils */

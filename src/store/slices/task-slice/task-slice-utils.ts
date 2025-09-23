@@ -187,7 +187,7 @@ export const convertRawMapData = (rawMapData: RawMapPlacemark[]): MapData => {
       name: rm.Knot_Name,
       coordinates: [+(rm.Knot_Latitude.replace(',', '.')), +rm.Knot_Longitude.replace(',', '.')],
       labelType: rm.label_type,
-      draggable: rm.draggable === 'true',
+      draggable: rm.draggable,
       tileId: rm.HTML_ID,
     }
   });
