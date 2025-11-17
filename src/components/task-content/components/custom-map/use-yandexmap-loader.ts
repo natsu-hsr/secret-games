@@ -198,11 +198,11 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
 
           const distValue = route.properties.get('distance', {text: '', value: 0}) as YMetric | undefined;;
 
-          const distConverted =  +(((distValue?.value ?? 0) / 1000).toFixed(0));
+          const distKmConverted =  +(((distValue?.value ?? 0) / 1000).toFixed(0));
 
           dispatch(taskSliceActions.addTileMarkerRoutes({
             tileId: String(pointTileId),
-            route: {distance: distConverted, toId: String(pointToId)}
+            route: {distance: distKmConverted, toId: String(pointToId)}
           }));
         });
       }

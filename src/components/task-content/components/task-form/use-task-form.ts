@@ -88,14 +88,8 @@ export const useTaskForm = (form: FormInstance) => {
 
       let routesMarkerData: string = '';
 
-      if (
-        tileId 
-          && tilesMarkerData?.[tileId]?.routes 
-          && tilesMarkerData[tileId].routes.length > 0
-      ) {
-        tilesMarkerData[tileId].routes.forEach(r => {
-          routesMarkerData += `${r.toId}:${r.distance},`
-        })
+      if (tileId && tilesMarkerData?.[tileId]?.routes && tilesMarkerData[tileId].routes.length > 0) {
+        tilesMarkerData[tileId].routes.forEach(r => routesMarkerData += `${r.toId}:${r.distance},`);
         routesMarkerData = routesMarkerData?.slice(0, -1);
       }
 
