@@ -9,6 +9,7 @@ import type {
   RawTaskInfo,
   RawTilesDto,
 } from './task-slice-types';
+import fileDownload from 'js-file-download';
 
 //=============== common types ===============//
 type UserInfoArgs = {
@@ -160,7 +161,7 @@ export const postFormData = (data: PostFormDataArgs) => {
 }
 
 export type PostTaskArgs = TaskInfoArgs & UserInfoArgs;
-export const postTask= ({userId, scriptId, stageId}: PostTaskArgs) => {
+export const postTask = ({userId, scriptId, stageId}: PostTaskArgs) => {
   return axios.post<string>(
     API_PREFIX.post,
     {
@@ -173,4 +174,26 @@ export const postTask= ({userId, scriptId, stageId}: PostTaskArgs) => {
       headers: {'Content-Type': 'multipart/form-data'},
     }
   )
+}
+
+export type UploadChartFromExcelRequest = TaskInfoArgs & {
+  productId: string;
+};
+export const uploadChartFromExcelRequest = ({scriptId, stageId, productId}: UploadChartFromExcelRequest) => {
+  return axios.get(
+    API_PREFIX.export,
+    {
+      params: {
+        script_id: scriptId,
+        stage_id: stageId,
+        product_id: productId,
+      },
+      responseType: 'blob',
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      }
+    },
+  ).then((res) => {
+    fileDownload(res.data, 'График - выгрузка.xlsx');
+  })
 }

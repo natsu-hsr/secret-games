@@ -56,6 +56,7 @@ export {
 export {
   loadInfo,
   loadChartDataByRowId,
+  uploadChartFromExcel,
 } from './task-slice-services';
 export {
   taskSliceReducer,

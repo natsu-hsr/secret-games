@@ -1,8 +1,10 @@
 import {
   fetchChartDataByRowId,
   fetchInfo,
+  uploadChartFromExcelRequest,
   type FetchDataByRowIdArgs,
   type FetchInfoArgs,
+  type UploadChartFromExcelRequest,
 } from './task-slice-api';
 import type {ChartLines, TaskInfo} from './task-slice-types';
 import {convertRawChartData} from './task-slice-utils';
@@ -23,3 +25,6 @@ export const loadChartDataByRowId = async (args: FetchDataByRowIdArgs): Promise<
   return convertRawChartData({data});
 };
 
+export const uploadChartFromExcel = (args: UploadChartFromExcelRequest) => {
+  uploadChartFromExcelRequest(args);
+}

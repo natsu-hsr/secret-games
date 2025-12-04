@@ -10,6 +10,7 @@ import {
 } from 'recharts'
 
 import {Loadable} from '@components/loadable';
+import {ActionsMenu} from './actions-menu';
 
 import styles from './styles.module.scss';
 import {useChartDataLoader} from './use-chart-data-loader';
@@ -28,7 +29,14 @@ const colors = [
 ]
 
 export const LinearChart = () => {
-  const {data, isLoading, hasError} = useChartDataLoader();
+  const {
+    data,
+    uploadFromExcel,
+    isTotalHidden,
+    setTotalHidden,
+    isLoading,
+    hasError,
+  } = useChartDataLoader();
 
   const {lineIds, data: chartData} = data ?? {};
 
@@ -46,7 +54,14 @@ export const LinearChart = () => {
       }}
     >
       <div className={styles.container}>
-        <Title level={4} className={styles.title}>Клиентский спрос</Title>
+        <Title level={4} className={styles.title}>
+          Клиентский спрос
+          <ActionsMenu
+            isTotalHidden={isTotalHidden}
+            toggleTotalVisability={() => setTotalHidden(s => !s)}
+            uploadFromExcel={uploadFromExcel}
+          />
+        </Title>
         <ResponsiveContainer className={styles['chart-container']}>
           <LineChart data={chartData} margin={{top: 8, right: 16, bottom: 20, left: -10}}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -62,7 +77,7 @@ export const LinearChart = () => {
                 key={id}
                 dataKey={id}
                 type="monotone"
-                stroke={colors?.[idx] ?? '#8884d8'}
+                stroke={colors?.[isTotalHidden ? idx + 1 : idx] ?? '#8884d8'}
                 strokeWidth={2}
                 dot={false}
               />
