@@ -45,7 +45,11 @@ export const ProportionsFields: FC<GenericFieldsProps> = ({form, fields}) => {
           )}
           initialValue={pf.defaultValue}
         >
-          <InputNumber step={STEP} precision={PRECISION} />
+          <InputNumber
+            disabled={pf.disabled}
+            step={STEP}
+            precision={PRECISION}
+           />
         </FormItem>
       ))}
     </>
