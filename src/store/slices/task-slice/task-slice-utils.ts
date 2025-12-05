@@ -1,3 +1,6 @@
+
+import type {HeadersLike} from '@shared/types';
+
 import type {
   ChartLines,
   ChartPoint,
@@ -197,3 +200,11 @@ export const convertRawMapData = (rawMapData: RawMapPlacemark[]): MapData => {
     connections,
   }
 }
+
+export const getFilenameFromHeaders = (headers: HeadersLike): string | null => {
+  const cd = headers['content-disposition'];
+  if (!cd) return null;
+
+  const match = cd.toString().match(/filename="?([^"]+)"?/);
+  return match ? match[1] : null;
+};

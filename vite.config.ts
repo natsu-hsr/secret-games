@@ -32,6 +32,10 @@ export default defineConfig({
         target: 'http://2.59.41.201',
         changeOrigin: true,
       },
+      '/export.php': {
+        target: 'http://2.59.41.201',
+        changeOrigin: true,
+      },
     },
   },
 })

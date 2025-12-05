@@ -61,7 +61,7 @@ export const useChartDataLoader = () => {
 
   const uploadFromExcel = useCallback(() => {
     if (!scriptId || !stageId || !tableRowId) {
-      console.error('Один из параметров scriptId || stageId || tileId '
+      console.warn('Один из параметров scriptId || stageId || tileId '
         + 'не найден, выгрузка графика невозможна');
       return;
     }

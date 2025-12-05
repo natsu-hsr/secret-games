@@ -1,4 +1,5 @@
 import axios from 'axios';
+import fileDownload from 'js-file-download';
 
 import {API_PREFIX, FETCH_API_PATH, POST_API_PATH} from './task-slice-constants';
 import type {
@@ -9,7 +10,7 @@ import type {
   RawTaskInfo,
   RawTilesDto,
 } from './task-slice-types';
-import fileDownload from 'js-file-download';
+import {getFilenameFromHeaders} from './task-slice-utils';
 
 //=============== common types ===============//
 type UserInfoArgs = {
@@ -189,11 +190,10 @@ export const uploadChartFromExcelRequest = ({scriptId, stageId, productId}: Uplo
         product_id: productId,
       },
       responseType: 'blob',
-      headers: {
-        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      }
     },
-  ).then((res) => {
-    fileDownload(res.data, 'График - выгрузка.xlsx');
-  })
+  ).then(res => {
+  const filename = getFilenameFromHeaders(res.headers) ?? 'export.xls';
+
+  fileDownload(res.data, filename);
+});
 }

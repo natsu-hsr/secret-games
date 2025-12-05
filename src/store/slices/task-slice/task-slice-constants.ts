@@ -16,5 +16,5 @@ export const POST_API_PATH = {
 export const API_PREFIX = {
   fetch: '/api.php',
   post: '/save.php',
-  export: 'export.php',
+  export: '/export.php',
 } as const;
