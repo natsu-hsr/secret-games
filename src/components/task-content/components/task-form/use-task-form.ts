@@ -21,10 +21,13 @@ export const useTaskForm = (form: FormInstance) => {
   const {tileId, transportId, tileApiName, tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
   
   const tilesMarkerData = useAppSelector(selectTilesMarkerData);
+  // todo переименовать formData во что то другое, это структура формы
   const formData = useAppSelector(selectFormData);
   const isLoading = useAppSelector(s => selectIsThunkPending(s, loadFormDataByTileParams.typePrefix));
   const hasError = useAppSelector(s => selectIsThunkRejected(s, loadFormDataByTileParams.typePrefix));
   const [isValid, setValid] = useState<boolean>(true);
+
+  console.log('formData.sections', formData?.sections);
 
   const isAllFieldsDisabled = useMemo(() => {
     if (!formData) {

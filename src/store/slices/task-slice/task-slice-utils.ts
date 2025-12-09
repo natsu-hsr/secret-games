@@ -9,10 +9,13 @@ import type {
   MapConnection,
   MapData,
   MapPlacemark,
+  MapRoutes,
   RawChartPoints,
   RawFormFieldDto,
   RawMapPlacemark,
   RawTableDataDto,
+  SectionsFormConfig,
+  SerializableRoutes,
   TableDataDto,
 } from './task-slice-types'
 
@@ -97,6 +100,53 @@ export const getFormType = ({rawFields}: GetFormTypeArgs): FormType => {
   return 'proportions';
 }
 
+// todo: костыльный метод группировки полей по секциям, удалить позже
+export const groupFormFields = ({rawFields}: GetFormTypeArgs): SectionsFormConfig => {
+  const sectionsForm: SectionsFormConfig = {
+    characteristics: [],
+    costs: {
+      variable: [],
+      fixed: [],
+    },
+    formParams: [],
+  };
+
+  rawFields.forEach(rf => {
+    switch (rf?.HTML_Label_rus) {
+      case 'Характеристики склада': {
+        sectionsForm.characteristics = [
+          ...sectionsForm.characteristics,
+          {label: rf.HTML_Label, value: String(rf.HTML_value)},
+        ];
+        break;
+      }
+      case 'Переменные затраты': {
+        sectionsForm.costs.variable = [
+          ...sectionsForm.costs.variable,
+          {label: rf.HTML_Label, value: String(rf.HTML_value)},
+        ];
+        break;
+      }
+      case 'Постоянные затраты': {
+        sectionsForm.costs.fixed = [
+          ...sectionsForm.costs.fixed,
+          {label: rf.HTML_Label, value: String(rf.HTML_value)},
+        ];
+        break;
+      }
+      default: {
+        sectionsForm.formParams = [
+          ...sectionsForm.formParams,
+          convertRawField({rawField: rf}),
+        ];
+      }
+    }
+  });
+
+
+  return sectionsForm;
+}
+
 
 type ConvertRawChartDataArgs = {
   data: RawChartPoints;
@@ -175,14 +225,58 @@ export const convertRawChartData = ({data}: ConvertRawChartDataArgs): ChartLines
   };
 };
 
+// ================= КАРТА =================
+
+// rtk не может хранить Map (она не сереализуемая), поэтому перед сохранением конвертируем в обычный объект
+export const mapToSerializable = (map: Map<string, Set<string>>): SerializableRoutes => {
+  const obj: SerializableRoutes = {};
+  for (const [key, set] of map.entries()) {
+    obj[key] = [...set];
+  }
+  return obj;
+};
+
+
+// утилитарный метод для convertRawMapData, который икапсулирует всю работу с мапой
+const updateRoutes = (routes: MapRoutes, sourceId: string, dependentId: string) => {
+  const currentConnections = routes.get(sourceId);
+
+  if (!currentConnections) {
+    routes.set(sourceId, new Set([dependentId]));
+    return;
+  }
+
+  routes.set(sourceId, currentConnections.add(dependentId))
+}
+
 export const convertRawMapData = (rawMapData: RawMapPlacemark[]): MapData => {
   const connections: MapConnection[] = [];
+  const routes: MapRoutes = new Map();
 
   const placemarks: MapPlacemark[] = rawMapData.map(rm => {
 
+    // todo: удалить с переходом на routes
     if (rm?.Parent_Knot_ID) {
       rm.Parent_Knot_ID.split(',')
         .forEach(toId => connections.push({fromId: rm.Knot_ID, toId}));
+    }
+
+    //
+    if (rm?.Parent_Knot_ID) {
+      /*
+        Cвязи - двунаправлененые, поэтому обрабатываем как все Parent_Knot_ID для текущего маркера,
+        так и вносим для каждого из Parent_Knot_ID текущий маркер
+      */ 
+      const dependentRoutes = rm.Parent_Knot_ID.split(',');
+
+      
+      dependentRoutes.forEach(dependentId => {
+        // вносим связи для текущего
+        updateRoutes(routes, rm.Knot_ID, dependentId);
+
+        // теперь для зависимых
+        updateRoutes(routes, dependentId, rm.Knot_ID);
+      });
     }
 
     return {
@@ -195,12 +289,16 @@ export const convertRawMapData = (rawMapData: RawMapPlacemark[]): MapData => {
     }
   });
 
+  console.log('routes=', routes);
+
   return {
     placemarks,
     connections,
+    routes: mapToSerializable(routes),
   }
 }
 
+// todo: вынести куда-нибудь в отдельное место
 export const getFilenameFromHeaders = (headers: HeadersLike): string | null => {
   const cd = headers['content-disposition'];
   if (!cd) return null;

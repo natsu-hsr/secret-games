@@ -28,6 +28,8 @@ export type {
   FormFieldsDto,
   TypedFormData,
   SortedFormFieldsDto,
+  SectionFormField,
+  SectionsFormConfig,
   TaskCommonData,
   TilesMarkerCoordinates,
   TTaskSliceState,

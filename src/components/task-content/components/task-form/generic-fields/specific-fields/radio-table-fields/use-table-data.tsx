@@ -47,7 +47,7 @@ export const useTableData = (fields: FormFieldsDto) => {
       {title: '', key: 'title', dataIndex: 'title'},
       ...calculatedColumns,
     ]
-  }, [selectedOptionName, fields, form]);
+  }, [selectedOptionName, fields]);
 
   
 

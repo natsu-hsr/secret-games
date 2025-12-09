@@ -23,7 +23,7 @@ import type {
   TransportConnector,
   TypedFormData,
 } from './task-slice-types';
-import {convertRawField, convertRawMapData, convertRawTableData, getFormType} from './task-slice-utils';
+import {convertRawField, convertRawMapData, convertRawTableData, getFormType, groupFormFields} from './task-slice-utils';
 
 export const loadTableData = createAsyncThunk<TableDataDto | undefined, FetchTableDataArgs>(
   `${taskSliceName}/loadTableData`,
@@ -98,7 +98,11 @@ export const loadFormDataByTileParams = createAsyncThunk<TypedFormData, FetchFor
 
       return {
         type: formType,
-        fields: data?.map(raw => convertRawField({rawField: raw})) ?? [],
+        // todo: фильтруем поля без HTML_Label_rus - это не поле формы. Позже убрать
+        fields: data
+          ?.filter(raw => !raw.HTML_Label_rus)
+          ?.map(raw => convertRawField({rawField: raw})) ?? [],
+        sections: groupFormFields({rawFields: data}),
       };
     } catch (e) {
       return rejectWithValue(e);

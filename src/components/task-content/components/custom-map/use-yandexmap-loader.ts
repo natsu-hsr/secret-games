@@ -191,6 +191,7 @@ export const useYandexMapLoader = ({mapData, mapRef}: UseYandexMapLoaderArgs) =>
       const pointTileId = placemarkFrom?.properties.get('tileId');
       const pointToId = placemarkTo?.properties.get('id');
 
+      // записываем расстояния только если есть нужда в этом (то есть id плитки pointTileId)
       if (pointTileId && pointToId) {
         multiRoute.model.events.add('requestsuccess', () => {
           const route = multiRoute.getActiveRoute();

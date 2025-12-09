@@ -17,9 +17,9 @@ export type RawMapPlacemark = {
   Knot_Longitude: string
   label_type: string;
   draggable: boolean;
-  /** для передачи координат при drag-действии в зависимую плитку */
+  // для передачи координат при drag-действии в зависимую плитку
   HTML_ID: string | null; 
-  /** id другого маркера, до которого от текущего должен прокладываться маршрут. Преобразуется в MapConnection в utils */
+  // id других маркеров, связанных маршрутом. Приходит в виде строки, разделенной запятыми (не массив)
   Parent_Knot_ID?: string;
 }
 export type MapPlacemark = {
@@ -28,7 +28,7 @@ export type MapPlacemark = {
   coordinates: [number, number];
   labelType: string;
   draggable: boolean;
-  /** для передачи координат при drag-действии в зависимую плитку */
+  // id связанной плитки на тетрисе (при наличии)
   tileId: string | null;
 }
 
@@ -37,6 +37,18 @@ export type MapConnection = {
   toId: string;
 }
 
+/*
+  Мапа для хранения всех маршрутов между точками.
+  В силу ограничений системы, для каждого маркера на карте связь приходит только в одном направлении.
+  (Из точки А в Б, но не из Б в А).
+  То есть, если маркер 1 связан с 2, то в маркере 2 в поле Parent_Knot_ID не будет id маркера 1).
+  Это поле и нужно для создания общего "реестра" путей между маркерами.
+  Ключом будет id текущего маркера, значением - список связанных маркеров.
+*/
+export type MapRoutes = Map<string, Set<string>>;
+// rtk не может хранить Map (она не сереализуемая), поэтому перед сохранением конвертируем в обычный объект
+export type SerializableRoutes = Record<string, string[]>;
+
 export type RawMapPlacemarks = RawMapPlacemark[];
 export type MapPlacemarks = MapPlacemark[];
 export type MapConnections = MapConnection[];
@@ -44,6 +56,7 @@ export type MapConnections = MapConnection[];
 export type MapData = {
   placemarks: MapPlacemark[];
   connections: MapConnection[];
+  routes?: SerializableRoutes;
 }
 
 // ======= chart =======
@@ -176,7 +189,7 @@ export type RawFormFieldDto = {
   HTML_ID: string;
   /** label для поля */ 
   HTML_Label: string;
-  /** label для значения опции */ 
+  /** label для значения опции (// todo: скорей всего не используется, удалить) */ 
   HTML_Label_rus?: string
   HTML_type: RawFieldType;
   HTML_value: number | string;
@@ -202,13 +215,37 @@ export type FormFieldDto = {
   optionLabels?: string[];
   controls?: FieldControls;
   // TODO: убрать как бэк положет selected в другое поле
-  /** специальное поле под селект для значения HTML_enable = 'selected' */
+  // специальное поле под селект для значения HTML_enable = 'selected'
   selected?: boolean;
-  /** label для опции */
+  // label для опции
   optionLabel?: string;
-  /** массив зависимых полей: значение value интерпретируется в зависимости от типа поля */
+  // массив зависимых полей: значение value интерпретируется в зависимости от типа поля
   dependentFields?: FieldDependentField[]
   parentId?: string;
+
+}
+
+// todo: удалить позже
+// костыльное поле для отображения формы по секциям
+export type SectionFormField = {
+  label: string;
+  value: string;
+}
+
+export type SectionFormList = {
+  categoryName: string;
+  fields: SectionFormField[];
+}
+
+// todo: удалить позже
+// костыльное поле для отображения формы по секциям
+export type SectionsFormConfig = {
+  characteristics: SectionFormField[],
+  costs: {
+    variable: SectionFormField[],
+    fixed: SectionFormField[],
+  },
+  formParams: FormFieldsDto;
 }
 
 export type RawFormFieldsDto = RawFormFieldDto[];
@@ -229,6 +266,8 @@ export type TypedRawFormFields = {
 export type TypedFormData = {
   type: FormType;
   fields: FormFieldsDto;
+  // todo: костыльное поле для группировки массива филдов по секциям
+  sections?: SectionsFormConfig;
 }
 
 // ---------------------

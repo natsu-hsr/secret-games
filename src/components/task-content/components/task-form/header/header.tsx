@@ -1,7 +1,7 @@
 import type {FC, ReactNode} from 'react';
 
 import {useAppSelector} from '@store/config/hooks';
-import {selectTaskCommonData} from '@store/slices/task-slice';
+import {selectFormData, selectTaskCommonData} from '@store/slices/task-slice';
 
 import {HeaderGenerator} from './header-generator';
 import {getHeaderInfoByTileApiName} from './utils';
@@ -13,8 +13,9 @@ interface HeaderProps {
 
 export const Header: FC<HeaderProps> = ({tileApiName, formNode}) => {
   const {tileName} = useAppSelector(selectTaskCommonData) ?? {};
-  // todo - передача tileName костыль, убрать как бэк добавит разные tileApiName для складов
-  const infoData = getHeaderInfoByTileApiName(tileApiName, tileName);
+  const {sections} = useAppSelector(selectFormData) ?? {};
+
+  const infoData = getHeaderInfoByTileApiName(tileApiName, sections);
 
   return (
     <>
