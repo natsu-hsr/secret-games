@@ -14,17 +14,21 @@ const convertSectionsFormConfigToFormInformation = (
   description: FormInformation['description'],
 ): FormInformation | null => {
   const elementCostsValues: Omit<FormInformationSection, 'title'> = (() => {
-    if (sectionsForm?.costs.lists.fixed?.length && sectionsForm?.costs.lists.variable?.length) {
+    if (sectionsForm?.costs.lists.fixed?.length || sectionsForm?.costs.lists.variable?.length) {
       return {
         lists: [
-          {
-            subtitle: 'Постоянные затраты',
-            statistics: sectionsForm?.costs.lists.fixed,
-          },
-          {
-            subtitle: 'Переменные затраты',
-            statistics: sectionsForm?.costs.lists.variable,
-          },
+          ...(
+            sectionsForm?.costs.lists.fixed?.length ? [{
+              subtitle: 'Постоянные затраты',
+              statistics: sectionsForm?.costs.lists.fixed,
+            }] : []
+          ),
+          ...(
+            sectionsForm?.costs.lists.variable?.length ? [{
+              subtitle: 'Переменные затраты',
+              statistics: sectionsForm?.costs.lists.variable,
+            }] : []
+          ),
         ]
       };
     }
