@@ -106,14 +106,18 @@ export const groupFormFields = ({rawFields}: GetFormTypeArgs): SectionsFormConfi
   const sectionsForm: SectionsFormConfig = {
     characteristics: [],
     costs: {
-      variable: [],
-      fixed: [],
+      lists: {
+        variable: [],
+        fixed: [],
+      },
+      common: [],
     },
     formParams: [],
   };
 
   rawFields.forEach(rf => {
     switch (rf?.HTML_Label_rus) {
+      case 'Характеристики элемента':
       case 'Характеристики склада': {
         sectionsForm.characteristics = [
           ...sectionsForm.characteristics,
@@ -122,15 +126,22 @@ export const groupFormFields = ({rawFields}: GetFormTypeArgs): SectionsFormConfi
         break;
       }
       case 'Переменные затраты': {
-        sectionsForm.costs.variable = [
-          ...sectionsForm.costs.variable,
+        sectionsForm.costs.lists.variable = [
+          ...sectionsForm.costs.lists.variable,
           {label: rf.HTML_Label, value: String(rf.HTML_value)},
         ];
         break;
       }
       case 'Постоянные затраты': {
-        sectionsForm.costs.fixed = [
-          ...sectionsForm.costs.fixed,
+        sectionsForm.costs.lists.fixed = [
+          ...sectionsForm.costs.lists.fixed,
+          {label: rf.HTML_Label, value: String(rf.HTML_value)},
+        ];
+        break;
+      }
+      case 'Затраты элемента': {
+        sectionsForm.costs.common = [
+          ...sectionsForm.costs.common,
           {label: rf.HTML_Label, value: String(rf.HTML_value)},
         ];
         break;

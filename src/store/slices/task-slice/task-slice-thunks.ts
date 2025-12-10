@@ -96,14 +96,15 @@ export const loadFormDataByTileParams = createAsyncThunk<TypedFormData, FetchFor
 
       const formType = getFormType({rawFields: data});
 
+      const sortedRawFields = data?.sort((a, b) => a.row_num - b.row_num);
+
       return {
         type: formType,
-        // todo: фильтруем поля без HTML_Label_rus - это не поле формы (кроме селектов). Позже убрать
-        fields: data
-          ?.filter(raw => !raw.HTML_Label_rus || raw.HTML_type === 'select')
-          ?.map(raw => convertRawField({rawField: raw}))
-          .sort((a, b) => a.order - b.order),
-        sections: groupFormFields({rawFields: data}),
+        // todo: пропускаем только поля с raw.HTML_type !== 'text' - остальное не поле формы. Позже убрать
+        fields: sortedRawFields
+          ?.filter(raw => raw.HTML_type !== 'text' || !raw.HTML_Label_rus)
+          ?.map(raw => convertRawField({rawField: raw})),
+        sections: groupFormFields({rawFields: sortedRawFields}),
       };
     } catch (e) {
       return rejectWithValue(e);

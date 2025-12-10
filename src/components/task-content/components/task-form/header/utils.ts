@@ -1,19 +1,46 @@
-import type {FormInformation, SectionsFormConfig} from '@store/slices/task-slice';
+import type {FormInformation, FormInformationSection, SectionsFormConfig} from '@store/slices/task-slice';
 
 import {
   distributionInfo,
   shopInfo,
-  suppliersInfo,
   transportInfo,
 } from './mock';
 
 // todo: метод для конвертации костыльной структуры в FormInformation,
 // удалить как бэк будет возвращать нормальные сущности
-const convertSectionsFormConfigToFormInformation = (sectionsForm?: SectionsFormConfig): FormInformation | null => {
+const convertSectionsFormConfigToFormInformation = (
+  sectionsForm: SectionsFormConfig | undefined,
+  title: FormInformation['title'],
+  description: FormInformation['description'],
+): FormInformation | null => {
+  const elementCostsValues: Omit<FormInformationSection, 'title'> = (() => {
+    if (sectionsForm?.costs.lists.fixed?.length && sectionsForm?.costs.lists.variable?.length) {
+      return {
+        lists: [
+          {
+            subtitle: 'Постоянные затраты',
+            statistics: sectionsForm?.costs.lists.fixed,
+          },
+          {
+            subtitle: 'Переменные затраты',
+            statistics: sectionsForm?.costs.lists.variable,
+          },
+        ]
+      };
+    }
+
+    if (sectionsForm?.costs.common?.length) {
+      return {
+        statistics: sectionsForm?.costs.common,
+      };
+    }
+
+    return {};
+  })();
+
   return {
-    title: 'Настройка политики управления запасами',
-    description: 'Склад - помещение, предназначенное для приемки, размещения и дальнейшей' +
-      ' подготовки материальных ценностей к отгрузке потребителям',
+    title,
+    description,
     sections: [
       {
         title: 'Характеристики элемента',
@@ -21,16 +48,7 @@ const convertSectionsFormConfigToFormInformation = (sectionsForm?: SectionsFormC
       },
       {
         title: 'Затраты элемента',
-        lists: [
-          {
-            subtitle: 'Постоянные затраты',
-            statistics: sectionsForm?.costs.fixed ?? [],
-          },
-          {
-            subtitle: 'Переменные затраты',
-            statistics: sectionsForm?.costs.variable ?? [],
-          },
-        ]
+        ...elementCostsValues,
       },
       {
         title: 'Параметры элемента',
@@ -48,9 +66,21 @@ export const getHeaderInfoByTileApiName = (
   switch (tileApiName) {
     case 'stage_card_shop': return shopInfo;
     case 'stage_card_suppliers':
-    case 'stage_card_supplier': return suppliersInfo;
+    case 'stage_card_supplier': {
+      return convertSectionsFormConfigToFormInformation(
+        sections,
+        'Настройка политики управления запасами',
+        'Поставщик - юридическое или физическое лицо, поставляющее товары' +
+        ' заказчику в соответствии с дороворными условиями'
+      );
+    }
     case 'stage_card_wh': {
-      return convertSectionsFormConfigToFormInformation(sections)
+      return convertSectionsFormConfigToFormInformation(
+        sections,
+        'Настройка политики управления запасами',
+        'Склад - помещение, предназначенное для приемки, размещения и дальнейшей' +
+        ' подготовки материальных ценностей к отгрузке потребителям'
+      )
     }
     case 'stage_card_distribution': return distributionInfo;
     case 'stage_card_transport': return transportInfo;

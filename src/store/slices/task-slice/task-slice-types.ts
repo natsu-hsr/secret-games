@@ -244,8 +244,11 @@ export type SectionFormList = {
 export type SectionsFormConfig = {
   characteristics: SectionFormField[],
   costs: {
-    variable: SectionFormField[],
-    fixed: SectionFormField[],
+    lists: {
+      variable: SectionFormField[],
+      fixed: SectionFormField[],
+    },
+    common: SectionFormField[],
   },
   formParams: FormFieldsDto;
 }
