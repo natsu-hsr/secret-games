@@ -67,6 +67,7 @@ export const convertRawField = ({rawField}: ConvertRawFieldArgs): FormFieldDto =
     parentId: rawField?.Parent_ID,
     dependentFields: [],
     optionLabel: rawField.HTML_Label_rus,
+    order: rawField.row_num,
   }
 
   // ==== dependentFields ====

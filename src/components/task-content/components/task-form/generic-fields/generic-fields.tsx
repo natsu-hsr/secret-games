@@ -5,8 +5,8 @@ import type {FormFieldsDto, FormType} from '@store/slices/task-slice';
 
 import {ProportionsFields} from './specific-fields/proportions-fields';
 // import {RadioFields} from './specific-fields/radio-fields';
-import {SelectFields} from './specific-fields/select-fields';
 import {RadioTableFields} from './specific-fields/radio-table-fields';
+import {SelectFields} from './specific-fields/select-fields';
 
 type GenericFieldsClassNames = Partial<{
   wrapperClassName: string;

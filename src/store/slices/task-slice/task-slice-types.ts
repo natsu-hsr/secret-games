@@ -195,6 +195,8 @@ export type RawFormFieldDto = {
   HTML_value: number | string;
   HTML_enable: boolean;
   HTML_selected: boolean;
+  // сортировчное поле, аналог order
+  row_num: number;
   /** техническое поле для группировки полей */ 
   Parent_ID: string; 
 } & Record<string, string>;
@@ -222,7 +224,7 @@ export type FormFieldDto = {
   // массив зависимых полей: значение value интерпретируется в зависимости от типа поля
   dependentFields?: FieldDependentField[]
   parentId?: string;
-
+  order: number;
 }
 
 // todo: удалить позже

@@ -101,7 +101,8 @@ export const loadFormDataByTileParams = createAsyncThunk<TypedFormData, FetchFor
         // todo: фильтруем поля без HTML_Label_rus - это не поле формы (кроме селектов). Позже убрать
         fields: data
           ?.filter(raw => !raw.HTML_Label_rus || raw.HTML_type === 'select')
-          ?.map(raw => convertRawField({rawField: raw})) ?? [],
+          ?.map(raw => convertRawField({rawField: raw}))
+          .sort((a, b) => a.order - b.order),
         sections: groupFormFields({rawFields: data}),
       };
     } catch (e) {
