@@ -144,7 +144,7 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
         </FormItem>  
       )}
       {textFields
-        // ?.filter(f => !f.disabled || (f.disabled && (f.defaultValue !== null && f.defaultValue !== '')))
+        ?.filter(f => !f.disabled || (f.disabled && (f.defaultValue !== null && f.defaultValue !== '')))
         ?.map(f => (
           <FormItem
             key={f.name + f.label + f.defaultValue + f.disabled + f.type}
