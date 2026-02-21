@@ -101,8 +101,10 @@ export type RawTileDto = {
   Card_Type_Name: string;
   Card_Type_Description: string;
   Card_Type_API_Name: string;
-  /** ID плитки-приёмника. Если это поле есть, то плитка - транспорт */
+  /** ID плитки-приёмника. Сейчас используется как признак того, что у плитки есть коннектор */
   Card_Header_ID_To: string;
+  /** id плитки-транспорта. Используется при клике для запроса данных */
+  Transport_Type_ID: string;
   Column_Start: number;
   Column_End: number;
   Row_Start: number;
@@ -128,8 +130,10 @@ export type TileDto = {
  * Описывает связь между двумя карточками.
  */
 export interface TransportConnector {
-  /** ID транспорта */
+  /** ID транспорта. Сейчас используется комбинация fromId + toId, уверенности в том, что transportId уникальный нет */
   id: string;
+  /** ID типа транспорта, используется при запросе данных формы при клике. Не уникален */
+  transportTypeId: string;
   /** ID плитки-источника */
   fromId: string;
   /** ID плитки-приёмника */
@@ -173,7 +177,7 @@ export type FormInformation = {
   sections: FormInformationSection[];
 }
 
-export type RawFieldType = 'text' | 'float' | 'number' | 'radio' | 'select' | 'coordinates';
+export type RawFieldType = 'text' | 'float' | 'number' | 'radio' | 'select' | 'coordinates' | 'header';
 export type FieldType = RawFieldType;
 
 export type FormType = 'radio' | 'select' | 'proportions';
@@ -227,8 +231,7 @@ export type FormFieldDto = {
   order: number;
 }
 
-// todo: удалить позже
-// костыльное поле для отображения формы по секциям
+// todo: удалить позже, костыльное поле для отображения формы по секциям
 export type SectionFormField = {
   label: string;
   value: string;
@@ -239,8 +242,7 @@ export type SectionFormList = {
   fields: SectionFormField[];
 }
 
-// todo: удалить позже
-// костыльное поле для отображения формы по секциям
+// todo: удалить позже, костыльное поле для отображения формы по секциям
 export type SectionsFormConfig = {
   characteristics: SectionFormField[],
   costs: {
@@ -250,6 +252,8 @@ export type SectionsFormConfig = {
     },
     common: SectionFormField[],
   },
+  // note: сюда дублируются поля formParams, нужно для транспорта, где нету formParams, а в параметрах отображатся обычные поля
+  params: SectionFormField[],
   formParams: FormFieldsDto;
 }
 
@@ -281,21 +285,12 @@ export type TaskCommonData = Partial<{
   selectedPlacemarkId: string;
   tableRowName: string;
   tableRowId: string;
-  tileId?: string;
-  transportId?: string;
+  tileId: string;
+  transportId: string;
   tileApiName: string;
   tileName: string;
+  transportTypeId: string;
 }>;
-
-/**
- * Описывает связь между координатами маркера на карте и связанной карточки (tile)
- */
-// export type TileMarkerCoordinates = {
-//   /** ID карточки-источника */
-//   tileId: string;
-//   /** ID карточки-приёмника */
-//   coordinates: ;
-// }
 
 /**
  * Описывает связь между координатами маркера на карте и связанной карточки (tile)

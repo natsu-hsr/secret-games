@@ -18,7 +18,13 @@ export const useTaskForm = (form: FormInstance) => {
   const {scriptId, stageId} = useParams();
   const {userId} = useUserId();
     
-  const {tileId, transportId, tileApiName, tableRowId} = useAppSelector(selectTaskCommonData) ?? {};
+  const {
+    tileId,
+    transportId,
+    transportTypeId,
+    tileApiName,
+    tableRowId
+  } = useAppSelector(selectTaskCommonData) ?? {};
   
   const tilesMarkerData = useAppSelector(selectTilesMarkerData);
   // todo переименовать formData во что то другое, это структура формы
@@ -26,8 +32,6 @@ export const useTaskForm = (form: FormInstance) => {
   const isLoading = useAppSelector(s => selectIsThunkPending(s, loadFormDataByTileParams.typePrefix));
   const hasError = useAppSelector(s => selectIsThunkRejected(s, loadFormDataByTileParams.typePrefix));
   const [isValid, setValid] = useState<boolean>(true);
-
-  console.log('formData.sections', formData?.sections);
 
   const isAllFieldsDisabled = useMemo(() => {
     if (!formData) {
@@ -72,6 +76,7 @@ export const useTaskForm = (form: FormInstance) => {
       scriptId,
       apiName: tileApiName,
       tileId: tileId ?? transportId ?? '',
+      transportTypeId,
       rowId: tableRowId,
       userId,
     }));
@@ -81,6 +86,7 @@ export const useTaskForm = (form: FormInstance) => {
   const handleSubmit = async (values: Record<string, unknown>) => {
     try {
       await form.validateFields();
+
       const globalParams = {
         userId: userId ?? '',
         scriptId: scriptId ?? '',

@@ -19,24 +19,32 @@ export const useTableData = (fields: FormFieldsDto) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOptionName]);
 
-  const dataSource: Record<string, string | number>[] = [];
-  const rowsKeys = new Set<string>();
+  const dataSource: (Record<string, string | number>)[] = [];
 
-  const nonRadioFields = fields.filter(f => f.type !== 'radio');
+  // поля с типом radio - столбцы, header - названия столбцов
+  const rowsFields = fields.filter(f => f.type !== 'radio' && f.type !== 'header');
 
   const columns: ColumnType[] = useMemo(() => {
     const calculatedColumns = fields
       .filter(f => f.type === 'radio')
       .map(f => {
+        // выступает как идентификатор столбца - название параметра, данные которого лежат в столбце
         const radioPrefix = f.name.split('_')[0]; 
+
+        const colTitle = fields.find(f => f.type === 'header' && f.parentId === radioPrefix)?.defaultValue;
+
         return ({
           title: (
-            <Radio
-              defaultChecked={f.defaultValue === '1'}
-              checked={f.name === selectedOptionName}
-              onClick={() => setSelectedOptionName(f.name)}
-              disabled={f.disabled}
-            />
+            <>
+              {colTitle}
+              &nbsp;
+              <Radio
+                defaultChecked={f.defaultValue === '1'}
+                checked={f.name === selectedOptionName}
+                onClick={() => setSelectedOptionName(f.name)}
+                disabled={f.disabled}
+              />
+            </>
           ),
           key: radioPrefix,
           dataIndex: radioPrefix,
@@ -48,57 +56,36 @@ export const useTableData = (fields: FormFieldsDto) => {
       ...calculatedColumns,
     ]
   }, [selectedOptionName, fields]);
-
   
 
-  fields
-    .filter(f => f.type !== 'radio')
+  rowsFields
     .forEach(f => {
       const key = f.name.split(/_(.*)/s)[1];
-      rowsKeys.add(key);
+      const addedRowKeys = dataSource.map(ds => ds?.key);
+
+
+      // добавляем строки по ключам уникальных label (Название/Стоимость и тп)
+      if (!addedRowKeys.includes(key)) {
+        dataSource.push({
+          key,
+        });
+      }
     });
 
-  // формирование первой строки с названиями поставщиков
-  // const titlesRow: Record<string, string> = {
-  //   titles: '',
-  // };
-  // rowsKeys.forEach(rk => {
-  //   const findedField = nonRadioFields.find(nrf => nrf.name.endsWith(rk));
-  //   if (findedField) {
-  //     const radioPrefix = findedField.name.split('_')[0];
-  //     // const fieldRowKey = findedField.name.split(/_(.*)/s)[1];
-  //     titlesRow[radioPrefix] = findedField.label;
-  //   }
-  // })
+  for (const rf of rowsFields) {
+    const radioPrefix = rf.name.split('_')[0];
+    const fieldRowKey = rf.name.split(/_(.*)/s)[1];
 
-  // добавляем строки по ключам уникальных label (Название/Стоимость и тп)
-  rowsKeys.forEach(rk => {
-    dataSource.push({
-        key: rk,
-      })
-  });
+    const foundedDataRow = dataSource?.find(row => row.key === fieldRowKey);
 
-  // console.log('first titlesRow=', titlesRow);
-  // console.log('first data=', dataSource);
-  // console.log('rowsKeys=', rowsKeys);
+    if (!foundedDataRow) {
+      break;
+    }
 
+    foundedDataRow[radioPrefix] = +rf.defaultValue;
 
-  for (const nrf of nonRadioFields) {
-    const radioPrefix = nrf.name.split('_')[0];
-    const fieldRowKey = nrf.name.split(/_(.*)/s)[1];
-
-    const findedDataRow = dataSource?.find(row => row.key === fieldRowKey);
-
-    // console.log('nrf=', nrf);
-    // console.log('radioPrefix=', radioPrefix);
-    // console.log('fieldRowKey=', fieldRowKey);
-    // console.log('findedDataRow=', findedDataRow);
-
-    if (findedDataRow) {
-      findedDataRow[radioPrefix] = +nrf.defaultValue;
-      if (!findedDataRow.title) {
-        findedDataRow.title = nrf.label;
-      }
+    if (!foundedDataRow.title) {
+      foundedDataRow.title = rf.label;
     }
   }
 

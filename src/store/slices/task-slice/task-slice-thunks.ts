@@ -53,6 +53,7 @@ export const loadTilesDataByRowId = createAsyncThunk<TilesDataDto, FetchDataByRo
         if (t.Card_Header_ID_To) {
           connectors.push({
             id: `${t.Card_Header_ID}-${t.Card_Header_ID_To}`,
+            transportTypeId: t.Transport_Type_ID,
             fromId: t.Card_Header_ID,
             toId: t.Card_Header_ID_To,
             apiName: t.Card_Type_API_Name,

@@ -89,6 +89,7 @@ export const fetchChartDataByRowId = ({stageId, scriptId, rowId, userId}: FetchD
 // tiles and dependent blocks
 type TileParams = {
   tileId: string;
+  transportTypeId?: string;
   apiName: string;
 }
 
@@ -113,7 +114,7 @@ export const fetchMapDataByTileId = ({stageId, scriptId, tileId, userId, product
 
 export type FetchFormDataByTileParamsArgs = TaskInfoArgs & TileParams & FetchDataByRowIdArgs;
 export const fetchFormDataByTileParams = ({
-  stageId, scriptId, apiName, tileId, rowId, userId,
+  stageId, scriptId, apiName, tileId, rowId, userId, transportTypeId,
 }: FetchFormDataByTileParamsArgs) => {
   return axios.get<RawFormFieldsDto>(
     API_PREFIX.fetch,
@@ -124,7 +125,8 @@ export const fetchFormDataByTileParams = ({
         script_id: scriptId,
         stage_id: stageId,
         product_id: rowId,
-        card_header_id: tileId,
+        ...(tileId && {card_header_id: tileId}),
+        ...(transportTypeId && {transport_type_id: transportTypeId}),
       },
     }
   )

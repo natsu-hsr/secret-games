@@ -64,7 +64,6 @@ export const SelectFields: FC<GenericFieldsProps> = ({scrollContainerRef, form, 
       return ({
         ...tf,
         disabled: fieldControl?.disabled ?? false,
-        defaultValue: fieldControl?.disabled ? '' : tf.defaultValue,
       })
     });
 

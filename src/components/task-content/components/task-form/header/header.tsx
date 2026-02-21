@@ -19,7 +19,13 @@ export const Header: FC<HeaderProps> = ({tileApiName, formNode}) => {
 
   return (
     <>
-      {infoData && tileName && <HeaderGenerator title={tileName} info={infoData} formNode={formNode} />}
+      {infoData && tileName && (
+        <HeaderGenerator
+          title={tileName}
+          info={infoData}
+          formNode={formNode}
+        />
+      )}
     </>
   );
 }

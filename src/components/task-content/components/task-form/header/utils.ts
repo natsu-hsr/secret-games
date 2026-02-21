@@ -1,10 +1,14 @@
+import isEmpty from 'lodash/isEmpty';
+
 import type {FormInformation, FormInformationSection, SectionsFormConfig} from '@store/slices/task-slice';
+
 
 import {
   distributionInfo,
   shopInfo,
-  transportInfo,
 } from './mock';
+
+const TRANSPORT_TITLE = 'Транспорт';
 
 // todo: метод для конвертации костыльной структуры в FormInformation,
 // удалить как бэк будет возвращать нормальные сущности
@@ -42,22 +46,25 @@ const convertSectionsFormConfigToFormInformation = (
     return {};
   })();
 
+  const params = title === TRANSPORT_TITLE ? sectionsForm?.params : sectionsForm?.formParams;
+
   return {
     title,
     description,
     sections: [
-      {
-        title: 'Характеристики элемента',
-        statistics: sectionsForm?.characteristics,
-      },
-      {
-        title: 'Затраты элемента',
-        ...elementCostsValues,
-      },
-      {
-        title: 'Параметры элемента',
-        withForm: true,
-      },
+      ...(!isEmpty(sectionsForm?.characteristics) ? [{
+          title: 'Характеристики элемента',
+          statistics: sectionsForm?.characteristics,
+        }] : []),
+      ...(!isEmpty(elementCostsValues) ? [{
+          title: 'Затраты элемента',
+          ...elementCostsValues,
+        }] : []),
+      ...(!isEmpty(params) ?[{
+          title: 'Параметры элемента',
+          ...(title === TRANSPORT_TITLE ? [params] : []),
+          withForm: title !== TRANSPORT_TITLE,
+        }] : []),
     ]
   }
 }
@@ -84,10 +91,17 @@ export const getHeaderInfoByTileApiName = (
         'Настройка политики управления запасами',
         'Склад - помещение, предназначенное для приемки, размещения и дальнейшей' +
         ' подготовки материальных ценностей к отгрузке потребителям'
-      )
+      );
     }
     case 'stage_card_distribution': return distributionInfo;
-    case 'stage_card_transport': return transportInfo;
+    case 'stage_card_transport': {
+      return convertSectionsFormConfigToFormInformation(
+        sections,
+        TRANSPORT_TITLE,
+        'Транспорт - осуществляет перемещение продукции от элемента источника к получателю,' +
+        ' различными типами транспортных средств и способами доставки',
+      );
+    }
     default: return null;
   }
 }

@@ -112,6 +112,7 @@ export const groupFormFields = ({rawFields}: GetFormTypeArgs): SectionsFormConfi
       },
       common: [],
     },
+    params: [],
     formParams: [],
   };
 
@@ -119,38 +120,26 @@ export const groupFormFields = ({rawFields}: GetFormTypeArgs): SectionsFormConfi
     switch (rf?.HTML_Label_rus) {
       case 'Характеристики элемента':
       case 'Характеристики склада': {
-        sectionsForm.characteristics = [
-          ...sectionsForm.characteristics,
-          {label: rf.HTML_Label, value: String(rf.HTML_value)},
-        ];
+        sectionsForm.characteristics.push({label: rf.HTML_Label, value: String(rf.HTML_value)});
         break;
       }
       case 'Переменные затраты': {
-        sectionsForm.costs.lists.variable = [
-          ...sectionsForm.costs.lists.variable,
-          {label: rf.HTML_Label, value: String(rf.HTML_value)},
-        ];
+        sectionsForm.costs.lists.variable.push({label: rf.HTML_Label, value: String(rf.HTML_value)});
         break;
       }
       case 'Постоянные затраты': {
-        sectionsForm.costs.lists.fixed = [
-          ...sectionsForm.costs.lists.fixed,
-          {label: rf.HTML_Label, value: String(rf.HTML_value)},
-        ];
+        sectionsForm.costs.lists.fixed.push({label: rf.HTML_Label, value: String(rf.HTML_value)});
         break;
       }
       case 'Затраты элемента': {
-        sectionsForm.costs.common = [
-          ...sectionsForm.costs.common,
-          {label: rf.HTML_Label, value: String(rf.HTML_value)},
-        ];
+        sectionsForm.costs.common.push({label: rf.HTML_Label, value: String(rf.HTML_value)});
         break;
       }
       default: {
-        sectionsForm.formParams = [
-          ...sectionsForm.formParams,
-          convertRawField({rawField: rf}),
-        ];
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        sectionsForm.params.push({label: rf.HTML_Label, value: String(rf.HTML_value)}),
+
+        sectionsForm.formParams.push(convertRawField({rawField: rf}));
       }
     }
   });
@@ -300,8 +289,6 @@ export const convertRawMapData = (rawMapData: RawMapPlacemark[]): MapData => {
       tileId: rm.HTML_ID,
     }
   });
-
-  console.log('routes=', routes);
 
   return {
     placemarks,

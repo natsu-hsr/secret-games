@@ -27,11 +27,10 @@ export const taskSlice = createSlice({
     resetTaskData() {
       return taskSliceInitialState;
     },
-    /** ====== Common data ====== */
     setTilesCommonData(
       state,
       {payload}: PayloadAction<Pick<
-        TaskCommonData, 'tileId' | 'transportId' | 'tileApiName' | 'tileName' | 'selectedPlacemarkId'
+        TaskCommonData, 'tileId' | 'transportId' | 'tileApiName' | 'tileName' | 'selectedPlacemarkId' | 'transportTypeId'
       >>
     ) {
       state.commonData = {
@@ -41,6 +40,7 @@ export const taskSlice = createSlice({
         transportId: payload.transportId,
         tileName: payload.tileName,
         selectedPlacemarkId: payload.selectedPlacemarkId,
+        transportTypeId: payload.transportTypeId,
       };
     },
     setTableCommonDataWithReset(
@@ -52,7 +52,6 @@ export const taskSlice = createSlice({
       };
       state.formData = undefined;
     },
-    /** ====== common data end ====== */
     updateFormFields(state, {payload}: PayloadAction<FormFieldsDto>) {
       if (!state.formData?.fields) {
         return;
@@ -74,7 +73,6 @@ export const taskSlice = createSlice({
       state.mapData = undefined;
     },
 
-    /** ====== TilesMarkerData ====== */
     addTileMarkerCoordinates(state, {payload}: PayloadAction<{tileId: string, coordinates: [number, number]}>) {
       const {tileId, coordinates} = payload;
       const currentTileData = state.tilesMarkerData?.[tileId];
