@@ -6,12 +6,11 @@
       cursor: pointer;
     }
 
-    .ant-table-thead {
-      .ant-table-cell {
-        text-align: center;
-        white-space: normal;
-        word-break: break-word;
+    .ant-table-content {
+      th {
         max-width: 120px;
+        min-width: 50px;
+        word-wrap: break-word;
       }
     }
   }
