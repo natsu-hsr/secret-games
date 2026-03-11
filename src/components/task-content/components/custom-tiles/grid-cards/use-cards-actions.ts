@@ -58,13 +58,13 @@ export const useCardsActions = () => {
       return;
     }
 
-    const {id, transportTypeId, toId} = connector;
+    const {id, transportTypeId} = connector;
       
     setSelectedTile(undefined);
     setSelectedConnectorId(id);
   
     dispatch(taskSliceActions.setTilesCommonData({
-      transportId: toId,
+      transportId: id,
       tileId: undefined,
       tileApiName: 'stage_card_transport',
       tileName: 'Транспорт',
