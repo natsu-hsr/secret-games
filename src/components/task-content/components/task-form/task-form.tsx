@@ -41,13 +41,22 @@ export const TaskForm = () => {
     >
       <div className={styles.container} ref={scrollContainerRef}>
         {tileApiName && (
+          <Form
+            key={tileId}
+            form={form}
+            preserve={false}
+            layout='vertical'
+            onFinish={handleSubmit}
+            onValuesChange={handleValuesChange}
+          >
           <Header
             tileApiName={tileApiName}
+            form={form}
             formNode={(
               <>
                 {fields && FieldsComponent && (
                   <>
-                    <Form
+                    {/* <Form
                       key={tileId}
                       form={form}
                       preserve={false}
@@ -60,7 +69,12 @@ export const TaskForm = () => {
                         fields={fields}
                         scrollContainerRef={scrollContainerRef}
                       />
-                    </Form>
+                    </Form> */}
+                    <FieldsComponent
+                        form={form}
+                        fields={fields}
+                        scrollContainerRef={scrollContainerRef}
+                      />
                     <div className={styles['submit-btn-container']}>
                       <Button
                         className={styles['submit-btn']}
@@ -76,37 +90,8 @@ export const TaskForm = () => {
               </>
             )}
           />
+          </Form>
         )}
-        {/* {fields && FieldsComponent && (
-          <>
-            <Divider className={styles.divider} />
-            <Title level={5} className={styles['form-title']}>Поля формы</Title>
-            <Form
-              key={tileId}
-              form={form}
-              preserve={false}
-              layout='vertical'
-              onFinish={handleSubmit}
-              onValuesChange={handleValuesChange}
-            >
-              <FieldsComponent
-                form={form}
-                fields={fields}
-                scrollContainerRef={scrollContainerRef}
-              />
-            </Form>
-            <div className={styles['submit-btn-container']}>
-              <Button
-                className={styles['submit-btn']}
-                type='primary'
-                onClick={form.submit}
-                disabled={!isValid}
-              >
-                Сохранить данные
-              </Button>
-            </div>
-          </>
-        )} */}
       </div>
     </Loadable>
   )

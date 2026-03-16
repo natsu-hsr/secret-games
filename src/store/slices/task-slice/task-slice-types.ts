@@ -157,6 +157,11 @@ export type TilesDataDto = {
 export type Statistic = {
   label: string;
   value: string;
+
+  
+  // todo: костыль для отображения поля ввода в секциях вне формы, убрать после перехода на нормальную структуру
+  id: string;
+  editable?: boolean;
 }
 
 export type List = {
@@ -235,6 +240,10 @@ export type FormFieldDto = {
 export type SectionFormField = {
   label: string;
   value: string;
+
+  // todo: костыль для отображения поля ввода в секциях вне формы, убрать после перехода на нормальную структуру
+  id: string;
+  editable?: boolean;
 }
 
 export type SectionFormList = {

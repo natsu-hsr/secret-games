@@ -120,24 +120,24 @@ export const groupFormFields = ({rawFields}: GetFormTypeArgs): SectionsFormConfi
     switch (rf?.HTML_Label_rus) {
       case 'Характеристики элемента':
       case 'Характеристики склада': {
-        sectionsForm.characteristics.push({label: rf.HTML_Label, value: String(rf.HTML_value)});
+        sectionsForm.characteristics.push({label: rf.HTML_Label, value: String(rf.HTML_value), id: '1'});
         break;
       }
       case 'Переменные затраты': {
-        sectionsForm.costs.lists.variable.push({label: rf.HTML_Label, value: String(rf.HTML_value)});
+        sectionsForm.costs.lists.variable.push({label: rf.HTML_Label, value: String(rf.HTML_value), id: '1'});
         break;
       }
       case 'Постоянные затраты': {
-        sectionsForm.costs.lists.fixed.push({label: rf.HTML_Label, value: String(rf.HTML_value)});
+        sectionsForm.costs.lists.fixed.push({label: rf.HTML_Label, value: String(rf.HTML_value), editable: rf.HTML_enable, id: rf.HTML_ID});
         break;
       }
       case 'Затраты элемента': {
-        sectionsForm.costs.common.push({label: rf.HTML_Label, value: String(rf.HTML_value)});
+        sectionsForm.costs.common.push({label: rf.HTML_Label, value: String(rf.HTML_value), id: '1'});
         break;
       }
       default: {
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        sectionsForm.params.push({label: rf.HTML_Label, value: String(rf.HTML_value)}),
+        sectionsForm.params.push({label: rf.HTML_Label, value: String(rf.HTML_value), id: '1'}),
 
         sectionsForm.formParams.push(convertRawField({rawField: rf}));
       }

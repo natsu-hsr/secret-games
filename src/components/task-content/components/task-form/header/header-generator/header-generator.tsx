@@ -10,14 +10,19 @@ import DropboxOutlined from '@ant-design/icons/lib/icons/DropboxOutlined';
 import type {FormInformation} from '@store/slices/task-slice';
 
 import styles from './styles.module.scss';
+import type {FormInstance} from 'antd/es/form';
+import FormItem from 'antd/es/form/FormItem';
+import InputNumber from 'antd/es/input-number';
 
 interface HeaderProps {
   title: string;
   info: FormInformation;
   formNode: ReactNode;
+  // todo: костыль для отображения поля ввода в секциях вне формы, убрать после перехода на нормальную структуру
+  form?: FormInstance;
 }
 
-export const HeaderGenerator: FC<HeaderProps> = ({title, info, formNode}) => (
+export const HeaderGenerator: FC<HeaderProps> = ({title, info, formNode, form}) => (
   <Flex vertical className={styles.wrapper}>
     <Flex vertical>
       <Row justify="space-between" align="middle" >
@@ -53,10 +58,27 @@ export const HeaderGenerator: FC<HeaderProps> = ({title, info, formNode}) => (
                       <Col key={subtitle} span={12}>
                         <Title level={5} className={styles['list-subtitle']}>{subtitle}</Title>
                         <ul className={styles['list-wrapper']}>
-                          {statistics.map(({label, value}) => (
+                          {statistics.map(({label, value, editable, id}) => (
                             <li key={label}>
-                              <span className={styles['list-label']}>{label}:</span>&nbsp;
-                              <span>{value}</span>
+                              {
+                                editable ? (
+                                  <Row align="middle">
+                                    <span className={styles['list-label']}>{label}:</span>&nbsp;
+                                    <FormItem
+                                      name={id}
+                                      style={{maxWidth: '40px', display: 'inline', marginBottom: '0', marginLeft: '4px'}}
+                                      initialValue={value}
+                                    >
+                                      <InputNumber />
+                                    </FormItem>
+                                  </Row>
+                                ) : (
+                                  <>
+                                    <span className={styles['list-label']}>{label}:</span>&nbsp;
+                                    <span>{value}</span>
+                                  </>
+                                )
+                              }
                             </li>
                           ))}
                         </ul>
