@@ -10,7 +10,6 @@ import DropboxOutlined from '@ant-design/icons/lib/icons/DropboxOutlined';
 import type {FormInformation} from '@store/slices/task-slice';
 
 import styles from './styles.module.scss';
-import type {FormInstance} from 'antd/es/form';
 import FormItem from 'antd/es/form/FormItem';
 import InputNumber from 'antd/es/input-number';
 
@@ -18,11 +17,9 @@ interface HeaderProps {
   title: string;
   info: FormInformation;
   formNode: ReactNode;
-  // todo: костыль для отображения поля ввода в секциях вне формы, убрать после перехода на нормальную структуру
-  form?: FormInstance;
 }
 
-export const HeaderGenerator: FC<HeaderProps> = ({title, info, formNode, form}) => (
+export const HeaderGenerator: FC<HeaderProps> = ({title, info, formNode}) => (
   <Flex vertical className={styles.wrapper}>
     <Flex vertical>
       <Row justify="space-between" align="middle" >
