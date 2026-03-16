@@ -160,7 +160,7 @@ export type Statistic = {
 
   
   // todo: костыль для отображения поля ввода в секциях вне формы, убрать после перехода на нормальную структуру
-  id: string;
+  id?: string;
   editable?: boolean;
 }
 
