@@ -51,7 +51,6 @@ export const TaskForm = () => {
           >
           <Header
             tileApiName={tileApiName}
-            form={form}
             formNode={(
               <>
                 {fields && FieldsComponent && (
