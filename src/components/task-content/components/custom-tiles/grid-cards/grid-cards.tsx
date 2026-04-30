@@ -77,10 +77,10 @@ export const GridCards: FC<GridCardsProps> = ({tiles, connectors}) => {
             return (
               <div
                 key={tile.id}
-                ref={el => (cardRefs.current[tile.id] = el)}
+                ref={el => cardRefs.current[tile.id] = el}
                 className={cn(
                   styles.card,
-                  selectedTile?.id === tile.id ? styles.selected : styles.inactive,
+                  selectedTile?.groupId === tile.groupId ? styles.selected : styles.inactive,
                   tile.disabled && styles.disabled,
                 )}
                 onClick={() => {

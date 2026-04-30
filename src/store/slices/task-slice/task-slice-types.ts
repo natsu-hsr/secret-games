@@ -98,6 +98,8 @@ export type RawTableDataDto = Record<string, string>[];
 export type RawTileDto = {
   Card_Header_ID: string;
   Card_Header_Name: string;
+  /** id группы плитки (используется при клике на плитку) */
+  Card_Header_Group_ID: string;
   Card_Type_Name: string;
   Card_Type_Description: string;
   Card_Type_API_Name: string;
@@ -115,6 +117,7 @@ export type RawTileDto = {
 export type TileDto = {
   id: string;
   name: string;
+  groupId: string;
   typeName: string;
   apiName: string;
   typeDescription: string;

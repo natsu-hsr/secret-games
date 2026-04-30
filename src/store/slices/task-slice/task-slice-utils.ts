@@ -101,7 +101,7 @@ export const getFormType = ({rawFields}: GetFormTypeArgs): FormType => {
   return 'proportions';
 }
 
-// todo: костыльный метод группировки полей по секциям, удалить позже
+// TODO: костыльный метод группировки полей по секциям, удалить позже
 export const groupFormFields = ({rawFields}: GetFormTypeArgs): SectionsFormConfig => {
   const sectionsForm: SectionsFormConfig = {
     characteristics: [],
@@ -297,7 +297,7 @@ export const convertRawMapData = (rawMapData: RawMapPlacemark[]): MapData => {
   }
 }
 
-// todo: вынести куда-нибудь в отдельное место
+// TODO: вынести куда-нибудь в отдельное место
 export const getFilenameFromHeaders = (headers: HeadersLike): string | null => {
   const cd = headers['content-disposition'];
   if (!cd) return null;

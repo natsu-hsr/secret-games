@@ -52,7 +52,7 @@ export const loadTilesDataByRowId = createAsyncThunk<TilesDataDto, FetchDataByRo
       data.forEach(t => {
         if (t.Card_Header_ID_To) {
           connectors.push({
-            id: `${t.Card_Header_ID}-${t.Card_Header_ID_To}`,
+            id: t.Card_Header_ID,
             transportTypeId: t.Transport_Type_ID,
             fromId: t.Card_Header_ID,
             toId: t.Card_Header_ID_To,
@@ -63,6 +63,7 @@ export const loadTilesDataByRowId = createAsyncThunk<TilesDataDto, FetchDataByRo
         tiles.push({
           id: t.Card_Header_ID,
           name: t.Card_Header_Name,
+          groupId: t.Card_Header_Group_ID,
           typeName: t.Card_Type_Name,
           apiName: t.Card_Type_API_Name,
           typeDescription: t.Card_Type_Description,

@@ -40,6 +40,7 @@ export const TaskForm = () => {
       errorProps={{hasError}}
     >
       <div className={styles.container} ref={scrollContainerRef}>
+        {/* TODO: раскомментировать код ниже, обертка формы так высоко не нужна */}
         {tileApiName && (
           <Form
             key={tileId}
