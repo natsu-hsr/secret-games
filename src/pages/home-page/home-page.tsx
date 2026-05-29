@@ -23,14 +23,11 @@ export const HomePage = () => {
         gap={16}
       >
         <Title level={1} className={styles.title}>
-          Добро пожаловать на платформу <span className={styles.name}>ЛогистИгра</span>
+          Добро пожаловать на платформу <span className={styles.name}>Цифровая лаборатория навыков</span>
         </Title>
         <Paragraph className={styles.subtitle}>
           Инновационная цифровая платформа развития фундаментальных знаний
            и компетенций в области управления цепями поставок и логистики снабжения
-        </Paragraph>
-        <Paragraph className={styles.attention}>
-          Больше чем игра!
         </Paragraph>
         <Button
           className={styles.button}

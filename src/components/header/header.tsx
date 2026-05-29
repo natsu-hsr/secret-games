@@ -34,7 +34,7 @@ export const Header: FC = () => {
         onClick={handleTitleClick}
       >
         <LogoSvg className={styles.logo} />
-        <div className={styles.title}>ЛогистИгра</div>
+        <div className={styles.title}>Цифровая лаборатория навыков</div>
       </Flex>
       <Flex className={styles.menu}>
         {navMenus.map(m => (
